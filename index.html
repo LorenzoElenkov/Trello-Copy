@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/styles.css" />
+
+    <title>Squadizer - Your squad task organizer</title>
+  </head>
+  <body>
+    <nav>
+      <button id="menu-button">
+        <img src="imgs/dots-2.png" class="isNotClicked" alt="menu-button" />
+      </button>
+      <span>Squadizer</span>
+      <button>
+        <img src="imgs/question.png" alt="help-button" />
+      </button>
+    </nav>
+
+    <div id="my-projects">
+        <div id="my-projects-label"><span>My Projects</span></div>
+        <div id="project-tabs">
+            
+
+            <div id="left-indicator"><img src="imgs/arrow-right.png" alt=""></div>
+            <div id="right-indicator"><img src="imgs/arrow-right.png" alt=""></div>
+        </div>
+    </div>
+
+    <!-- <button id="btn-add-project">+</button> -->
+
+    <div id="dropdown-menu">
+        <div><img src="imgs/dashboard-icon.png" alt=""></div>
+        <div><button>Dashboard</button></div>
+        <div></div>
+        <div><img src="imgs/projects-icon.png" alt=""></div>
+        <div><button>My Projects</button></div>
+        <div><img src="imgs/project-add-icon.png" alt=""></div>
+        <div><button id="btn-create-project">Create New Project</button></div>
+        <div></div>
+        <div><img src="imgs/settings-icon2.png" alt=""></div>
+        <div><button>Settings</button></div>
+    </div>
+
+    <div id="create-project-menu">
+        <div class="create-proj-desktop">
+            <div>Create New Project</div>
+            <div class="input_create">
+                <label for="new-project-name">Project Name: </label>
+                <input type="text" name="new-project-name" id="new-project-name" placeholder="Project name...">
+            </div>
+
+        </div>
+
+        <div class="create-proj-mobile">
+
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/scripts.js"></script>
+  </body>
+</html>
