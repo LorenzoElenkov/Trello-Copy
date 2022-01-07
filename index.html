@@ -34,7 +34,6 @@
         </div>
     </div>
 
-    <!-- <button id="btn-add-project">+</button> -->
 
     <div id="dropdown-menu">
         <div><img src="imgs/dashboard-icon.png" alt=""></div>
@@ -51,12 +50,25 @@
 
     <div id="create-project-menu">
         <div class="create-proj-desktop">
-            <div>Create New Project</div>
+            <div id="create-proj-desktop-title">Create New Project</div>
             <div class="input_create">
                 <label for="new-project-name">Project Name: </label>
-                <input type="text" name="new-project-name" id="new-project-name" placeholder="Project name...">
+                <input type="text" name="new-project-name" id="new-project-name">
+                <label for="new-project-description">Description: </label>
+                <textarea name="new-project-description" id="new-project-description" cols="1" rows="5"></textarea>
+                <label for="new-project-startdate">Start Date: </label>
+                <input type="date" name="new-project-startdate" id="new-project-startdate">
             </div>
-
+            <div class="input_2_create">
+                <label for="new-project-lang">Language/Framework</label>
+                <div>                
+                    <input type="text" name="new-project-lang" id="new-project-lang">
+                    <div id="new-project-lang-predict-tab"></div>
+                </div>
+                <div class="new-project-lang-container"></div>
+            </div>
+            <button id="btn-add-project">Create</button>
+            <button id="btn-close-create-proj">Close</button>
         </div>
 
         <div class="create-proj-mobile">
