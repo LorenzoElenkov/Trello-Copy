@@ -1,10 +1,54 @@
 $(function () {
+
+
+    const nav = $("nav");
+    const nav_button_wrapper = $(".nav-button-wrapper");
+    const projects_desktop = $("#projects-desktop");
+
+    const add_project_buttons = $("#add-project");
+    const projects_tab = $("#projects-tab");
+    const project_buttons = $("#project-buttons");
+    let projects_open = false;
+
+    function projects_open_fn () {
+        projects_open = true;
+        projects_tab.animate(
+            {
+                opacity: 1,
+                top: 20 + "vh"
+            }, 300
+        );
+    }
+
+    function projects_close_fn () {
+        projects_open = false;
+        projects_tab.animate(
+            {
+                opacity: 0,
+                top: 15 + "vh"
+            }, 200
+        );
+    }
+
+    projects_desktop.on("click", function () {
+        if (!projects_open) {
+            projects_open_fn();
+        } else {
+            projects_close_fn();
+        }
+    })
+
+    project_buttons.css(
+        {
+            "top": -(add_project_buttons.height() * 2)
+        }
+    );
+
     const menuButton = $("#menu-button");
     const dropdownMenu = $("#dropdown-menu");
     const menuIcon = $("nav button:nth-child(1) img");
     let mouse_is_inside;
     let menuClicked = false;
-
 
     $(menuButton).on('click', function () {
         
@@ -44,104 +88,6 @@ $(function () {
             dropdownMenu.slideUp();
             menuIcon.toggleClass("isClicked");
             menuClicked = false;
-        });
-    });
-
-    const my_projects = $("#my-projects");
-    const right_arrow_projects = $("#right-indicator img");
-    const right_arrow_projects_container = $("#right-indicator");
-    const left_arrow_projects = $("#left-indicator img");
-    const left_arrow_projects_container = $("#left-indicator");
-    const my_projects_height = $(my_projects).outerHeight();
-
-    $(right_arrow_projects_container).css(
-        {
-            "height": my_projects_height,
-            "width": my_projects_height
-            
-        }
-    );
-
-    const my_projects_label = $("#my-projects-label");
-    const my_projects_label_width = $(my_projects_label).outerWidth();
-
-    $(left_arrow_projects_container).css(
-        {
-            "height": my_projects_height,
-            "width": my_projects_height,
-            "left": my_projects_label_width + 6
-        }
-    );
-
-    const project_tabs = $("#project-tabs");
-    const overflowing = project_tabs[0].scrollWidth - 1 > $(project_tabs).width();
-    if (overflowing) {
-        right_arrow_projects_container.css({
-            "opacity": "1"
-        });
-    } else {
-        right_arrow_projects_container.css({
-            "opacity": "0"
-        });
-        
-    }
-
-    $(project_tabs).css(
-        {
-            "margin-left": $(left_arrow_projects).outerWidth() + 12,
-            "margin-right": $(right_arrow_projects).outerWidth() + 12
-        }
-    );
-    
-
-    let hasReachedEnd;
-    let hasReachedStart = true;
-
-
-    project_tabs.scroll(function () {
-        let reachedEnd = project_tabs[0].scrollWidth - project_tabs[0].scrollLeft === project_tabs[0].clientWidth;
-        if (reachedEnd) {
-            right_arrow_projects_container.css({
-                "opacity": "0"
-            });
-            hasReachedEnd = true;
-            
-        }
-
-        let notAtEnd = project_tabs[0].scrollWidth - project_tabs[0].scrollLeft > project_tabs[0].clientWidth;
-        if (notAtEnd && hasReachedEnd) {
-            hasReachedEnd = false;
-            right_arrow_projects_container.css({
-                "opacity": "1"
-            });
-        }
-
-        let reachedStart = project_tabs[0].scrollLeft === 0;
-        if (reachedStart) {
-            left_arrow_projects_container.css({"visibility": "hidden"}
-            );
-            hasReachedStart = true;
-        }
-
-        let notAtStart = project_tabs[0].scrollLeft > 0;
-        if (notAtStart && hasReachedStart) {
-            left_arrow_projects_container.css({"visibility": "visible"}
-            );
-            hasReachedStart = false;
-        }
-    });
-
-    
-
-    right_arrow_projects_container.on("click", function () {
-        $(project_tabs).animate({
-            scrollLeft: '+=135px'
-        });
-    });
-
-    left_arrow_projects_container.on("click", function () {
-        $(project_tabs).animate({
-            scrollLeft: '-=135px'
         });
     });
 

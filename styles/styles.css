@@ -1,30 +1,32 @@
 body {
   margin: 0;
   font-family: Quicksand, sans-serif;
-  background: linear-gradient(to right, darkturquoise, orange);
+  background-color: aliceblue;
 }
 
 nav {
-  background-color: rgba(0, 0, 0, 0.2);
   display: grid;
   grid-template-columns: 1fr 8fr 1fr;
+  border: 2px solid black;
+  border-top: none;
+  background-color: aliceblue;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
-
-nav button {
+#menu-button {
   background-color: transparent;
   align-self: center;
   cursor: pointer;
   border: 1px solid white;
-}
-#menu-button {
   border: none;
   justify-self: start;
+  grid-column: span 2/2;
 }
+
 
 
 nav button:nth-child(1) img {
-  width: 30px;
-  filter: invert(100%);
+  width: 9vw;
 }
 
 .isClicked {
@@ -37,47 +39,45 @@ nav button:nth-child(1) img {
   transition: transform 0.5s;
 }
 
-nav button:nth-child(3) img {
-  width: 25px;
-  filter: invert(100%);
-  transition: 0.5s;
-  padding: 3px 0 0 0;
-}
-nav button:nth-child(3) img:hover {
-    transform: scale(1.3);
-    transition: transform 0.5;
-}
-
-nav span {
-  color: white;
-  font-size: 20px;
+nav > span {
   justify-self: center;
   align-self: center;
+  color: black;
+  font-size: 5vw;
+  font-weight: 800;
+}
+
+.nav-button-wrapper {
+    display: none;
+    
+}
+
+#projects-tab {
+    display: none;
 }
 
 #dropdown-menu {
   display: none;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: inherit;
   position: absolute;
   top: 0;
+  border: 3px solid black;
+  border-top: none;
+  border-left: none;
 }
 
 #dropdown-menu div button {
   background: transparent;
   border: none;
-  color: white;
+  color: black;
   font-size: 2.5vh;
   font-family: Quicksand;
-    cursor: pointer;
-}
-
-#dropdown-menu div button:hover {
-    background-color: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
 }
 
 #dropdown-menu div:nth-child(3), #dropdown-menu div:nth-child(8) {
     height: 1px;
-    background-color: white;
+    background-color: black;
     grid-column: span 2;
     margin: 1vh 0;
 }
@@ -86,9 +86,8 @@ nav span {
 
 #dropdown-menu div img {
     height: 3vh;
-    filter: invert(100%);
-    
     padding: 0 0 0 5px;
+    float: right;
 }
 
 
@@ -104,98 +103,6 @@ nav span {
 
 #dropdown-menu div:nth-child(10), #dropdown-menu div:nth-child(9){
     margin-bottom: 0.5vh;
-}
-
-#my-projects {
-    display: grid;
-    grid-template-columns: 5vh fit-content(100%) 1fr;
-    margin-top: 2vh;
-    position: relative;
-
-}
-
-#my-projects #my-projects-label {
-    grid-column: 1/3;
-    background-color: rgba(0, 0, 0, 0.2);
-    padding: 1vh;
-    color: white;
-    display: flex;
-    align-items: center;
-    box-shadow: inset -25px 0px 25px -25px rgba(0, 0, 0, 0.25);
-
-}
-
-#my-projects #project-tabs {
-    grid-column: 3/4;
-    margin-left: 1vh;
-    background-color: rgba(0, 0, 0, 0.2);
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(125px, auto));
-    grid-auto-columns: minmax(125px, auto);
-    grid-auto-flow: column;
-    overflow-x: scroll;
-    scrollbar-width: none;
-    column-gap: 10px;
-    scroll-snap-type: x mandatory;
-    box-shadow: inset 25px 0px 25px -25px rgba(0,0,0,0.35), inset -25px 0px 25px -25px rgba(0, 0, 0, 0.35);
-
-    /* position: relative; */
-}
-
-#my-projects #project-tabs::-webkit-scrollbar {
-    display: none;
-}
-
-#my-projects #project-tabs div:not(:last-child):not(:nth-last-child(2)) {
-    background-color: rgba(0, 0, 0, 0.2);
-    /* border: 1px solid ; */
-    text-overflow: ellipsis;
-    overflow: hidden;
-    color: white;
-    -webkit-line-clamp: 3;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    padding: 3px;
-    border-left: 3px solid chartreuse;
-    scroll-snap-align: start;
-}
-
-#my-projects #project-tabs div:hover:not(:last-child):not(:nth-last-child(2)) {
-    background-color: rgba(0, 0, 0, 0.5);
-    
-}
-
-#my-projects #project-tabs div:nth-child(2n):not(:last-child):not(:nth-last-child(2)) {
-    border-left: 3px solid tomato;
-}
-
-#my-projects #project-tabs div:nth-child(3n):not(:last-child):not(:nth-last-child(2)) {
-    border-left: 3px solid yellow;
-}
-#right-indicator, #left-indicator {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-#right-indicator {
-    right: 5px;
-}
-
-#left-indicator {
-    justify-content: flex-start;
-    visibility: hidden;
-}
-
-#right-indicator img, #left-indicator img {
-    width: 40%;
-    filter: invert(100%);
-}
-
-#left-indicator img {
-    transform: rotate(180deg);
-
 }
 
 #create-project-menu {
@@ -294,7 +201,6 @@ textarea {
 #new-project-lang {
     grid-column: span 2 / -1;
     position: relative;
-    /* font-size: inherit; */
 }
 
 .new-project-lang-container {
@@ -341,18 +247,132 @@ textarea {
     #menu-button {
         display: none;
     }
-    nav span {
-        color: white;
-        font-size: 20px;
-        justify-self: center;
-        align-self: center;
-        grid-column: span 1 / 3;
-    }
     nav {
-        border-color: rgba(0, 0, 0, 0.2);
+        border-color: rgb (0, 0, 0);
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 3px 0;
+        position: relative;
     }
+    nav span {
+        color: black;
+        font-size: 3vh;
+    }
+
+    .nav-button-wrapper {
+        display: block;
+        width: calc(100% - 2vw);
+        position: absolute;
+        top: 0;
+        left: 1vw;
+        z-index: -1;
+        display: grid;
+        grid-template-columns: minmax(12vw, min-content) minmax(11vw, min-content) 1fr;
+        background-color: inherit;
+        gap: 0.8vw;
+    }
+
+    .nav-button-wrapper div {
+        justify-self: center;
+        width: 100%;
+        align-self: end;
+
+    }
+
+    .nav-buttonwrapper div:last-child {
+        width: 10vw;
+    }
+
+    .nav-button-wrapper div button {
+        width: 11vw;
+        float: right;
+        background: none;
+        border: none;
+        font-family: inherit;
+        border: 2px solid black;
+        padding-top: 4.8vh;
+        border-bottom-right-radius: 15px;
+        border-bottom-left-radius: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: margin 0.5s;
+    }
+    #dashboard-desktop:hover, #projects-desktop#hover, #settings-desktop:hover {
+        margin-top: 20;
+        transition: all 0.5s;
+    }
+
+    .nav-button-wrapper div:not(:last-child) button {
+        float: none;
+        width: 100%;
+    }
+
+    .nav-button-wrapper div button img {
+        width: 2.5vmin;
+        margin-right: 3px;
+    }
+
+    .nav-button-wrapper div button span {
+        font-size: 1.1vw;
+        font-weight: bold;
+    }
+
+    #projects-tab {
+        height: 80%;
+        width: 90%;
+        background-color: inherit;
+        border: 2px solid black;
+        border-bottom: none;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        position: absolute;
+        top: 15%;
+        left: 5%;
+        display: grid;
+        /* transition: opacity 0.1s; */
+        opacity: 0;
+    }
+
+
+    #project-buttons {
+        display: grid;
+        width: 96%;
+        position: absolute;
+        left: 2%;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    #project-buttons div:last-child button{
+        float: right;
+    }
+
+    #project-buttons div button {
+        font-family: inherit;
+        font-size: 2vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: none;
+        border: 2px solid black;
+        border-radius: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        cursor: pointer;
+    }
+
+    #project-buttons div:nth-child(2) button {
+        opacity: 0.2;
+    }
+
+    #project-buttons div:nth-child(2) button:nth-child(2) {
+        margin-right: 10px;
+    }
+
+    #project-buttons img {
+        width: 3vmin;
+    }
+
 }

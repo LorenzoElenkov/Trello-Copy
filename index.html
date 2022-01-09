@@ -19,30 +19,36 @@
         <img src="imgs/dots-2.png" class="isNotClicked" alt="menu-button" />
       </button>
       <span>Squadizer</span>
-      
+      <section class="nav-button-wrapper">
+        <div><button id="dashboard-desktop"><img src="imgs/dashboard-desktop.png" alt=""><span>Dashboard</span></button></div>
+        <div><button id="projects-desktop"><img src="imgs/projects-desktop.png" alt=""><span>Projects</span></button></div>
+        <div><button id="settings-desktop"><img src="imgs/settings-desktop.png" alt=""><span>Settings</span></button></div>
+      </section>
     </nav>
 
-    <div id="my-projects">
-        <div id="my-projects-label"><span>My Projects</span></div>
-        <div id="project-tabs">
-            
-
-            <div id="left-indicator"><img src="imgs/arrow-right.png" alt=""></div>
-            <div id="right-indicator"><img src="imgs/arrow-right.png" alt=""></div>
+    <section id="projects-tab">
+      <section id="project-buttons">
+        <div><button id="add-project"><img src="imgs/project-add-icon.png" alt=""><span>Add project</span></button></div>
+        <div>
+          <button id="delete-project"><img src="imgs/trash.png" alt=""><span>Delete</span></button>
+          <button id="edit-project"><img src="imgs/edit.png" alt=""><span>Edit</span></button>
         </div>
-    </div>
+
+      </section>
+    </section>
+    
 
 
     <div id="dropdown-menu">
-        <div><img src="imgs/dashboard-icon.png" alt=""></div>
+        <div><img src="imgs/dashboard-desktop.png" alt=""></div>
         <div><button>Dashboard</button></div>
         <div></div>
-        <div><img src="imgs/projects-icon.png" alt=""></div>
+        <div><img src="imgs/projects-desktop.png" alt=""></div>
         <div><button>My Projects</button></div>
         <div><img src="imgs/project-add-icon.png" alt=""></div>
         <div><button id="btn-create-project">Create New Project</button></div>
         <div></div>
-        <div><img src="imgs/settings-icon2.png" alt=""></div>
+        <div><img src="imgs/settings-desktop.png" alt=""></div>
         <div><button>Settings</button></div>
     </div>
 
@@ -59,7 +65,7 @@
             </div>
             <div class="input_2_create">
                 <label for="new-project-lang">Language/Framework</label>
-                <div>                
+                <div>
                     <input type="text" name="new-project-lang" id="new-project-lang">
                     <div id="new-project-lang-predict-tab"></div>
                 </div>
