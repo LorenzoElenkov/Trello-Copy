@@ -329,11 +329,12 @@ textarea {
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
         position: absolute;
-        top: 15%;
+        top: 25%;
         left: 5%;
         display: grid;
         /* transition: opacity 0.1s; */
         opacity: 0;
+
     }
 
 
@@ -363,6 +364,10 @@ textarea {
         cursor: pointer;
     }
 
+    #project-buttons div button:disabled {
+        cursor: auto;
+    }
+
     #project-buttons div:nth-child(2) button {
         opacity: 0.2;
     }
@@ -374,5 +379,44 @@ textarea {
     #project-buttons img {
         width: 3vmin;
     }
+
+    #projects-container {
+        width: 95%;
+        height: 93%;
+        background-color: transparent;
+        justify-self: center;
+        align-self: center;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 24%);
+        grid-template-rows: 30%;
+        grid-auto-rows: 30%;
+        overflow-y: scroll;
+        gap: 1%;
+        padding: 1% 0 2% 1%;
+    }
+
+    .single-project-container {
+        border: 1px solid salmon;
+        border-radius: 15px;
+        border-left: 10px solid salmon;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    .single-project-container:hover {
+        background: salmon;
+    }
+
+    .single-project-container:nth-child(2n) {
+        border: 1px solid cornflowerblue;
+        border-left: 10px solid cornflowerblue;
+    }
+
+    .single-project-container:nth-child(2n):hover {
+        background: cornflowerblue;
+    }
+
 
 }

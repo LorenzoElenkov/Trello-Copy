@@ -18,6 +18,7 @@ $(function () {
                 top: 20 + "vh"
             }, 300
         );
+        $("#projects-tab div button").prop("disabled", false);
     }
 
     function projects_close_fn () {
@@ -25,9 +26,10 @@ $(function () {
         projects_tab.animate(
             {
                 opacity: 0,
-                top: 15 + "vh"
+                top: 25 + "vh"
             }, 200
         );
+        $("#projects-tab div button").prop("disabled", true);
     }
 
     projects_desktop.on("click", function () {
