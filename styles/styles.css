@@ -178,7 +178,7 @@ textarea {
     padding: 5px;
     border: none;
     border-radius: 10px;
-    background-color: rgb(0, 187, 190);
+    background-color: rgb(137, 197, 250);
     font-family: inherit;
 
 }
@@ -204,15 +204,14 @@ textarea {
 }
 
 .new-project-lang-container {
-    width: 20vw;
+    width: 100%;
     height: max-content;
     grid-column: span 2;
     margin-top: 2vh;
     color: rgba(0, 0, 0, 0.35);
     display: grid;
-    grid-auto-columns: repeat(auto-fit, max-content);
-    grid-template-columns: max-content auto;
-    justify-content: center;
+    gap: 3px;
+    grid-template-columns: repeat(auto-fill, minmax(min-content, 30%));
 }
 
 .new-project-lang-container div {
@@ -220,7 +219,7 @@ textarea {
     grid-column: span 1;
     background-color: rgba(0, 0, 0, 0.2);
     padding: 0.8vh;
-    margin: 1vh;
+    font-size: 1vw;
 }
 
 #new-project-lang-predict-tab {
@@ -364,6 +363,10 @@ textarea {
         cursor: pointer;
     }
 
+    #project-buttons div button span {
+        padding-left: 5px;
+    }
+
     #project-buttons div button:disabled {
         cursor: auto;
     }
@@ -393,20 +396,30 @@ textarea {
         overflow-y: scroll;
         gap: 1%;
         padding: 1% 0 2% 1%;
+        scroll-snap-type: y mandatory;
     }
 
     .single-project-container {
         border: 1px solid salmon;
         border-radius: 15px;
         border-left: 10px solid salmon;
+        padding: 5%;
+        scroll-snap-align: start;
+        text-overflow: ellipsis;
+        overflow: hidden;
         display: flex;
-        justify-content: center;
-        align-items: center;
+        justify-content: start;
+        font-size: 1.5vmax;
     }
 
 
     .single-project-container:hover {
         background: salmon;
+        transition: background-color 0.5s;
+    }
+
+    .single-project-container:active {
+        background: green;
     }
 
     .single-project-container:nth-child(2n) {
@@ -418,5 +431,25 @@ textarea {
         background: cornflowerblue;
     }
 
+    .create-proj-desktop {
+        width: 50%;
+        height: min-content;
+        padding: 15px 5vw 25px 5vw;
+        display: grid;
+        grid-template-columns: max-content auto;
+        grid-auto-rows: minmax(min-content, max-content);
+        position: relative;
+        row-gap: 3vh;
+        column-gap: 3vh;
+        background-color: aliceblue;
+        color: black;
+        border: 2px solid black;
+        border-radius: 15px;
+        margin-top: 10vh;
+        margin-left: 20vw;  
+    }
 
+    .create-proj-desktop button {
+
+    }
 }

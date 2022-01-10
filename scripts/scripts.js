@@ -8,6 +8,7 @@ $(function () {
     const add_project_buttons = $("#add-project");
     const projects_tab = $("#projects-tab");
     const project_buttons = $("#project-buttons");
+    const single_project_container = $(".single-project-container");
     let projects_open = false;
 
     function projects_open_fn () {
@@ -31,6 +32,10 @@ $(function () {
         );
         $("#projects-tab div button").prop("disabled", true);
     }
+
+    single_project_container.on("click", function () {
+        $(this).prop("active", true);
+    })
 
     projects_desktop.on("click", function () {
         if (!projects_open) {
@@ -100,14 +105,7 @@ $(function () {
             new_project_name.val("New Project");
         };
 
-        $(`<div>${new_project_name.val()}</div>`).insertBefore("#my-projects #project-tabs #left-indicator")
-        if($(project_tabs)[0].scrollWidth > $(project_tabs)[0].clientWidth) {
-            right_arrow_projects_container.css(
-                {
-                    "opacity": "1"
-                }
-            )
-        }
+        $(`<div class="single-project-container">${new_project_name.val()}</div>`).appendTo("#projects-container");
         create_project_menu.css(
             {
                 "display": "none"
@@ -121,7 +119,7 @@ $(function () {
     const new_project_lang_predict = $("#new-project-lang-predict-tab");
     const new_project_lang_container = $(".new-project-lang-container");
 
-    $("#btn-create-project").on("click", function () {
+    $("#btn-create-project, #add-project").on("click", function () {
         new_project_name.val("");
         create_project_menu.css(
             {
