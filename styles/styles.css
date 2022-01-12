@@ -185,7 +185,7 @@ textarea {
 
 #btn-add-project:hover, #btn-close-create-proj:hover {
     
-    background-color: rgb(1, 164, 167);
+    background-color: rgb(101, 183, 255);
 
 }
 
@@ -211,7 +211,7 @@ textarea {
     color: rgba(0, 0, 0, 0.35);
     display: grid;
     gap: 3px;
-    grid-template-columns: repeat(auto-fill, minmax(min-content, 30%));
+    grid-template-columns: repeat(3, minmax(min-content, max-content));
 }
 
 .new-project-lang-container div {
@@ -298,10 +298,6 @@ textarea {
         align-items: center;
         cursor: pointer;
         transition: margin 0.5s;
-    }
-    #dashboard-desktop:hover, #projects-desktop#hover, #settings-desktop:hover {
-        margin-top: 20;
-        transition: all 0.5s;
     }
 
     .nav-button-wrapper div:not(:last-child) button {
@@ -414,21 +410,27 @@ textarea {
 
 
     .single-project-container:hover {
-        background: salmon;
+        background-color: salmon;
         transition: background-color 0.5s;
     }
 
-    .single-project-container:active {
-        background: green;
+    .selected {
+        background-color: salmon;
+    }
+
+    .selected2 {
+        background-color: cornflowerblue;
     }
 
     .single-project-container:nth-child(2n) {
         border: 1px solid cornflowerblue;
         border-left: 10px solid cornflowerblue;
     }
+    
 
     .single-project-container:nth-child(2n):hover {
         background: cornflowerblue;
+        transition: background-color 0.5s;
     }
 
     .create-proj-desktop {
@@ -451,5 +453,57 @@ textarea {
 
     .create-proj-desktop button {
 
+    }
+
+    #delete-confirm {
+        background-color: rgba(0, 0, 0, 0.35);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        display: none;
+    }
+
+    #delete-confirm-container {
+        background-color: aliceblue;
+        border: 2px solid black;
+        border-radius: 15px;
+        width: max-content;
+        height: max-content;
+        padding: 2vw;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        row-gap: 2vw;
+    }
+    
+    #delete-confirm-container div:nth-child(1) {
+        grid-column: span 2;
+        justify-self: center;
+        font-size: 1.3vw;
+    }
+
+    #delete-confirm-container div:nth-child(2) {
+        grid-column: span 2;
+        font-size: 0.8vw;
+        justify-self: center;
+    }
+
+    #delete-confirm-container div:not(:nth-child(1):nth-child(2)) button {
+        font-size: 1.1vw;
+        padding: 5px 10px;
+        background-color: rgb(137, 197, 250);
+        border: none;
+        border-radius: 10px;
+        background-color: rgb(137, 197, 250);
+        font-family: inherit;
+        color: white;
+    }
+
+    #delete-confirm-container div:not(:nth-child(1)) button:hover {
+        background-color: rgb(101, 183, 255);
     }
 }

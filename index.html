@@ -28,19 +28,14 @@
 
     <section id="projects-tab">
       <section id="project-buttons">
-        <div><button id="add-project" disabled><img src="imgs/project-add-icon.png" alt=""><span>Create project</span></button></div>
+        <div><button id="add-project"><img src="imgs/project-add-icon.png" alt=""><span>Create project</span></button></div>
         <div>
-          <button id="delete-project" disabled><img src="imgs/trash.png" alt=""><span>Delete</span></button>
-          <button id="edit-project" disabled><img src="imgs/edit.png" alt=""><span>Edit</span></button>
+          <button id="delete-project"><img src="imgs/trash.png" alt=""><span>Delete</span></button>
+          <button id="edit-project"s><img src="imgs/edit.png" alt=""><span>Edit</span></button>
         </div>
 
       </section>
-      <section id="projects-container">
-        <div class="single-project-container">Trello copy for my portfolio</div>
-        
-
-
-      </section>
+      <section id="projects-container"></section>
     </section>
     
 
@@ -86,6 +81,14 @@
         </div>
     </div>
 
+    <div id="delete-confirm">
+      <div id="delete-confirm-container">
+        <div>Are you sure?</div>
+        <div>This action is irreversible!</div>
+        <div><button id="deleteConfirm">Delete</button></div>
+        <div><button id="deleteCancel">Cancel</button></div>
+      </div>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="scripts/scripts.js"></script>
   </body>
