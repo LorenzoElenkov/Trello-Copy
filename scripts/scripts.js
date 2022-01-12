@@ -390,4 +390,10 @@ $(function () {
         }
     })
 
+    $("#deleteCancel").on("click", function () {
+        delete_confirm_proj.css({
+            display: "none"
+        })
+    })
+
 });
