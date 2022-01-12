@@ -134,6 +134,7 @@ $(function () {
 
     addEventListenerToFetchedProjects();
 
+
     projects_desktop.on("click", function () {
         if (!projects_open) {
             projects_open_fn();
@@ -190,70 +191,94 @@ $(function () {
     });
 
     $("#btn-add-project").on("click", function () {
-        if (new_project_name.val() == "") {
-            new_project_name.val("New Project");
-        };
-        const newProjectContainer = $(`<div class="single-project-container">${new_project_name.val()}</div>`);
-        const thisProjectContainer = newProjectContainer.appendTo("#projects-container");
-        all_project_containers_array.push(thisProjectContainer);
-        thisProjectContainer.on("click", function () {
-            for (let j = 0; j < all_project_containers_array.length; j++) {
-                $(all_project_containers_array[j]).removeClass("selected2");
-                $(all_project_containers_array[j]).removeClass("selected");
-            }
-            if (projectSelected != undefined) {
-                firstContainer = projectSelected;
-            }
-            if ($(this).is(":nth-child(2n)")) {
-                $(this).addClass("selected2");
-            } else {
-                $(this).addClass("selected");
+        if ($(this).text() == "Create") {
+            if (new_project_name.val() == "") {
+                new_project_name.val("New Project");
             };
-            projectSelected = $(this);
-            editDeleteProjectButtons.css(
-                {
-                    "opacity": "1"
-                }
-            )
-            if (firstContainer != undefined && firstContainer.text() == projectSelected.text()) {
-                projects_close_fn();
+            const newProjectContainer = $(`<div class="single-project-container">${new_project_name.val()}</div>`);
+            const thisProjectContainer = newProjectContainer.appendTo("#projects-container");
+            all_project_containers_array.push(thisProjectContainer);
+            thisProjectContainer.on("click", function () {
                 for (let j = 0; j < all_project_containers_array.length; j++) {
                     $(all_project_containers_array[j]).removeClass("selected2");
                     $(all_project_containers_array[j]).removeClass("selected");
                 }
-                $("#project-buttons div:nth-child(2) button").css(
+                if (projectSelected != undefined) {
+                    firstContainer = projectSelected;
+                }
+                if ($(this).is(":nth-child(2n)")) {
+                    $(this).addClass("selected2");
+                } else {
+                    $(this).addClass("selected");
+                };
+                projectSelected = $(this);
+                editDeleteProjectButtons.css(
                     {
-                        "opacity": "0.2"
+                        "opacity": "1"
                     }
                 )
-                projectSelected = undefined;
-                firstContainer = undefined;
+                if (firstContainer != undefined && firstContainer.text() == projectSelected.text()) {
+                    projects_close_fn();
+                    for (let j = 0; j < all_project_containers_array.length; j++) {
+                        $(all_project_containers_array[j]).removeClass("selected2");
+                        $(all_project_containers_array[j]).removeClass("selected");
+                    }
+                    $("#project-buttons div:nth-child(2) button").css(
+                        {
+                            "opacity": "0.2"
+                        }
+                    )
+                    projectSelected = undefined;
+                    firstContainer = undefined;
+                }
+            });
+            create_project_menu.css(
+                {
+                    "display": "none"
+                }
+            )
+            let newDate;
+            if (new_project_startdate.val() == "") {
+                let nowDate = new Date();
+                newDate = (nowDate.getMonth() + 1 < 10) ? `${nowDate.getFullYear()}-0${nowDate.getMonth() + 1}-${nowDate.getDate()}` : `${nowDate.getFullYear()}-${nowDate.getMonth + 1}-${nowDate.getDate()}`
+            } else {
+                newDate = new_project_startdate.val();
             }
-        });
-        create_project_menu.css(
-            {
-                "display": "none"
-            }
-        )
-        let newDate;
-        if (new_project_startdate.val() == "") {
-            let nowDate = new Date();
-            newDate = (nowDate.getMonth() + 1 < 10) ? `${nowDate.getFullYear()}-0${nowDate.getMonth() + 1}-${nowDate.getDate()}` : `${nowDate.getFullYear()}-${nowDate.getMonth + 1}-${nowDate.getDate()}`
-        } else {
-            newDate = new_project_startdate.val();
+            myProjects_obj[nextProjNum] = {
+                "title": new_project_name.val(),
+                "description": new_project_description.val(),
+                "startDate": newDate,
+                "languages": languagesSelected
+            };
+            window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
+            new_project_lang_container.empty();
+            new_project_description.val("");
+            new_project_startdate.val("");
+            languagesSelected = "";
+            nextProjNum++;
         }
-        myProjects_obj[nextProjNum] = {
-            "title": new_project_name.val(),
-            "description": new_project_description.val(),
-            "startDate": newDate,
-            "languages": languagesSelected
-        };
-        window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
-        new_project_lang_container.empty();
-        new_project_description.val("");
-        new_project_startdate.val("");
-        languagesSelected = "";
-        nextProjNum++;
+        else if ($(this).text() == "OK") {
+            for (let key in myProjects_obj) {
+                if (myProjects_obj[key]["title"] == projectSelected.text()) {
+                    const thisKey = myProjects_obj[key];
+                    thisKey["title"] = new_project_name.val();
+                    thisKey["description"] = new_project_description.val();
+                    thisKey["startDate"] = new_project_startdate.val();
+                    thisKey["languages"] = languagesSelected;
+                    window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
+                    projectSelected.text(new_project_name.val());
+                    new_project_lang_container.empty();
+                    new_project_description.val("");
+                    new_project_startdate.val("");
+                    languagesSelected = "";
+                    create_project_menu.css({
+                        display: "none"
+                    })
+                    return;
+                }
+            }
+        }
+        
     });
 
     $("#btn-create-project, #add-project").on("click", function () {
@@ -263,6 +288,8 @@ $(function () {
                 "display": "block"
             }
         );
+        $("#create-proj-desktop-title").text("Create New Project");
+        $("#btn-add-project").text("Create");
         if (window.innerWidth > 600) {
             new_project_name.focus();
         }
@@ -363,13 +390,36 @@ $(function () {
 
     editDeleteProjectButtons.on("click", function () {
         if ($(this).text() == "Delete" && projectSelected != undefined) {
+            $("#delete-confirm-container div:nth-child(2)").text(`Deleting "${projectSelected.text().toUpperCase()}" project is an irreversible action`);
             delete_confirm_proj.css(
                 {
                     display: "flex"
                 }
             )
-        } else {
-            console.log("Edit clicked");
+        } else if ($(this).text() == "Edit" && projectSelected != undefined) {
+            create_project_menu.css(
+                {
+                    display: "block"
+                }
+            )
+            $("#create-proj-desktop-title").text("Edit Project");
+            new_project_name.val(projectSelected.text());
+            $("#btn-add-project").text("OK");
+            for (let key in myProjects_obj) {
+                if (myProjects_obj[key]["title"] == projectSelected.text()) {
+                    const thisKey = myProjects_obj[key];
+                    new_project_description.val(thisKey["description"]);
+                    new_project_startdate.val(thisKey["startDate"]);
+                    const oldLanguages = thisKey["languages"].split(",");
+                    languagesSelected = thisKey["languages"];
+                    if (oldLanguages.length > 0 && oldLanguages[0] != "") {
+                        for (let i = 0; i < oldLanguages.length; i++) {
+                            new_project_lang_container.append($(`<div>${oldLanguages[i]}</div>`));
+                        }
+                    }
+                    return;
+                }
+            }
         }
     })
 
@@ -380,6 +430,7 @@ $(function () {
                 window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
                 projectSelected.remove();
                 projectSelected = undefined;
+                firstContainer = undefined;
                 delete_confirm_proj.css(
                     {
                       display: "none"
