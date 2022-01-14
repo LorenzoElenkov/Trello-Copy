@@ -30,7 +30,7 @@ $(function () {
     const new_project_lang_predict = $("#new-project-lang-predict-tab");
     const new_project_lang_container = $(".new-project-lang-container");
     const editDeleteProjectButtons = $("#project-buttons div:nth-child(2) button")
-    let langArray = ["html", "css", "javascript", "jquery", "sass/scss", "less", "react.js", "angular", "vue.js", "mongodb", "localstorage", "postgresql", "other"];
+    let langArray = ["html", "css", "javascript", "jquery", "sass", "less", "react.js", "angular", "vue.js", "mongodb", "localstorage", "postgresql", "other"];
     let selectChild = 0;
     let onlyOneChild = false;
     let selected;
@@ -132,6 +132,8 @@ $(function () {
         };
     };
 
+   
+
     addEventListenerToFetchedProjects();
 
 
@@ -189,6 +191,38 @@ $(function () {
             menuClicked = false;
         });
     });
+
+    let thisText;
+
+    $(document).on({
+        mouseenter: function () {
+            thisLangCont = $(this);
+            thisText = $(this).text();
+            $(this).css({
+                "background-color": "red"
+            });
+            $(this).text("DELETE?");
+        },
+        mouseleave: function () {
+            $(this).css({
+                "background-color": "rgba(0,0,0,0.2)"
+            });
+            $(this).text(thisText);
+            thisText = undefined;
+            thisLangCont = undefined;
+        }
+    }, ".single-lang-container");
+
+    $(document).on("click", ".single-lang-container", function () {
+        if ($(thisLangCont).index() == 0 && new_project_lang_container.children().length > 1) {
+            languagesSelected = languagesSelected.replace(`${thisText},`, "");
+        } else if ($(thisLangCont).index() > 0 ) {
+            languagesSelected = languagesSelected.replace(`,${thisText}`, "");
+        } else if (new_project_lang_container.children().length == 1) {
+            languagesSelected = languagesSelected.replace(`${thisText}`, "");
+        }
+        $(thisLangCont).remove();
+    })
 
     $("#btn-add-project").on("click", function () {
         if ($(this).text() == "Create") {
@@ -310,6 +344,7 @@ $(function () {
 
     });
 
+
     new_project_lang.on("keyup", function (e) {
         if (e.key !== "ArrowDown") {
             if (new_project_lang.val().length <= 20 && new_project_lang.val().length > 0) {
@@ -322,23 +357,31 @@ $(function () {
                             new_project_lang_predict.append(`<div>${langArray[i]}</div>`);
                         }
                     };
+                    if (new_project_lang_predict.children().length > 0) {
+                        for (let i = 1; i <= new_project_lang_predict.children().length; i++) {
+                            new_project_lang_predict.children(`:nth-child(${i})`).on("click", function () {
+                                new_project_lang_predict.empty();
+                                selectChild = 0;
+                                new_project_lang.val("");
+                                if (new_project_lang_container.children().length == 0) {
+                                    new_project_lang_container.html("");
+                                }
+                                const thisAppend = `<div class="single-lang-container">${$(this).text()}</div>`;
+                                new_project_lang_container.append(thisAppend);
+                                if (languagesSelected == "") {
+                                    languagesSelected = $(this).html();
+                                } else {
+                                    languagesSelected += "," + $(this).html();
+                                }
+                                selected = undefined;
+                                firstMarked = false;
+                            })
+                            
+                        }
+                    }
                 }
             } 
         } 
-        else if (e.key !== "ArrowUp") { 
-            if (new_project_lang.val().length <= 20 && new_project_lang.val().length > 0) {
-                if (selected == undefined || (selected != undefined && selected != new_project_lang_predict.children(":last-child").html()) || (selected != undefined && new_project_lang_predict.children(":first-child").hasClass("predict-tab-hover") && !onlyOneChild)) {
-                
-                
-                    new_project_lang_predict.empty();  
-                    for (i = 0; i < langArray.length; i++) {
-                        if (langArray[i].includes(new_project_lang.val())) {
-                            new_project_lang_predict.append(`<div>${langArray[i]}</div>`);
-                        }
-                    };
-                }
-            } 
-        }
         
         if (new_project_lang.val().length == 0) {
             new_project_lang_predict.empty();
@@ -376,7 +419,7 @@ $(function () {
                 if (new_project_lang_container.children().length == 0) {
                     new_project_lang_container.html("");
                 }
-                new_project_lang_container.append(`<div>${selected}</div>`);
+                new_project_lang_container.append(`<div class="single-lang-container">${selected}</div>`);
                 if (languagesSelected == "") {
                     languagesSelected = selected;
                 } else {
@@ -387,6 +430,8 @@ $(function () {
             }
         }
     });
+
+    
 
     editDeleteProjectButtons.on("click", function () {
         if ($(this).text() == "Delete" && projectSelected != undefined) {
@@ -414,7 +459,7 @@ $(function () {
                     languagesSelected = thisKey["languages"];
                     if (oldLanguages.length > 0 && oldLanguages[0] != "") {
                         for (let i = 0; i < oldLanguages.length; i++) {
-                            new_project_lang_container.append($(`<div>${oldLanguages[i]}</div>`));
+                            new_project_lang_container.append($(`<div class="single-lang-container">${oldLanguages[i]}</div>`));
                         }
                     }
                     return;
