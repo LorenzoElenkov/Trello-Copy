@@ -4,6 +4,8 @@ body {
   background-color: aliceblue;
 }
 
+
+
 nav {
   display: grid;
   grid-template-columns: 1fr 8fr 1fr;
@@ -141,7 +143,7 @@ nav > span {
 
 .input_create, .input_2_create {
     display: grid;
-    grid-template-columns: max-content auto;
+    grid-template-columns: 3fr 7fr;
     column-gap: 5px;
     row-gap: 15px;
     grid-column: span 1;
@@ -201,6 +203,7 @@ textarea {
 #new-project-lang {
     grid-column: span 2 / -1;
     position: relative;
+    width: 100%;
 }
 
 .new-project-lang-container {
@@ -232,6 +235,7 @@ textarea {
 
 #new-project-lang-predict-tab div {
     padding: 5px;
+    font-size: 1.1vw;
 }
 
 #new-project-lang-predict-tab div:hover {
@@ -240,6 +244,10 @@ textarea {
 
 #new-project-lang-predict-tab div.predict-tab-hover {
     background-color: rgb(214, 214, 214);
+}
+
+#delete-confirm {
+    display: none;
 }
 
 @media only screen and (min-width: 600px) {
@@ -324,12 +332,10 @@ textarea {
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
         position: absolute;
-        top: 25%;
+        top: 20%;
         left: 5%;
         display: grid;
-        /* transition: opacity 0.1s; */
         opacity: 0;
-
     }
 
 
@@ -499,10 +505,364 @@ textarea {
     }
 
     #delete-confirm-container div:nth-child(3) {
+        margin-right: 1vw;
+    }
+
+    #delete-confirm-container div:nth-child(4) {
+        margin-left: 1vw;
+    }
+
+    #delete-confirm-container div:nth-child(3) {
         justify-self: end;
     }
 
     #delete-confirm-container div:not(:nth-child(1)) button:hover {
         background-color: rgb(101, 183, 255);
     }
+
+    #current-project-window {
+        width: 98%;
+        margin-left: 1%;
+        height: 80%;
+        position: absolute;
+        top: 20%;
+        left: 0;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: max-content;
+        column-gap: 1vw;
+        opacity: 0;
+    }
+
+    #current-project-title {
+        position: absolute;
+        font-size: 1vw;
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100%;
+    }
+
+    #current-project-title div {
+        justify-self: center;
+        font-size: 1.3vw;
+        border: 2px solid black;
+        border-radius: 15px;
+        padding: 5px 15px;
+    }
+    
+    .tab-title {
+        font-size: 1.4vw;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+    .tab-title:nth-child(2)  {
+        background-color: crimson;
+        border: 2px solid crimson;
+    }
+    .tab-title:nth-child(3)  {
+        background-color: coral;
+        border: 2px solid coral;
+    }
+    .tab-title:nth-child(4)  {
+        background-color: gold;
+        border: 2px solid gold;
+    }
+    .tab-title:nth-child(5)  {
+        background-color: chartreuse;
+        border: 2px solid chartreuse;
+    }
+
+    .tab-content {
+        width: 100%;
+        height: max-content;
+        border: 2px solid black;
+        border-top: none;
+        display: grid;
+        /* grid-template-rows: repeat(auto-fill, 8%);
+        grid-auto-rows: 8%; */
+        overflow-y: scroll;
+    }
+
+    #to-do {
+        border: 2px solid crimson;
+        background-color: rgb(230, 230, 230);
+    }
+
+    #in-progress {
+        border: 2px solid coral;
+        background-color: rgb(230, 230, 230);
+    }
+
+    #to-review {
+        border: 2px solid gold;
+        background-color: rgb(230, 230, 230);
+    }
+
+    #completed {
+        border: 2px solid chartreuse;
+        background-color: rgb(230, 230, 230);
+    }
+
+    .tab-content div:not(#to-do-add):not(.ui-state-highlight):not(.subtask-helper) {
+        border: 1px solid black;
+        border-radius: 8px;
+        justify-self: center;
+        display: grid;
+        grid-template-columns: 1fr 6fr 1fr;
+        justify-content: center;
+        align-items: center;
+        width: 80%;
+        margin-top: 1vh;
+        margin-bottom: 1vh;
+        font-size: 1.3vw;
+        padding: 5px;
+        background-color: aliceblue;
+        text-align: center;
+    }
+
+    .subtask-helper {
+        justify-self: start;
+        font-size: 1vw;
+        opacity: 0.5;
+    }
+
+    .tab-content img {
+        width: 75%;
+        opacity: 0.3;
+        justify-self: end;
+    }
+
+    #to-do-add {
+        border: 2px solid crimson;
+        background-color: crimson;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        
+    }
+
+    #to-do-add button img {
+        width: 1.5vw;
+        filter: invert(100%);
+    }
+
+    #to-do-add button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.1vw;
+        background: transparent;
+        border: none;
+        width: 100%;
+        height: 100%;
+        color: white;
+    }
+
+    #to-do-add button:hover{
+        background-color: rgba(0, 0, 0, 0.2);
+    }   
+
+    #to-do-add button:active img {
+        filter: invert(100%);
+    }
+
+    #to-do-add button:active {
+        background-color: rgba(0, 0, 0, 1);
+    }
+
+    .ui-state-highlight {
+        border: 1px dashed black;
+        border-radius: 8px;
+        justify-self: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80%;
+        margin-top: 1vh;
+        margin-bottom: 1vh;
+        font-size: 1.3vw;
+        padding: 5px;
+        background-color: gold;
+    }
+
+    #create-task-menu {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.35);
+        display: none;
+        justify-content: center;
+    }
+
+    .create-task-window {
+        margin-top: 10vh;
+        width: 40vw;
+        height: max-content;
+        background-color: aliceblue;
+        border: 2px solid black;
+        border-radius: 15px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1vh;
+        justify-content: center;
+        padding: 15px;
+    }
+
+    #create-task-title {
+        text-align: center;
+        padding: 1vh 0;
+        font-size: 1.6vw;
+        grid-column: span 3;
+    }
+
+    #task-title {
+        grid-column: span 3;
+        justify-self: center;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        column-gap: 1vw;
+        row-gap: 1vh;
+        font-size: 1.2vw;
+        width: 100%;
+    }
+
+    #task-title label:nth-child(1) {
+        justify-self: end;
+        align-self: center;
+    }
+
+    #task-title-input {
+        width: 60%;
+        font-size: 1vw;
+    }
+
+    .btn-create-task {
+        font-size: 1.1vw;
+        padding: 5px 25px;
+        background-color: rgb(137, 197, 250);
+        border: none;
+        border-radius: 10px;
+        font-family: inherit;
+        color: white;
+        width: 50%;
+        justify-self: end;
+    }
+
+    .btn-cancel-task {
+        font-size: 1.1vw;
+        padding: 5px 25px;
+        background-color: rgb(137, 197, 250);
+        border: none;
+        border-radius: 10px;
+        font-family: inherit;
+        color: white;
+        width: 50%;
+
+    }
+
+    #want-subtasks-question {
+        justify-self: center;
+        grid-column: span 2;
+        margin-bottom: 3vh;
+        font-size: 1vw;
+    }
+
+    .btn-add-subtask {
+        font-size: 1vw;
+        background-color: rgb(137, 197, 250);
+        border: none;
+        border-radius: 10px;
+        color: white;
+        padding: 5px 10px;
+    }
+
+    .btn-add-subtask:hover, .btn-cancel-task:hover, .btn-create-task:hover {
+        background-color: rgb(101, 183, 255);
+    }
+
+    #subtask-title {
+        justify-self: center;
+        grid-column: span 2;
+    }
+
+    #subtask-panel {
+        height: 200px;
+        border: 1px dashed black;
+        border-radius: 15px;
+        width: 70%;
+        grid-column: span 2;
+        justify-self: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 1vh;
+        scrollbar-width: none;
+    }
+
+    #subtask-panel::-webkit-scrollbar {
+        width: 0;
+        background: transparent;
+    }
+
+    .subtask-container {
+        width: 90%;
+        height: max-content;
+        background-color: crimson;
+        border: 1px solid black;
+        border-radius: 10px;
+        font-size: 1.1vw;
+        justify-self: center;
+        padding: 5px;
+        color: aliceblue;
+    }
+
+    .subtask-container:last-child {
+        margin-bottom: 1vh;
+    }
+
+    .subtask-container:nth-child(1) {
+        margin-top: 1vh;
+    }
+
+    .subtask-container div:nth-child(2) {
+        display: none;
+        grid-template-columns: 1fr 1fr 0.3fr;
+        position: relative;
+    }
+
+    .subtask-container div:nth-child(2) button {
+        height: 100%;
+        font-size: 1vw;
+        background-color: aliceblue;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+    .subtask-container div:nth-child(2) button:nth-child(2) {
+        height: 100%;
+        font-size: 1vw;
+    }
+
+    .subtask-container div:nth-child(2) button:nth-child(3) {
+        
+    }
+
+    .subtask-container div:nth-child(1) {
+        display: flex;
+        justify-content: start;
+    }
+
+    #single-subtask-title-input {
+        grid-column: span 1 / -1;
+        width: 100%;
+        font-size: 1vw;
+        font-family: inherit;
+    }
+
 }

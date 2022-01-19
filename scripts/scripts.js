@@ -3,6 +3,7 @@ $(function () {
     const nav = $("nav");
     const nav_button_wrapper = $(".nav-button-wrapper");
     const projects_desktop = $("#projects-desktop");
+    const project_title = $("#current-project-title");
 
     const add_project_buttons = $("#add-project");
     const projects_tab = $("#projects-tab");
@@ -11,6 +12,9 @@ $(function () {
     let projects_open = false;
     let projectSelected;
     let firstContainer = undefined;
+
+    let subtask_panel = $("#subtask-panel");
+    let subtask_panel_init_height = 0;
 
     const menuButton = $("#menu-button");
     const dropdownMenu = $("#dropdown-menu");
@@ -37,6 +41,16 @@ $(function () {
     let languagesSelected = "";
     let myProjects_obj = {};
     let all_project_containers_array;
+
+    let addTabContainer = $("#to-do-add");
+    let firstTabContent = $("#to-do");
+    let tabTitle = $(".tab-title");
+    let allTabContents = document.querySelectorAll(".tab-content");
+    let initialHeight = 0;
+    
+    
+    let projectSelectedID = 0;
+    
     
     // localStorage ######## GETTING PROJECTS FOR PROJECTS WINDOW
     const fetchProjects = JSON.parse(window.localStorage.getItem("Projects"));
@@ -64,28 +78,39 @@ $(function () {
         projects_open = true;
         projects_tab.animate(
             {
-                opacity: 1,
-                top: 20 + "vh"
+                opacity: 1
             }, 300
         );
-        $("#projects-container, #project-buttons button").css(
+        $("#projects-container, #projects-tab").css(
             {
-                "visibility": "visible"
+                "display": "grid"
+            }
+        ),
+        $("#project-buttons button").css(
+            {
+                "display": "flex"
             }
         )
+        $("#current-project-window, #delete-confirm, #create-task-menu").css(
+            {
+                "display": "none",
+                "opacity": 0
+            }
+        )
+        projectSelected = undefined;
+        firstContainer = undefined;
     }
 
     function projects_close_fn () {
         projects_open = false;
         projects_tab.animate(
             {
-                opacity: 0,
-                top: 25 + "vh"
+                opacity: 0
             }, 200
         );
-        $("#projects-container, #project-buttons button").css(
+        $("#projects-container, #project-buttons button, #projects-tab").css(
             {
-                "visibility": "hidden"
+                "display": "none"
             }
         )
     }
@@ -116,6 +141,7 @@ $(function () {
                 )
                 if (firstContainer != undefined && firstContainer.text() == projectSelected.text()) {
                     projects_close_fn();
+                    projectSelectedID = Object.keys(myProjects_obj).find(key => myProjects_obj[key]["title"] == projectSelected.text());
                     for (let j = 0; j < all_project_containers_array.length; j++) {
                         $(all_project_containers_array[j]).removeClass("selected2");
                         $(all_project_containers_array[j]).removeClass("selected");
@@ -125,14 +151,23 @@ $(function () {
                             "opacity": "0.2"
                         }
                     )
-                    projectSelected = undefined;
-                    firstContainer = undefined;
+                    $("#current-project-window").animate
+                    (
+                        { 
+                            opacity: 1
+                        }, 500
+                    );
+                    fetchTasks();
+                    $("#current-project-window").css({ "display": "grid" });
+                    $("#current-project-title div").text(projectSelected.text());
                 }
             });
         };
     };
 
-   
+    setTimeout(() => {
+        $("#current-project-window").css({ display: "none" })
+    }, 5);
 
     addEventListenerToFetchedProjects();
 
@@ -150,6 +185,20 @@ $(function () {
             "top": -(add_project_buttons.height() * 2)
         }
     );
+
+    project_title.css(
+        {
+            "top": -(project_title.height() * 2),
+        }
+    )
+
+
+    addTabContainer.css(
+        {
+            "top": tabTitle.outerHeight() + firstTabContent.outerHeight() - 2,
+            "width": tabTitle.width()
+        }
+    )
 
     $(menuButton).on('click', function () {
         
@@ -253,6 +302,7 @@ $(function () {
                 )
                 if (firstContainer != undefined && firstContainer.text() == projectSelected.text()) {
                     projects_close_fn();
+                    projectSelectedID = Object.keys(myProjects_obj).find(key => myProjects_obj[key]["title"] == projectSelected.text());
                     for (let j = 0; j < all_project_containers_array.length; j++) {
                         $(all_project_containers_array[j]).removeClass("selected2");
                         $(all_project_containers_array[j]).removeClass("selected");
@@ -262,8 +312,15 @@ $(function () {
                             "opacity": "0.2"
                         }
                     )
-                    projectSelected = undefined;
-                    firstContainer = undefined;
+                    $("#current-project-window").animate
+                    (
+                        { 
+                            opacity: 1
+                        }, 500
+                    );
+                    fetchTasks();
+                    $("#current-project-window").css({ "display": "grid" });
+                    $("#current-project-title div").text(projectSelected.text());
                 }
             });
             create_project_menu.css(
@@ -282,7 +339,8 @@ $(function () {
                 "title": new_project_name.val(),
                 "description": new_project_description.val(),
                 "startDate": newDate,
-                "languages": languagesSelected
+                "languages": languagesSelected,
+                "tasks": {}
             };
             window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
             new_project_lang_container.empty();
@@ -290,6 +348,7 @@ $(function () {
             new_project_startdate.val("");
             languagesSelected = "";
             nextProjNum++;
+            console.log(myProjects_obj);
         }
         else if ($(this).text() == "OK") {
             for (let key in myProjects_obj) {
@@ -438,7 +497,8 @@ $(function () {
             $("#delete-confirm-container div:nth-child(2)").text(`Deleting "${projectSelected.text().toUpperCase()}" project is an irreversible action`);
             delete_confirm_proj.css(
                 {
-                    display: "flex"
+                    display: "flex",
+                    opacity: 1
                 }
             )
         } else if ($(this).text() == "Edit" && projectSelected != undefined) {
@@ -491,5 +551,347 @@ $(function () {
             display: "none"
         })
     })
+
+
+    function adjustTaskTabs () {
+        for (let n = 0; n < allTabContents.length; n++) {
+            for (let m = 0; m < $(allTabContents[n]).children().length; m++) {
+                initialHeight += $(allTabContents[n]).children(`:nth-child(${m+1})`).outerHeight();
+            }
+            if (initialHeight >= $(window).outerHeight() * 0.55) {
+             
+                $(allTabContents[n]).css({
+                    "height": "90%",
+                    "grid-template-rows": "repeat(auto-fill, minmax(min-content, max-content))",
+                    "grid-auto-rows": "minmax(min-content, max-content)",
+                    "overflow-y": "scroll"
+                })
+            } else {
+                $(allTabContents[n]).css({
+                    "display": "grid",
+                    "height": "max-content",
+                    "grid-template-rows": "",
+                    "grid-auto-rows": "",
+                    "overflow-y": "",
+                })
+            }
+            initialHeight = 0;
+        }
+    }
+
+    $(function () {
+
+        adjustTaskTabs();
+        
+
+        $("#to-do, #in-progress, #to-review, #completed").sortable(
+            {
+                connectWith: ".tab-content",
+                placeholder: "ui-state-highlight",
+                cancel: "#to-do-add",
+                start: function (e, ui) {
+                    addTabContainer.hide();
+                    $(ui.item).css({ "transform": "rotate(" + 3 + "deg)"})
+                    $(".ui-state-highlight").css({
+                        "height": $(ui.item).height()
+                    })
+                },
+                stop: function (e, ui) {
+                    addTabContainer.show();
+                    addTabContainer.css(
+                        {
+                            "top": tabTitle.outerHeight() + firstTabContent.outerHeight() - 2
+                        }
+                    )
+                    $(ui.item).css({ "transform": "rotate(" + 0 + "deg)"})
+                },
+                update: function (e, ui) {
+                    const windowHeight = $(window).outerHeight();
+                    let receiverHeight = 0;
+                    let senderHeight = 0;
+                    for (let p = 0; p < $(ui.item).parent().children().length; p++) {
+                        receiverHeight += $(ui.item).parent().children(`:nth-child(${p+1})`).outerHeight();
+                    }
+                    for (let k = 0; k < $(ui.sender).children().length; k++) {
+                        senderHeight += $(ui.sender).children(`:nth-child(${k+1})`).outerHeight();
+                    }
+                    if (receiverHeight >= windowHeight * 0.55) {
+                        $(ui.item).parent().css({
+                            "height": "90%",
+                            "grid-template-rows": "repeat(auto-fill, minmax(min-content, max-content))",
+                            "grid-auto-rows": "minmax(min-content, max-content)",
+                            "overflow-y": "scroll",
+                        })
+                    } else {
+                        $(ui.item).parent().css({
+                            "display": "grid",
+                            "height": "max-content",
+                            "grid-template-rows": "",
+                            "grid-auto-rows": "",
+                            "overflow-y": "",
+                        })
+                    }
+                    if (senderHeight >= windowHeight * 0.55) {
+                        $(ui.sender).css({
+                            "height": "90%",
+                            "grid-template-rows": "repeat(auto-fill, minmax(min-content, max-content))",
+                            "grid-auto-rows": "minmax(min-content, max-content)",
+                            "overflow-y": "scroll",
+                        })
+                    } else {
+                        $(ui.sender).css({
+                            "display": "grid",
+                            "height": "max-content",
+                            "grid-template-rows": "",
+                            "grid-auto-rows": "",
+                            "overflow-y": "",
+                        })
+                    }
+                    
+                },
+                over: function (e, ui) {
+                    let placeholder = $(".ui-state-highlight");
+                    let bgColor = placeholder.parent().css("border-color");
+                    placeholder.css({
+                        "background-color": bgColor
+                    })
+                }
+            }
+        ).disableSelection();
+    });
+
+    const add_task_btn = $("#to-do-add");
+    const create_task_menu = $("#create-task-menu");
+
+    //Add Task Button Show Task Creation Window
+    add_task_btn.on("click", function () {
+        create_task_menu.css(
+            { 
+                display: "flex" ,
+                opacity: 1
+            }
+        );
+        if (subtask_panel.children().length > 0) {
+            $("#subtask-title").css({ display: "block" });
+            isSubtaskPanelScroll();
+        } else {
+            $("#subtask-title").css({ display: "none" });
+            subtask_panel.css({ display: "none" })
+        }
+    })
+
+    let myTasks_obj = {};
+    let mySubTasks_obj = {};
+    let nextTaskNum = 1;
+
+    const create_create_task_menu = $(".btn-create-task");
+    //Create Button Task Window
+    create_create_task_menu.on("click", function () {
+        create_task_menu.css({ display: "none" });
+        subtask_panel.empty();
+        myTasks_obj[nextTaskNum] = {
+            "taskID": nextTaskNum,
+            "title": $("#task-title-input").val(),
+            "status": "to-start",
+            "subtasks": mySubTasks_obj
+        };
+        console.log(myTasks_obj);
+        myProjects_obj[projectSelectedID]["tasks"] = myTasks_obj;
+        window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
+        mySubTasks_obj = {};
+        console.log(nextTaskNum);
+        $("#to-do").prepend(`<div data-task-id="${nextTaskNum}">${$("#task-title-input").val()}</div>`)
+        adjustTaskTabs();
+        addTabContainer.css(
+            {
+                "top": tabTitle.outerHeight() + firstTabContent.outerHeight() - 2,
+                "width": tabTitle.width()
+            }
+        )
+        $("#task-title-input").val("");
+        nextTaskNum++;
+    })
+
+    function fetchTasks() {
+        if (fetchProjects != null) {
+            myProjects_obj = fetchProjects;
+        }
+        $("#to-do, #in-progress, #to-review, #completed").children().filter(function () {
+            return !$(this).is("#to-do-add");
+        }).remove();
+        if (projectSelectedID != null) {
+            for (let key in myProjects_obj[projectSelectedID]["tasks"]) {
+                $("#to-do").prepend(`<div data-task-id="${myProjects_obj[projectSelectedID]["tasks"][key]["taskID"]}">
+                    <div class="subtask-helper">5/23</div>
+                    ${myProjects_obj[projectSelectedID]["tasks"][key]["title"]}
+                    <img src="imgs/trash.png" alt="">
+                    </div>`)
+            }
+            
+            myTasks_obj = {};
+            myTasks_obj = myProjects_obj[projectSelectedID]["tasks"];
+            if (Object.keys(myProjects_obj[projectSelectedID]["tasks"]).length > 0) {
+                nextTaskNum =  Number(Object.keys(myProjects_obj[projectSelectedID]["tasks"])[Object.keys(myProjects_obj[projectSelectedID]["tasks"]).length - 1]) + 1;
+            }  
+        }
+        setTimeout(() => {
+            adjustTaskTabs();
+            addTabContainer.css(
+                {
+                    "top": tabTitle.outerHeight() + firstTabContent.outerHeight() - 2,
+                    "width": tabTitle.width()
+                }
+            )
+        }, 10);
+        
+    }
+
+    const close_create_task_menu = $(".btn-cancel-task");
+    //Close Creation Window Button
+    close_create_task_menu.on("click", function () {
+        create_task_menu.css({ display: "none" });
+        subtask_panel.empty();
+        $("#task-title-input").val("");
+    })
+
+    //Show Subtask Options on Hover
+    let delay = 500;
+    let setTimeoutConst;
+    $(document).on("mouseenter", ".subtask-container",function () {
+        setTimeoutConst = setTimeout(() => {
+            if ($(this).children(":nth-child(1)").children(":nth-child(1)").attr("data-active") == "false") {
+                $(this).children(":nth-child(2)").css(
+                    {
+                        display: "grid"
+                    }
+                );
+                $(this).children(":nth-child(1)").css({
+                    display: "none"
+                })
+            }
+        }, delay);
+    });
+
+    //Hide Subtask Options on Hover
+    $(document).on("mouseleave", ".subtask-container",function () {
+        clearTimeout(setTimeoutConst);
+        $(this).children(":nth-child(2)").css(
+            {
+                display: "none"
+            }
+        );
+        $(this).children(":nth-child(1)").css({
+            display: "flex"
+        })
+    })
+
+    //Subtask complete/pending button
+    $(document).on("click", ".subtask-container div:nth-child(2) button:nth-child(2)", function () {
+        if ($(this).attr("value") == "not-complete") {
+            $(this).attr("value", "complete");
+            $(this).text("Mark as Pending");
+            $(this).parent().parent().css(
+                {
+                    "background-color": "chartreuse",
+                    "color": "black"
+                }
+            )
+            $(this).next().css(
+                {
+                    display: "none"
+                }
+            )
+        } else {
+            $(this).attr("value", "not-complete");
+            $(this).text("Mark as Complete");
+            $(this).parent().parent().css(
+                {
+                    "background-color": "crimson",
+                    "color": "white"
+                }
+            )
+            $(this).next().css(
+                {
+                    display: "block"
+                }
+            )
+        }
+    })
+
+    //Subtaask delete button
+    $(document).on("click", ".subtask-container div:nth-child(2) button:nth-child(3)", function () {
+        $(this).parent().parent().remove();
+        if (subtask_panel.children().length == 0) {
+            $("#subtask-title").css({ display: "none" });
+        }
+        isSubtaskPanelScroll();
+    })
+
+    const subtask_div = '<div class="subtask-container"><div><input type="text" data-active="true" placeholder="Name this subtask and press Enter..." id="single-subtask-title-input"></div><div><button id="single-subtask-rename-btn">Rename</button><button value="not-complete">Mark as Complete</button><button>Delete</button></div></div>';
+
+    //Subtask add button
+    $(document).on("click", "#want-subtasks-question", function () {
+        let thisAppend = $(subtask_div).appendTo("#subtask-panel");
+        setTimeout(() => {
+            $(thisAppend).find("input").focus();
+        }, 250);
+        $("#subtask-title").css({ display: "block" });
+        isSubtaskPanelScroll();
+    })
+
+    //Subtask title input ENTER
+    $(document).on("keyup", "#single-subtask-title-input", function (e) {
+        if (e.key == "Enter" && $(this).val() != "") {
+            $(this).parent().prepend($(this).val());
+            $(this).parent().css({
+                "justify-content": "start"
+            })
+            $(this).css({ display: "none" });
+            $(this).attr("data-active", "false");
+            mySubTasks_obj[$(this).val()] = "false";
+        }
+    })
+
+    //rename subtask button
+    $(document).on("click", "#single-subtask-rename-btn", function () {
+        let theParent = $(this).parent().parent().children(":nth-child(1)");
+        const oldName = theParent.text();
+        theParent.text("");
+        const thisAppend = $(`<input type="text" value="${oldName}" data-active="true" placeholder="Name this subtask and press Enter..." id="single-subtask-title-input">`).prependTo(theParent);
+        setTimeout(() => {
+            $(thisAppend).focus();
+        }, 250);
+        $(this).parent().css({ display: "none" });
+    })
+
+
+    function isSubtaskPanelScroll() {
+        subtask_panel_init_height = 0;
+        for (let i = 0; i < subtask_panel.children().length; i++) {
+            subtask_panel_init_height += subtask_panel.children(`:nth-child(${i+1})`).outerHeight();
+        }
+        if (subtask_panel_init_height >= $(window).outerHeight() * 0.28) {
+            $(subtask_panel).css({
+                "height": "30vh",
+                "grid-template-rows": "repeat(auto-fill, minmax(min-content, max-content))",
+                "grid-auto-rows": "minmax(min-content, max-content)",
+                "overflow-y": "scroll",
+                "scrollbar-width": "none"
+            })
+        } else {
+            $(subtask_panel).css({
+                "display": "grid",
+                "height": "max-content",
+                "grid-template-rows": "",
+                "grid-auto-rows": "",
+                "overflow-y": "",
+            })
+        };
+        if (subtask_panel_init_height <= 0) {
+            subtask_panel.css({ display: "none" })
+        }
+    };
+
+    isSubtaskPanelScroll();
 
 });

@@ -4,14 +4,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <title>Squadizer - Your squad task organizer</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles/styles.css" />
-
-    <title>Squadizer - Your squad task organizer</title>
   </head>
   <body>
     <nav>
@@ -37,8 +35,25 @@
       </section>
       <section id="projects-container"></section>
     </section>
-    
+    <section id="current-project-window">
+      <div id="current-project-title">
+        <div>Project's Title</div>
+      </div>
+      <div class="tab-title">To start</div>
+      <div class="tab-title">In progress</div>
+      <div class="tab-title">To review</div>
+      <div class="tab-title">Completed</div>
+      <div class="tab-content" id="to-do">
+        <div id="to-do-add"><button><img src="imgs/project-add-icon.png" alt="">Add task</button></div>
+      </div>
+      <div class="tab-content" id="in-progress">
 
+      </div>
+      <div class="tab-content" id="to-review">
+      </div>
+      <div class="tab-content" id="completed">
+      </div>
+    </section>
 
     <div id="dropdown-menu">
         <div><img src="imgs/dashboard-desktop.png" alt=""></div>
@@ -57,7 +72,7 @@
         <div class="create-proj-desktop">
             <div id="create-proj-desktop-title">Create New Project</div>
             <div class="input_create">
-                <label for="new-project-name">Project Name: </label>
+                <label for="new-project-name">Name: </label>
                 <input type="text" name="new-project-name" id="new-project-name">
                 <label for="new-project-description">Description: </label>
                 <textarea name="new-project-description" id="new-project-description" cols="1" rows="5"></textarea>
@@ -65,7 +80,7 @@
                 <input type="date" name="new-project-startdate" id="new-project-startdate">
             </div>
             <div class="input_2_create">
-                <label for="new-project-lang">Language/Framework</label>
+                <label for="new-project-lang">Language/Framework:</label>
                 <div>
                     <input type="text" name="new-project-lang" id="new-project-lang">
                     <div id="new-project-lang-predict-tab"></div>
@@ -89,7 +104,27 @@
         <div><button id="deleteCancel">Cancel</button></div>
       </div>
     </div>
+
+    <div id="create-task-menu">
+      <div class="create-task-window">
+        <div id="create-task-title">Create New Task</div>
+        <div id="task-title">
+          <label for="task-title-input">Name:</label>
+          <input type="text" name="task-title-input" id="task-title-input">
+          <label for="subtask-window-title" class="subtask-window" id="subtask-title">Subtasks</label>
+          <div class="subtask-window" id="subtask-panel">
+            <!-- <div>123</div> -->
+          </div>
+          <div id="want-subtasks-question">Want to <button class="btn-add-subtask">Add subtask</button> ?</div>
+        </div>
+        <button class="btn-create-task">Create</button>
+        <button class="btn-cancel-task">Cancel</button>
+      </div>
+    </div>
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+
     <script type="text/javascript" src="scripts/scripts.js"></script>
   </body>
 </html>
