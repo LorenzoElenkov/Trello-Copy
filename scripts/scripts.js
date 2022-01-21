@@ -50,7 +50,9 @@ $(function () {
     
     
     let projectSelectedID = 0;
-    
+    let myTasks_obj = {};
+    let mySubTasks_obj = {};
+    let nextTaskNum = 0;
     
     // localStorage ######## GETTING PROJECTS FOR PROJECTS WINDOW
     const fetchProjects = JSON.parse(window.localStorage.getItem("Projects"));
@@ -340,7 +342,8 @@ $(function () {
                 "description": new_project_description.val(),
                 "startDate": newDate,
                 "languages": languagesSelected,
-                "tasks": {}
+                "nextTaskNum": 1,
+                "tasks": { "to-do": {}, "in-progress": {}, "to-review": {}, "completed": {}}
             };
             window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
             new_project_lang_container.empty();
@@ -647,7 +650,6 @@ $(function () {
                             "overflow-y": "",
                         })
                     }
-                    
                 },
                 over: function (e, ui) {
                     let placeholder = $(".ui-state-highlight");
@@ -655,10 +657,83 @@ $(function () {
                     placeholder.css({
                         "background-color": bgColor
                     })
+                },
+                receive: function (e, ui) {
+                    myTasks_obj[$(ui.item).parent().attr("id")][$(ui.item).attr("data-task-id")] = myTasks_obj[$(ui.sender).attr("id")][$(ui.item).attr("data-task-id")];
+                    delete myTasks_obj[$(ui.sender).attr("id")][$(ui.item).attr("data-task-id")];
+                    let movedID = $(ui.item).attr("data-task-id");
+
+                    let receiverChildren;
+                    let movedArray = [];
+                    receiverChildren = Number($(ui.item).parent().children().length);
+                    for (let o = 0; o < receiverChildren; o++) {
+                        if ($(ui.item).parent().children(`:nth-child(${o+1})`).attr("id") !== "to-do-add") {
+                            let eachID = $(ui.item).parent().children(`:nth-child(${o+1})`);
+                            movedArray.push(eachID.attr("data-task-id"));
+                            
+                        }
+                    }
+                    let insertAfter = "";
+                    for (let i = 0; i < movedArray.length; i++) {
+                        if (movedArray[i] == movedID && i != 0) {
+                            insertAfter = movedArray[i-1];
+                        }
+                    }
+                    let testContainer = $(ui.item).parent().attr("id");
+                    let testObj = [];
+                    for (let k = 0; k < movedArray.length; k++) {
+                        console.log(movedArray[k]);
+                        testObj[k] = myTasks_obj[testContainer][movedArray[k]];
+                    }
+                    // console.log
+                    // testObj = myTasks_obj[testContainer];
+                    
+                    console.log(testObj);
+                    myProjects_obj[projectSelectedID]["tasks"] = myTasks_obj;
+                    // testObj[testContainer] = testObj2;
+                    // myTasks_obj[testContainer] = testObj;
+                    // console.log(testObj[testContainer] = {1: "123"});
+                    window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
                 }
             }
         ).disableSelection();
     });
+
+    function moveObjectElement(currentKey,afterKey,obj) {
+        var result = {};
+        console.log("///");
+        console.log(currentKey);
+        console.log(afterKey);
+        console.log(obj);
+        console.log("///");
+        var val = obj[currentKey];
+        delete obj[currentKey];
+        var next = -1;
+        var i = 0;
+        if(typeof afterKey == "undefined" || afterKey == null) {
+            afterKey = "";
+        }
+        $.each(obj, function (k, v) {
+            if ((afterKey = "" && i == 0) || next == 1) {
+                result[currentKey] = val;
+                next = 0;
+            }
+            if (k == afterKey) {
+                next = 1;
+            }
+            result[k] = v;
+            ++i;
+        });
+        if (next == 1) {
+            result[currentKey] = val;
+        }
+        if (next !== -1) {
+            return result;
+        } else {
+            return obj;
+        }
+    
+    }
 
     const add_task_btn = $("#to-do-add");
     const create_task_menu = $("#create-task-menu");
@@ -680,27 +755,28 @@ $(function () {
         }
     })
 
-    let myTasks_obj = {};
-    let mySubTasks_obj = {};
-    let nextTaskNum = 1;
+    
 
     const create_create_task_menu = $(".btn-create-task");
     //Create Button Task Window
     create_create_task_menu.on("click", function () {
         create_task_menu.css({ display: "none" });
         subtask_panel.empty();
-        myTasks_obj[nextTaskNum] = {
-            "taskID": nextTaskNum,
+        
+        myTasks_obj["to-do"][`${nextTaskNum}a`] = {
+            "taskID": `${nextTaskNum}a`,
             "title": $("#task-title-input").val(),
             "status": "to-start",
             "subtasks": mySubTasks_obj
         };
-        console.log(myTasks_obj);
         myProjects_obj[projectSelectedID]["tasks"] = myTasks_obj;
-        window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
+        //window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
         mySubTasks_obj = {};
-        console.log(nextTaskNum);
-        $("#to-do").prepend(`<div data-task-id="${nextTaskNum}">${$("#task-title-input").val()}</div>`)
+        $("#to-do").prepend(`<div data-task-id="${nextTaskNum}a">
+        <div class="subtask-helper">5/23</div>
+        ${$("#task-title-input").val()}
+        <img src="imgs/trash.png" alt="">
+        </div>`)
         adjustTaskTabs();
         addTabContainer.css(
             {
@@ -710,29 +786,78 @@ $(function () {
         )
         $("#task-title-input").val("");
         nextTaskNum++;
+        myProjects_obj[projectSelectedID]["nextTaskNum"] = nextTaskNum;
+        window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
+    })
+
+
+    //Delete the task
+    $(document).on("click", "[data-task-id] img", function () {
+        const thisProjID = $(this).parent().attr("data-task-id");
+        const thisProjSTAT = $(this).parent().parent().attr("id");
+        delete myProjects_obj[projectSelectedID]["tasks"][thisProjSTAT][thisProjID];
+        window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
+        $(this).parent().remove();
+
+        setTimeout(() => {
+            adjustTaskTabs();
+            addTabContainer.css(
+                {
+                    "top": tabTitle.outerHeight() + firstTabContent.outerHeight() - 2,
+                    "width": tabTitle.width()
+                }
+            )
+        }, 10);
     })
 
     function fetchTasks() {
         if (fetchProjects != null) {
             myProjects_obj = fetchProjects;
         }
+        console.log(myProjects_obj);
         $("#to-do, #in-progress, #to-review, #completed").children().filter(function () {
             return !$(this).is("#to-do-add");
         }).remove();
         if (projectSelectedID != null) {
-            for (let key in myProjects_obj[projectSelectedID]["tasks"]) {
-                $("#to-do").prepend(`<div data-task-id="${myProjects_obj[projectSelectedID]["tasks"][key]["taskID"]}">
-                    <div class="subtask-helper">5/23</div>
-                    ${myProjects_obj[projectSelectedID]["tasks"][key]["title"]}
-                    <img src="imgs/trash.png" alt="">
-                    </div>`)
+            myTasks_obj = { "to-do": {}, "in-progress": {}, "to-review": {}, "completed": {}};
+            for (let key = 0; key < Object.keys(myProjects_obj[projectSelectedID]["tasks"]["to-do"]).length; key++) {
+                $("#to-do").append(`<div data-task-id="${myProjects_obj[projectSelectedID]["tasks"]["to-do"][ Object.keys(myProjects_obj[projectSelectedID]["tasks"]["to-do"])[key]]["taskID"]}">
+                <div class="subtask-helper">5/23</div>
+                ${myProjects_obj[projectSelectedID]["tasks"]["to-do"][ Object.keys(myProjects_obj[projectSelectedID]["tasks"]["to-do"])[key]]["title"]}
+                <img src="imgs/trash.png" alt="">
+                </div>`);
+            myTasks_obj["to-do"][myProjects_obj[projectSelectedID]["tasks"]["to-do"][Object.keys(myProjects_obj[projectSelectedID]["tasks"]["to-do"])[key]]["taskID"]] = myProjects_obj[projectSelectedID]["tasks"]["to-do"][ Object.keys(myProjects_obj[projectSelectedID]["tasks"]["to-do"])[key]];
             }
+            for (let key = 0; key < Object.keys(myProjects_obj[projectSelectedID]["tasks"]["in-progress"]).length; key++) {
+                $("#in-progress").append(`<div data-task-id="${myProjects_obj[projectSelectedID]["tasks"]["in-progress"][ Object.keys(myProjects_obj[projectSelectedID]["tasks"]["in-progress"])[key]]["taskID"]}">
+                    <div class="subtask-helper">5/23</div>
+                    ${myProjects_obj[projectSelectedID]["tasks"]["in-progress"][ Object.keys(myProjects_obj[projectSelectedID]["tasks"]["in-progress"])[key]]["title"]}
+                    <img src="imgs/trash.png" alt="">
+                    </div>`);
+                myTasks_obj["in-progress"][myProjects_obj[projectSelectedID]["tasks"]["in-progress"][ Object.keys(myProjects_obj[projectSelectedID]["tasks"]["in-progress"])[key]]["taskID"]] = myProjects_obj[projectSelectedID]["tasks"]["in-progress"][ Object.keys(myProjects_obj[projectSelectedID]["tasks"]["in-progress"])[key]];
+            }
+            for (let key = 0; key < Object.keys(myProjects_obj[projectSelectedID]["tasks"]["to-review"]).length; key++) {
+                $("#to-review").append(`<div data-task-id="${myProjects_obj[projectSelectedID]["tasks"]["to-review"][ Object.keys(myProjects_obj[projectSelectedID]["tasks"]["to-review"])[key]]["taskID"]}">
+                    <div class="subtask-helper">5/23</div>
+                    ${myProjects_obj[projectSelectedID]["tasks"]["to-review"][ Object.keys(myProjects_obj[projectSelectedID]["tasks"]["to-review"])[key]]["title"]}
+                    <img src="imgs/trash.png" alt="">
+                    </div>`);
+                myTasks_obj["to-review"][myProjects_obj[projectSelectedID]["tasks"]["to-review"][ Object.keys(myProjects_obj[projectSelectedID]["tasks"]["to-review"])[key]]["taskID"]] = myProjects_obj[projectSelectedID]["tasks"]["to-review"][ Object.keys(myProjects_obj[projectSelectedID]["tasks"]["to-review"])[key]];
+            }
+            for (let key = 0; key < Object.keys(myProjects_obj[projectSelectedID]["tasks"]["completed"]).length; key++) {
+                $("#completed").append(`<div data-task-id="${myProjects_obj[projectSelectedID]["tasks"]["completed"][ Object.keys(myProjects_obj[projectSelectedID]["tasks"]["completed"])[key]]["taskID"]}">
+                    <div class="subtask-helper">5/23</div>
+                    ${myProjects_obj[projectSelectedID]["tasks"]["completed"][ Object.keys(myProjects_obj[projectSelectedID]["tasks"]["completed"])[key]]["title"]}
+                    <img src="imgs/trash.png" alt="">
+                    </div>`);
+                myTasks_obj["completed"][myProjects_obj[projectSelectedID]["tasks"]["completed"][ Object.keys(myProjects_obj[projectSelectedID]["tasks"]["completed"])[key]]["taskID"]] = myProjects_obj[projectSelectedID]["tasks"]["completed"][ Object.keys(myProjects_obj[projectSelectedID]["tasks"]["completed"])[key]];
+            }
+            // dobavi FOR za drugite 3 durveta 
             
-            myTasks_obj = {};
-            myTasks_obj = myProjects_obj[projectSelectedID]["tasks"];
-            if (Object.keys(myProjects_obj[projectSelectedID]["tasks"]).length > 0) {
-                nextTaskNum =  Number(Object.keys(myProjects_obj[projectSelectedID]["tasks"])[Object.keys(myProjects_obj[projectSelectedID]["tasks"]).length - 1]) + 1;
-            }  
+            let movedArray;
+
+
+            nextTaskNum = myProjects_obj[projectSelectedID]["nextTaskNum"]; 
         }
         setTimeout(() => {
             adjustTaskTabs();
