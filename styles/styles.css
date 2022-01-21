@@ -849,9 +849,6 @@ textarea {
         font-size: 1vw;
     }
 
-    .subtask-container div:nth-child(2) button:nth-child(3) {
-        
-    }
 
     .subtask-container div:nth-child(1) {
         display: flex;
