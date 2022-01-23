@@ -41,6 +41,11 @@ $(function () {
     let languagesSelected = "";
     let myProjects_obj = {};
     let all_project_containers_array;
+    let nextSubTaskNum = 1;
+    let thisSubtaskID;
+    let isRenamingSubtask;
+    let isCreatingSubtask;
+
 
     let addTabContainer = $("#to-do-add");
     let firstTabContent = $("#to-do");
@@ -51,7 +56,7 @@ $(function () {
     
     let projectSelectedID = 0;
     let myTasks_obj = [];
-    let mySubTasks_obj = {};
+    let mySubTasks_obj = [];
     let nextTaskNum = 0;
     
     // localStorage ######## GETTING PROJECTS FOR PROJECTS WINDOW
@@ -69,7 +74,7 @@ $(function () {
 
     // only for testing purposes of localStorage. MUST BE DELETED AFTER THAT
     $(window).on("keyup", function (e) {
-        if (e.key == "p") {
+        if (e.key == "+") {
             console.log("Cleared");
             window.localStorage.clear();
         }
@@ -351,7 +356,6 @@ $(function () {
             new_project_startdate.val("");
             languagesSelected = "";
             nextProjNum++;
-            console.log(myProjects_obj);
         }
         else if ($(this).text() == "OK") {
             for (let key in myProjects_obj) {
@@ -636,7 +640,6 @@ $(function () {
                         const result = sortingArray.map((item) => toSortArray.find((element) => element['taskID'] === item));
                         myTasks_obj[$(ui.item).parent().attr("id")] = result;
                         myProjects_obj[projectSelectedID]["tasks"] = myTasks_obj;
-                        console.log("123");
                         window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
                     }
 
@@ -745,6 +748,10 @@ $(function () {
             $("#subtask-title").css({ display: "none" });
             subtask_panel.css({ display: "none" })
         }
+        $("#task-title-input").val("");
+        $("#create-task-title").text("Create New Task");
+        create_create_task_menu.text("Create");
+        mySubTasks_obj = [];
     })
 
     
@@ -754,42 +761,78 @@ $(function () {
     create_create_task_menu.on("click", function () {
         create_task_menu.css({ display: "none" });
         subtask_panel.empty();
-        
-        myTasks_obj["to-do"].push({
-            "taskID": nextTaskNum,
-            "title": $("#task-title-input").val(),
-            "subtasks": mySubTasks_obj
-        });
-        allTasks.push({
-            "taskID": nextTaskNum,
-            "title": $("#task-title-input").val(),
-            "subtasks": mySubTasks_obj
-        });
-        myProjects_obj[projectSelectedID]["tasks"] = myTasks_obj;
-        //window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
-        mySubTasks_obj = {};
-        $("#to-do").append(`<div data-task-id="${nextTaskNum}">
-        <div class="subtask-helper">5/23</div>
-        ${$("#task-title-input").val()}
-        <img src="imgs/trash.png" alt="">
-        </div>`)
-        adjustTaskTabs();
-        addTabContainer.css(
-            {
-                "top": tabTitle.outerHeight() + firstTabContent.outerHeight() - 2,
-                "width": tabTitle.width()
+        if ($(this).text() == "Create") {
+            myTasks_obj["to-do"].push({
+                "taskID": nextTaskNum,
+                "title": $("#task-title-input").val(),
+                "subtasks": mySubTasks_obj
+            });
+            allTasks.push({
+                "taskID": nextTaskNum,
+                "title": $("#task-title-input").val(),
+                "subtasks": mySubTasks_obj
+            });
+            myProjects_obj[projectSelectedID]["tasks"] = myTasks_obj;
+            let numCompleted = 0;
+            for (let h = 0; h < mySubTasks_obj.length; h++) {
+                if (mySubTasks_obj[h]["status"] == "true") {
+                    numCompleted++;
+                }
             }
-        )
-        $("#task-title-input").val("");
-        nextTaskNum++;
-        myProjects_obj[projectSelectedID]["nextTaskNum"] = nextTaskNum;
+            
+            $("#to-do").append(`<div data-task-id="${nextTaskNum}">
+            <div class="subtask-helper">${numCompleted}/${mySubTasks_obj.length}</div>
+            <span>${$("#task-title-input").val()}</span>
+            <img src="imgs/trash.png" alt="">
+            </div>`)
+            adjustTaskTabs();
+            addTabContainer.css(
+                {
+                    "top": tabTitle.outerHeight() + firstTabContent.outerHeight() - 2,
+                    "width": tabTitle.width()
+                }
+            )
+            $("#task-title-input").val("");
+            mySubTasks_obj = [];
+            nextTaskNum++;
+            myProjects_obj[projectSelectedID]["nextTaskNum"] = nextTaskNum;
+        } else if ($(this).text() == "OK") {
+            let thisTaskParent = myTasks_obj[$("#current-project-window").find(`div[data-task-id="${taskSelected}"]`).parent().attr("id")];
+            for (let i = 0; i < thisTaskParent.length; i++) {
+                if (thisTaskParent[i]["taskID"] == taskSelected) {
+                    thisTaskParent[i]["title"] = $("#task-title-input").val();
+                    $("#current-project-window").find(`div[data-task-id="${taskSelected}"] span`).text($("#task-title-input").val())
+                    thisTaskParent[i]["subtasks"] = mySubTasks_obj;
+                    adjustTaskTabs();
+                    addTabContainer.css(
+                        {
+                            "top": tabTitle.outerHeight() + firstTabContent.outerHeight() - 2,
+                            "width": tabTitle.width()
+                        }
+                    )
+                    var numSubtaskCompleted = 0;
+                    for (let u = 0; u < mySubTasks_obj.length; u++) {
+                        if (mySubTasks_obj[u]["status"] == "true") {
+                            numSubtaskCompleted++;
+                        }
+                    }
+                }
+            }
+
+            $("#current-project-window").find(`div[data-task-id="${taskSelected}"]`).children(":nth-child(1)").text(`${numSubtaskCompleted}/${mySubTasks_obj.length}`);
+        }
         window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
     })
 
 
     //Delete the task
     $(document).on("click", "[data-task-id] img", function () {
-        $(myTasks_obj[$(this).parent().parent().attr("id")] = allTasks.filter(i => i["taskID"] != $(this).parent().attr("data-task-id")));
+        let thisTaskCat = myTasks_obj[$(this).parent().parent().attr("id")];
+        for (let k = 0; k < thisTaskCat.length; k++) {
+            if (thisTaskCat[k]["taskID"] = $(this).parent().attr("data-task-id")) {
+                thisTaskCat.splice(k, 1);
+            }
+        }
         myProjects_obj[projectSelectedID]["tasks"] = myTasks_obj;
         window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
         for (let i = 0; i < allTasks.length; i++) {
@@ -797,8 +840,8 @@ $(function () {
                 allTasks.splice(i, 1);
             }
         }
+        console.log(myTasks_obj);
         console.log(allTasks);
-        
         $(this).parent().remove();
         
         setTimeout(() => {
@@ -812,23 +855,40 @@ $(function () {
         }, 10);
     })
 
+    $(document).on("keyup", function (e) {
+        if (e.key == "p") {
+            console.log(myProjects_obj);
+
+        }
+    })
+
     function fetchTasks() {
         if (fetchProjects != null) {
             myProjects_obj = fetchProjects;
         }
-        console.log(myProjects_obj);
         $("#to-do, #in-progress, #to-review, #completed").children().filter(function () {
             return !$(this).is("#to-do-add");
         }).remove();
         allTasks = [];
+        mySubTasks_obj = [];
+        myTasks_obj = [];
         if (projectSelectedID != null) {
             myTasks_obj = { "to-do": [], "in-progress": [], "to-review": [], "completed": []};
             for (let key = 0; key < myProjects_obj[projectSelectedID]["tasks"]["to-do"].length; key++) {
+                var numCompletedFetch = 0;
+                var totalSubtasks = 0;
+                for (let h = 0; h < myProjects_obj[projectSelectedID]["tasks"]["to-do"][key]["subtasks"].length; h++) {
+                    totalSubtasks = myProjects_obj[projectSelectedID]["tasks"]["to-do"][key]["subtasks"].length;
+                    if (myProjects_obj[projectSelectedID]["tasks"]["to-do"][key]["subtasks"][h]["status"] == "true") {
+                        numCompletedFetch++;
+                    }
+                }
+                
                 if (myProjects_obj[projectSelectedID]["tasks"]["to-do"][key] != null) {
 
                     $("#to-do").append(`<div data-task-id="${myProjects_obj[projectSelectedID]["tasks"]["to-do"][key]["taskID"]}">
-                    <div class="subtask-helper">5/23</div>
-                    ${myProjects_obj[projectSelectedID]["tasks"]["to-do"][key]["title"]}
+                    <div class="subtask-helper">${numCompletedFetch}/${totalSubtasks}</div>
+                    <span>${myProjects_obj[projectSelectedID]["tasks"]["to-do"][key]["title"]}</span>
                     <img src="imgs/trash.png" alt="">
                     </div>`);
                 myTasks_obj["to-do"][key] = myProjects_obj[projectSelectedID]["tasks"]["to-do"][key];
@@ -836,10 +896,19 @@ $(function () {
                 }
             }
             for (let key = 0; key < myProjects_obj[projectSelectedID]["tasks"]["in-progress"].length; key++) {
+                var numCompletedFetch = 0;
+                var totalSubtasks = 0;
+                for (let h = 0; h < myProjects_obj[projectSelectedID]["tasks"]["in-progress"][key]["subtasks"].length; h++) {
+                    totalSubtasks = myProjects_obj[projectSelectedID]["tasks"]["in-progress"][key]["subtasks"].length;
+                    if (myProjects_obj[projectSelectedID]["tasks"]["in-progress"][key]["subtasks"][h]["status"] == "true") {
+                        numCompletedFetch++;
+                    }
+                }
+                
                 if (myProjects_obj[projectSelectedID]["tasks"]["in-progress"][key] != null) { 
                     $("#in-progress").append(`<div data-task-id="${myProjects_obj[projectSelectedID]["tasks"]["in-progress"][key]["taskID"]}">
-                    <div class="subtask-helper">5/23</div>
-                    ${myProjects_obj[projectSelectedID]["tasks"]["in-progress"][key]["title"]}
+                    <div class="subtask-helper">${numCompletedFetch}/${totalSubtasks}</div>
+                    <span>${myProjects_obj[projectSelectedID]["tasks"]["in-progress"][key]["title"]}</span>
                     <img src="imgs/trash.png" alt="">
                     </div>`);
                 myTasks_obj["in-progress"][key] = myProjects_obj[projectSelectedID]["tasks"]["in-progress"][key];
@@ -847,10 +916,18 @@ $(function () {
                 }
             }
             for (let key = 0; key < myProjects_obj[projectSelectedID]["tasks"]["to-review"].length; key++) {
+                var numCompletedFetch = 0;
+                var totalSubtasks = 0;
+                for (let h = 0; h < myProjects_obj[projectSelectedID]["tasks"]["to-review"][key]["subtasks"].length; h++) {
+                    totalSubtasks = myProjects_obj[projectSelectedID]["tasks"]["to-review"][key]["subtasks"].length;
+                    if (myProjects_obj[projectSelectedID]["tasks"]["to-review"][key]["subtasks"][h]["status"] == "true") {
+                        numCompletedFetch++;
+                    }
+                }
                 if (myProjects_obj[projectSelectedID]["tasks"]["to-review"][key] != null) { 
                 $("#to-review").append(`<div data-task-id="${myProjects_obj[projectSelectedID]["tasks"]["to-review"][key]["taskID"]}">
-                <div class="subtask-helper">5/23</div>
-                ${myProjects_obj[projectSelectedID]["tasks"]["to-review"][key]["title"]}
+                <div class="subtask-helper">${numCompletedFetch}/${totalSubtasks}</div>
+                <span>${myProjects_obj[projectSelectedID]["tasks"]["to-review"][key]["title"]}</span>
                 <img src="imgs/trash.png" alt="">
                 </div>`);
                 myTasks_obj["to-review"][key] = myProjects_obj[projectSelectedID]["tasks"]["to-review"][key];
@@ -858,10 +935,18 @@ $(function () {
                 }
             }
             for (let key = 0; key < myProjects_obj[projectSelectedID]["tasks"]["completed"].length; key++) {
+                var numCompletedFetch = 0;
+                var totalSubtasks = 0;
+                for (let h = 0; h < myProjects_obj[projectSelectedID]["tasks"]["completed"][key]["subtasks"].length; h++) {
+                    totalSubtasks = myProjects_obj[projectSelectedID]["tasks"]["completed"][key]["subtasks"].length;
+                    if (myProjects_obj[projectSelectedID]["tasks"]["completed"][key]["subtasks"][h]["status"] == "true") {
+                        numCompletedFetch++;
+                    }
+                }
                 if (myProjects_obj[projectSelectedID]["tasks"]["completed"][key] != null) { 
                 $("#completed").append(`<div data-task-id="${myProjects_obj[projectSelectedID]["tasks"]["completed"][key]["taskID"]}">
-                <div class="subtask-helper">5/23</div>
-                ${myProjects_obj[projectSelectedID]["tasks"]["completed"][key]["title"]}
+                <div class="subtask-helper">${numCompletedFetch}/${totalSubtasks}</div>
+                <span>${myProjects_obj[projectSelectedID]["tasks"]["completed"][key]["title"]}</span>
                 <img src="imgs/trash.png" alt="">
                 </div>`);
                 myTasks_obj["completed"][key] = myProjects_obj[projectSelectedID]["tasks"]["completed"][key];
@@ -928,37 +1013,37 @@ $(function () {
     $(document).on("click", ".subtask-container div:nth-child(2) button:nth-child(2)", function () {
         if ($(this).attr("value") == "not-complete") {
             $(this).attr("value", "complete");
+            $(this).parent().parent().addClass("subtask-complete");
+            $(this).parent().parent().removeClass("subtask-pending");
             $(this).text("Mark as Pending");
-            $(this).parent().parent().css(
-                {
-                    "background-color": "chartreuse",
-                    "color": "black"
+            for (let i = 0; i < mySubTasks_obj.length; i++) {
+                if (mySubTasks_obj[i]["name"] == $(this).parent().parent().children(":nth-child(1)").text().trim()) {
+                        mySubTasks_obj[i]["status"] = "true"
                 }
-            )
-            $(this).next().css(
-                {
-                    display: "none"
-                }
-            )
+            }
+            
         } else {
             $(this).attr("value", "not-complete");
             $(this).text("Mark as Complete");
-            $(this).parent().parent().css(
-                {
-                    "background-color": "crimson",
-                    "color": "white"
+            $(this).parent().parent().addClass("subtask-pending");
+            $(this).parent().parent().removeClass("subtask-complete");
+            
+            for (let i = 0; i < mySubTasks_obj.length; i++) {
+                if (mySubTasks_obj[i]["name"] == $(this).parent().parent().children(":nth-child(1)").text().trim()) {
+                        mySubTasks_obj[i]["status"] = "false"
                 }
-            )
-            $(this).next().css(
-                {
-                    display: "block"
-                }
-            )
+            }
         }
     })
 
     //Subtaask delete button
     $(document).on("click", ".subtask-container div:nth-child(2) button:nth-child(3)", function () {
+        for (let i = 0; i < mySubTasks_obj.length; i++) {
+            if (mySubTasks_obj[i]["name"] == $(this).parent().parent().children(":nth-child(1)").text().trim()) {
+                    thisSubtaskID = mySubTasks_obj.indexOf(mySubTasks_obj[i]);
+                    mySubTasks_obj.splice(thisSubtaskID, 1);
+            }
+        }
         $(this).parent().parent().remove();
         if (subtask_panel.children().length == 0) {
             $("#subtask-title").css({ display: "none" });
@@ -970,13 +1055,22 @@ $(function () {
 
     //Subtask add button
     $(document).on("click", "#want-subtasks-question", function () {
+        if (mySubTasks_obj.length > 0) {
+            nextSubTaskNum = Number(mySubTasks_obj[mySubTasks_obj.length - 1]["subtaskID"]) + 1;
+        } else {
+            nextSubTaskNum = 1;
+        }
         let thisAppend = $(subtask_div).appendTo("#subtask-panel");
         setTimeout(() => {
             $(thisAppend).find("input").focus();
         }, 250);
         $("#subtask-title").css({ display: "block" });
+        isCreatingSubtask = true;
+        isRenamingSubtask = false;
         isSubtaskPanelScroll();
     })
+
+    
 
     //Subtask title input ENTER
     $(document).on("keyup", "#single-subtask-title-input", function (e) {
@@ -987,14 +1081,41 @@ $(function () {
             })
             $(this).css({ display: "none" });
             $(this).attr("data-active", "false");
-            mySubTasks_obj[$(this).val()] = "false";
+            
+            if (isCreatingSubtask) {
+                mySubTasks_obj.push({
+                    "subtaskID": nextSubTaskNum,
+                    "name": $(this).val(),
+                    "status": "false"
+                })
+                nextSubTaskNum++;
+            } else if (isRenamingSubtask){
+                for (let k = 0; k < mySubTasks_obj.length; k++) {
+                    if (mySubTasks_obj[k]["subtaskID"] == thisSubtaskID) {
+                        mySubTasks_obj[k]["name"] = $(this).val();
+                        for (let m = 0; m < allTasks.length; m++) {
+                            if (allTasks[m]["taskID"] == taskSelected) {
+                                allTasks[m]["subtasks"] = mySubTasks_obj;
+                            }
+                        }
+                    }
+                }
+            }
+            
         }
     })
 
     //rename subtask button
     $(document).on("click", "#single-subtask-rename-btn", function () {
         let theParent = $(this).parent().parent().children(":nth-child(1)");
-        const oldName = theParent.text();
+        const oldName = theParent.text().trim();
+        isRenamingSubtask = true;
+        isCreatingSubtask = false;
+        for (let i = 0; i < mySubTasks_obj.length; i++) {
+            if (mySubTasks_obj[i]["name"] == oldName) {
+                thisSubtaskID = mySubTasks_obj[i]["subtaskID"];
+            }
+        }
         theParent.text("");
         const thisAppend = $(`<input type="text" value="${oldName}" data-active="true" placeholder="Name this subtask and press Enter..." id="single-subtask-title-input">`).prependTo(theParent);
         setTimeout(() => {
@@ -1032,5 +1153,84 @@ $(function () {
     };
 
     isSubtaskPanelScroll();
+
+    let taskSelected;
+    let prevtaskSelected;
+    
+
+    $(document).on("click", "div[data-task-id]", function () {
+        taskSelected = $(this).attr("data-task-id");
+        let colorToHighlight = $(this).parent().css("border-color");
+        if (!prevtaskSelected) {
+            $(this).css({
+                "background-color": colorToHighlight
+            })
+            prevtaskSelected = $(this);
+        } else if (prevtaskSelected.attr("data-task-id") != taskSelected) {
+            prevtaskSelected.css({
+                "background-color": "aliceblue"
+            })
+            $(this).css({
+                "background-color": colorToHighlight
+            })
+            prevtaskSelected = $(this);
+        } else if (prevtaskSelected.attr("data-task-id") == taskSelected) {
+            $(this).css({
+                "background-color": "aliceblue"
+            })
+            prevtaskSelected = null;
+            create_task_menu.css({
+                display: "flex",
+                opacity: 1
+            })
+            $("#create-task-title").text("Edit Task");
+            $("#task-title-input").val($(this).children("span").text());
+            create_create_task_menu.text("OK");
+            subtask_panel.empty();
+            isCreatingSubtask = false;
+            let thisColumn = myTasks_obj[$(this).parent().attr("id")];
+            for (let i = 0; i < thisColumn.length; i++) {
+                if (thisColumn[i]["taskID"] == taskSelected) {
+                    mySubTasks_obj = [];
+                    for (let k = 0; k < thisColumn[i]["subtasks"].length; k++) {
+                        mySubTasks_obj.push(thisColumn[i]["subtasks"][k]);
+                        if (thisColumn[i]["subtasks"][k]["status"] == "false") {
+                            subtask_panel.append(`<div class="subtask-container subtask-pending">
+                            <div style="justify-content: start; display: flex;">
+                                ${thisColumn[i]["subtasks"][k]["name"]}
+                                <input type="text" data-active="false" placeholder="Name this subtask and press Enter..." id="single-subtask-title-input" style="display: none;">
+                            </div>
+                            <div>
+                                <button id="single-subtask-rename-btn">Rename</button>
+                                <button value="not-complete">Mark as Complete</button>
+                                <button>Delete</button>
+                            </div>
+                            </div>`)
+                        } else {
+                            subtask_panel.append(`<div class="subtask-container subtask-complete">
+                            <div style="justify-content: start; display: flex;">
+                                ${thisColumn[i]["subtasks"][k]["name"]}
+                                <input type="text" data-active="false" placeholder="Name this subtask and press Enter..." id="single-subtask-title-input" style="display: none;">
+                            </div>
+                            <div>
+                                <button id="single-subtask-rename-btn">Rename</button>
+                                <button value="complete">Mark as Pending</button>
+                                <button>Delete</button>
+                            </div>
+                            </div>`)
+                        }
+                        isSubtaskPanelScroll();
+                    }
+                    if (subtask_panel.children().length > 0) {
+                        $("#subtask-title").css({ display: "block" });
+                        isSubtaskPanelScroll();
+                    } else {
+                        $("#subtask-title").css({ display: "none" });
+                        subtask_panel.css({ display: "none" })
+                    }
+                }
+            }
+        }
+    })
 
 });

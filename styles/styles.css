@@ -649,6 +649,7 @@ textarea {
     #to-do-add button img {
         width: 1.5vw;
         filter: invert(100%);
+        opacity: 1;
     }
 
     #to-do-add button {
@@ -860,6 +861,15 @@ textarea {
         width: 100%;
         font-size: 1vw;
         font-family: inherit;
+    }
+
+    .subtask-pending {
+        background-color: crimson;
+        color: white;
+    }
+    .subtask-complete {
+        background-color: chartreuse;
+        color: black;
     }
 
 }
