@@ -8,3 +8,5 @@ Finished:
                     > Only 'project'/'task'/'subtask' creation name validation must be added
                     > Dashboard button (analytics) development has been started.
                     > Settings button development has been started.
+
+24th of January '22 > Project/task/subtask name validation added
