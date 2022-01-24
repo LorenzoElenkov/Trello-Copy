@@ -12,6 +12,7 @@ $(function () {
     let projects_open = false;
     let projectSelected;
     let firstContainer = undefined;
+    const name_validation = $("#name-validation");
 
     let subtask_panel = $("#subtask-panel");
     let subtask_panel_init_height = 0;
@@ -119,7 +120,8 @@ $(function () {
             {
                 "display": "none"
             }
-        )
+        );
+        
     }
 
     function addEventListenerToFetchedProjects () {
@@ -280,82 +282,120 @@ $(function () {
         $(thisLangCont).remove();
     })
 
+    $(document).on("keyup", function(e) {
+        if (e.key == "Escape") {
+            name_validation.css({ display: "none" })
+        }
+    })
+
     $("#btn-add-project").on("click", function () {
         if ($(this).text() == "Create") {
+            let sameProjName = false;
+            for (let name in myProjects_obj) {
+                if (myProjects_obj[name]["title"] == new_project_name.val()) {
+                    sameProjName = true;
+                }
+            }
+            console.log(sameProjName);
             if (new_project_name.val() == "") {
-                new_project_name.val("New Project");
-            };
-            const newProjectContainer = $(`<div class="single-project-container">${new_project_name.val()}</div>`);
-            const thisProjectContainer = newProjectContainer.appendTo("#projects-container");
-            all_project_containers_array.push(thisProjectContainer);
-            thisProjectContainer.on("click", function () {
-                for (let j = 0; j < all_project_containers_array.length; j++) {
-                    $(all_project_containers_array[j]).removeClass("selected2");
-                    $(all_project_containers_array[j]).removeClass("selected");
-                }
-                if (projectSelected != undefined) {
-                    firstContainer = projectSelected;
-                }
-                if ($(this).is(":nth-child(2n)")) {
-                    $(this).addClass("selected2");
-                } else {
-                    $(this).addClass("selected");
-                };
-                projectSelected = $(this);
-                editDeleteProjectButtons.css(
-                    {
-                        "opacity": "1"
-                    }
-                )
-                if (firstContainer != undefined && firstContainer.text() == projectSelected.text()) {
-                    projects_close_fn();
-                    projectSelectedID = Object.keys(myProjects_obj).find(key => myProjects_obj[key]["title"] == projectSelected.text());
+                $("#name-validation-container").children("div:nth-child(1)").text("Make sure to give this project a name!");
+                let position = new_project_name.offset();
+                name_validation.css({ 
+                    display: "block",
+                    top: position.top + 2 + name_validation.outerHeight() / 2,
+                    left: position.left
+                 })
+                 name_validation.animate({
+                     opacity: 1
+                 }, 250)
+            } else if (new_project_name.val() != "" && sameProjName) {
+                $("#name-validation-container").children("div:nth-child(1)").html(`Project &nbsp;"${new_project_name.val()}"&nbsp; already exists!`);
+                let position = new_project_name.offset();
+                name_validation.css({ 
+                    display: "block",
+                    top: position.top + 2 + name_validation.outerHeight() / 2,
+                    left: position.left
+                 })
+                 name_validation.animate({
+                    opacity: 1
+                }, 250)
+            } else if (new_project_name.val() != "" && !sameProjName) {
+                const newProjectContainer = $(`<div class="single-project-container">${new_project_name.val()}</div>`);
+                const thisProjectContainer = newProjectContainer.appendTo("#projects-container");
+                all_project_containers_array.push(thisProjectContainer);
+                thisProjectContainer.on("click", function () {
                     for (let j = 0; j < all_project_containers_array.length; j++) {
                         $(all_project_containers_array[j]).removeClass("selected2");
                         $(all_project_containers_array[j]).removeClass("selected");
                     }
-                    $("#project-buttons div:nth-child(2) button").css(
+                    if (projectSelected != undefined) {
+                        firstContainer = projectSelected;
+                    }
+                    if ($(this).is(":nth-child(2n)")) {
+                        $(this).addClass("selected2");
+                    } else {
+                        $(this).addClass("selected");
+                    };
+                    projectSelected = $(this);
+                    editDeleteProjectButtons.css(
                         {
-                            "opacity": "0.2"
+                            "opacity": "1"
                         }
                     )
-                    $("#current-project-window").animate
-                    (
-                        { 
-                            opacity: 1
-                        }, 500
-                    );
-                    fetchTasks();
-                    $("#current-project-window").css({ "display": "grid" });
-                    $("#current-project-title div").text(projectSelected.text());
+                    if (firstContainer != undefined && firstContainer.text() == projectSelected.text()) {
+                        projects_close_fn();
+                        projectSelectedID = Object.keys(myProjects_obj).find(key => myProjects_obj[key]["title"] == projectSelected.text());
+                        for (let j = 0; j < all_project_containers_array.length; j++) {
+                            $(all_project_containers_array[j]).removeClass("selected2");
+                            $(all_project_containers_array[j]).removeClass("selected");
+                        }
+                        $("#project-buttons div:nth-child(2) button").css(
+                            {
+                                "opacity": "0.2"
+                            }
+                        )
+                        $("#current-project-window").animate
+                        (
+                            { 
+                                opacity: 1
+                            }, 500
+                        );
+                        fetchTasks();
+                        $("#current-project-window").css({ "display": "grid" });
+                        $("#current-project-title div").text(projectSelected.text());
+                    }
+                });
+                create_project_menu.css(
+                    {
+                        "display": "none"
+                    }
+                )
+                let newDate;
+                if (new_project_startdate.val() == "") {
+                    let nowDate = new Date();
+                    newDate = (nowDate.getMonth() + 1 < 10) ? `${nowDate.getFullYear()}-0${nowDate.getMonth() + 1}-${nowDate.getDate()}` : `${nowDate.getFullYear()}-${nowDate.getMonth + 1}-${nowDate.getDate()}`
+                } else {
+                    newDate = new_project_startdate.val();
                 }
-            });
-            create_project_menu.css(
-                {
-                    "display": "none"
-                }
-            )
-            let newDate;
-            if (new_project_startdate.val() == "") {
-                let nowDate = new Date();
-                newDate = (nowDate.getMonth() + 1 < 10) ? `${nowDate.getFullYear()}-0${nowDate.getMonth() + 1}-${nowDate.getDate()}` : `${nowDate.getFullYear()}-${nowDate.getMonth + 1}-${nowDate.getDate()}`
-            } else {
-                newDate = new_project_startdate.val();
+                myProjects_obj[nextProjNum] = {
+                    "title": new_project_name.val(),
+                    "description": new_project_description.val(),
+                    "startDate": newDate,
+                    "languages": languagesSelected,
+                    "nextTaskNum": 1,
+                    "tasks": { "to-do": [], "in-progress": [], "to-review": [], "completed": []}
+                };
+                window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
+                new_project_lang_container.empty();
+                new_project_description.val("");
+                new_project_startdate.val("");
+                languagesSelected = "";
+                nextProjNum++;
+                name_validation.css({ 
+                    display: "none",
+                    opacity: 0
+                 })
             }
-            myProjects_obj[nextProjNum] = {
-                "title": new_project_name.val(),
-                "description": new_project_description.val(),
-                "startDate": newDate,
-                "languages": languagesSelected,
-                "nextTaskNum": 1,
-                "tasks": { "to-do": [], "in-progress": [], "to-review": [], "completed": []}
-            };
-            window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
-            new_project_lang_container.empty();
-            new_project_description.val("");
-            new_project_startdate.val("");
-            languagesSelected = "";
-            nextProjNum++;
         }
         else if ($(this).text() == "OK") {
             for (let key in myProjects_obj) {
@@ -401,6 +441,9 @@ $(function () {
                 "display": "none"
             }
         )
+        name_validation.css({ 
+            display: "none"
+         })
         new_project_lang.val("");
         new_project_lang_predict.empty();
         new_project_lang_container.empty();
@@ -759,67 +802,106 @@ $(function () {
     const create_create_task_menu = $(".btn-create-task");
     //Create Button Task Window
     create_create_task_menu.on("click", function () {
-        create_task_menu.css({ display: "none" });
-        subtask_panel.empty();
-        if ($(this).text() == "Create") {
-            myTasks_obj["to-do"].push({
-                "taskID": nextTaskNum,
-                "title": $("#task-title-input").val(),
-                "subtasks": mySubTasks_obj
-            });
-            allTasks.push({
-                "taskID": nextTaskNum,
-                "title": $("#task-title-input").val(),
-                "subtasks": mySubTasks_obj
-            });
-            myProjects_obj[projectSelectedID]["tasks"] = myTasks_obj;
-            let numCompleted = 0;
-            for (let h = 0; h < mySubTasks_obj.length; h++) {
-                if (mySubTasks_obj[h]["status"] == "true") {
-                    numCompleted++;
+        let sameTaskName = false;
+        for (let i in myTasks_obj) {
+            for (let k in myTasks_obj[i]) {
+                if (myTasks_obj[i][k]["title"] == $("#task-title-input").val()) {
+                    sameTaskName = true;
                 }
             }
-            
-            $("#to-do").append(`<div data-task-id="${nextTaskNum}">
-            <div class="subtask-helper">${numCompleted}/${mySubTasks_obj.length}</div>
-            <span>${$("#task-title-input").val()}</span>
-            <img src="imgs/trash.png" alt="">
-            </div>`)
-            adjustTaskTabs();
-            addTabContainer.css(
-                {
-                    "top": tabTitle.outerHeight() + firstTabContent.outerHeight() - 2,
-                    "width": tabTitle.width()
+        }
+        if ($(this).text() == "Create") {
+            if (!sameTaskName && $("#task-title-input").val() != "") {
+                create_task_menu.css({ display: "none" });
+                subtask_panel.empty();
+                myTasks_obj["to-do"].push({
+                    "taskID": nextTaskNum,
+                    "title": $("#task-title-input").val(),
+                    "subtasks": mySubTasks_obj
+                });
+                allTasks.push({
+                    "taskID": nextTaskNum,
+                    "title": $("#task-title-input").val(),
+                    "subtasks": mySubTasks_obj
+                });
+                myProjects_obj[projectSelectedID]["tasks"] = myTasks_obj;
+                let numCompleted = 0;
+                for (let h = 0; h < mySubTasks_obj.length; h++) {
+                    if (mySubTasks_obj[h]["status"] == "true") {
+                        numCompleted++;
+                    }
                 }
-            )
-            $("#task-title-input").val("");
-            mySubTasks_obj = [];
-            nextTaskNum++;
-            myProjects_obj[projectSelectedID]["nextTaskNum"] = nextTaskNum;
+                
+                $("#to-do").append(`<div data-task-id="${nextTaskNum}">
+                <div class="subtask-helper">${numCompleted}/${mySubTasks_obj.length}</div>
+                <span>${$("#task-title-input").val()}</span>
+                <img src="imgs/trash.png" alt="">
+                </div>`)
+                adjustTaskTabs();
+                addTabContainer.css(
+                    {
+                        "top": tabTitle.outerHeight() + firstTabContent.outerHeight() - 2,
+                        "width": tabTitle.width()
+                    }
+                )
+                $("#task-title-input").val("");
+                mySubTasks_obj = [];
+                nextTaskNum++;
+                myProjects_obj[projectSelectedID]["nextTaskNum"] = nextTaskNum;
+
+            } else if (sameTaskName && $("#task-title-input").val() != ""){
+                $("#name-validation-container").children("div:nth-child(1)").html(`Task &nbsp;"${$("#task-title-input").val()}"&nbsp; already exists!`);
+                let position = $("#task-title-input").offset();
+                name_validation.css({ 
+                    display: "block",
+                    top: position.top + 2 + name_validation.outerHeight() / 2,
+                    left: position.left
+                 })
+            } else if ($("#task-title-input").val() == "") {
+                $("#name-validation-container").children("div:nth-child(1)").html(`Make sure to give this task a name!`);
+                let position = $("#task-title-input").offset();
+                name_validation.css({ 
+                    display: "block",
+                    top: position.top + 2 + name_validation.outerHeight() / 2,
+                    left: position.left
+                 })
+                 
+            }
         } else if ($(this).text() == "OK") {
-            let thisTaskParent = myTasks_obj[$("#current-project-window").find(`div[data-task-id="${taskSelected}"]`).parent().attr("id")];
-            for (let i = 0; i < thisTaskParent.length; i++) {
-                if (thisTaskParent[i]["taskID"] == taskSelected) {
-                    thisTaskParent[i]["title"] = $("#task-title-input").val();
-                    $("#current-project-window").find(`div[data-task-id="${taskSelected}"] span`).text($("#task-title-input").val())
-                    thisTaskParent[i]["subtasks"] = mySubTasks_obj;
-                    adjustTaskTabs();
-                    addTabContainer.css(
-                        {
-                            "top": tabTitle.outerHeight() + firstTabContent.outerHeight() - 2,
-                            "width": tabTitle.width()
-                        }
-                    )
-                    var numSubtaskCompleted = 0;
-                    for (let u = 0; u < mySubTasks_obj.length; u++) {
-                        if (mySubTasks_obj[u]["status"] == "true") {
-                            numSubtaskCompleted++;
+            if (!sameTaskName) {
+                create_task_menu.css({ display: "none" });
+                subtask_panel.empty();
+                let thisTaskParent = myTasks_obj[$("#current-project-window").find(`div[data-task-id="${taskSelected}"]`).parent().attr("id")];
+                for (let i = 0; i < thisTaskParent.length; i++) {
+                    if (thisTaskParent[i]["taskID"] == taskSelected) {
+                        thisTaskParent[i]["title"] = $("#task-title-input").val();
+                        $("#current-project-window").find(`div[data-task-id="${taskSelected}"] span`).text($("#task-title-input").val())
+                        thisTaskParent[i]["subtasks"] = mySubTasks_obj;
+                        adjustTaskTabs();
+                        addTabContainer.css(
+                            {
+                                "top": tabTitle.outerHeight() + firstTabContent.outerHeight() - 2,
+                                "width": tabTitle.width()
+                            }
+                        )
+                        var numSubtaskCompleted = 0;
+                        for (let u = 0; u < mySubTasks_obj.length; u++) {
+                            if (mySubTasks_obj[u]["status"] == "true") {
+                                numSubtaskCompleted++;
+                            }
                         }
                     }
                 }
+                $("#current-project-window").find(`div[data-task-id="${taskSelected}"]`).children(":nth-child(1)").text(`${numSubtaskCompleted}/${mySubTasks_obj.length}`);
+            } else {
+                $("#name-validation-container").children("div:nth-child(1)").html(`Task &nbsp;"${$("#task-title-input").val()}"&nbsp; already exists!`);
+                let position = $("#task-title-input").offset();
+                name_validation.css({ 
+                    display: "block",
+                    top: position.top + 2 + name_validation.outerHeight() / 2,
+                    left: position.left
+                 })
             }
-
-            $("#current-project-window").find(`div[data-task-id="${taskSelected}"]`).children(":nth-child(1)").text(`${numSubtaskCompleted}/${mySubTasks_obj.length}`);
         }
         window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
     })
@@ -974,6 +1056,9 @@ $(function () {
     //Close Creation Window Button
     close_create_task_menu.on("click", function () {
         create_task_menu.css({ display: "none" });
+        name_validation.css({ 
+            display: "none"
+         })
         subtask_panel.empty();
         $("#task-title-input").val("");
     })
@@ -1075,33 +1160,61 @@ $(function () {
     //Subtask title input ENTER
     $(document).on("keyup", "#single-subtask-title-input", function (e) {
         if (e.key == "Enter" && $(this).val() != "") {
-            $(this).parent().prepend($(this).val());
-            $(this).parent().css({
-                "justify-content": "start"
-            })
-            $(this).css({ display: "none" });
-            $(this).attr("data-active", "false");
-            
-            if (isCreatingSubtask) {
-                mySubTasks_obj.push({
-                    "subtaskID": nextSubTaskNum,
-                    "name": $(this).val(),
-                    "status": "false"
+            let sameSubtaskName = false;
+            for (let b = 0; b < mySubTasks_obj.length; b++) {
+                if (mySubTasks_obj[b]["name"] == $(this).val()) {
+                    sameSubtaskName = true;
+                }
+            }
+            if (!sameSubtaskName) {
+                $(this).parent().prepend($(this).val());
+                $(this).parent().css({
+                    "justify-content": "start"
                 })
-                nextSubTaskNum++;
-            } else if (isRenamingSubtask){
-                for (let k = 0; k < mySubTasks_obj.length; k++) {
-                    if (mySubTasks_obj[k]["subtaskID"] == thisSubtaskID) {
-                        mySubTasks_obj[k]["name"] = $(this).val();
-                        for (let m = 0; m < allTasks.length; m++) {
-                            if (allTasks[m]["taskID"] == taskSelected) {
-                                allTasks[m]["subtasks"] = mySubTasks_obj;
+                $(this).css({ display: "none" });
+                $(this).attr("data-active", "false");
+                if (isCreatingSubtask) {
+                    mySubTasks_obj.push({
+                        "subtaskID": nextSubTaskNum,
+                        "name": $(this).val(),
+                        "status": "false"
+                    })
+                    nextSubTaskNum++;
+                } else if (isRenamingSubtask){
+                    for (let k = 0; k < mySubTasks_obj.length; k++) {
+                        if (mySubTasks_obj[k]["subtaskID"] == thisSubtaskID) {
+                            mySubTasks_obj[k]["name"] = $(this).val();
+                            for (let m = 0; m < allTasks.length; m++) {
+                                if (allTasks[m]["taskID"] == taskSelected) {
+                                    allTasks[m]["subtasks"] = mySubTasks_obj;
+                                }
                             }
                         }
                     }
                 }
+            } else {
+                $("#name-validation-container").children("div:nth-child(1)").html(`Subtask &nbsp;"${$(this).val()}"&nbsp; already exists!`);
+                let position = $(this).offset();
+                name_validation.css({ 
+                    display: "block",
+                    top: position.top + 2 + name_validation.outerHeight() / 2,
+                    left: position.left
+                 })
+                 name_validation.animate({
+                    opacity: 1
+                }, 250)
             }
-            
+        } else if (e.key == "Enter" && $(this).val() == "") {
+            $("#name-validation-container").children("div:nth-child(1)").text("Make sure to give this subtask a name!");
+                let position = $(this).offset();
+                name_validation.css({ 
+                    display: "block",
+                    top: position.top + 2 + name_validation.outerHeight() / 2,
+                    left: position.left
+                 })
+                 name_validation.animate({
+                     opacity: 1
+                 }, 250)
         }
     })
 

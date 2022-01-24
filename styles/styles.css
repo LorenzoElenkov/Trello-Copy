@@ -872,4 +872,29 @@ textarea {
         color: black;
     }
 
+    #name-validation {
+        position: absolute;
+        display: none;
+    }
+
+    #name-validation-container {
+        width: max-content;
+        height: max-content;
+        background-color: aliceblue;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        padding: 5px 7px;
+        border-radius: 10px;
+        font-size: 1vw;
+        color: red;
+        box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+    }
+
+    #name-validation-container div:nth-child(1) {
+        text-align: center;
+    }
+
+    #name-validation-container span {
+        font-weight: bolder;
+    }
+
 }
