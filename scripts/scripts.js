@@ -289,13 +289,14 @@ $(function () {
     })
 
     $("#btn-add-project").on("click", function () {
-        if ($(this).text() == "Create") {
-            let sameProjName = false;
-            for (let name in myProjects_obj) {
-                if (myProjects_obj[name]["title"] == new_project_name.val()) {
-                    sameProjName = true;
-                }
+        let sameProjName = false;
+        for (let name in myProjects_obj) {
+            if (myProjects_obj[name]["title"] == new_project_name.val()) {
+                sameProjName = true;
             }
+        }
+        if ($(this).text() == "Create") {
+            
             console.log(sameProjName);
             if (new_project_name.val() == "") {
                 $("#name-validation-container").children("div:nth-child(1)").text("Make sure to give this project a name!");
@@ -305,9 +306,7 @@ $(function () {
                     top: position.top + 2 + name_validation.outerHeight() / 2,
                     left: position.left
                  })
-                 name_validation.animate({
-                     opacity: 1
-                 }, 250)
+                 
             } else if (new_project_name.val() != "" && sameProjName) {
                 $("#name-validation-container").children("div:nth-child(1)").html(`Project &nbsp;"${new_project_name.val()}"&nbsp; already exists!`);
                 let position = new_project_name.offset();
@@ -316,9 +315,7 @@ $(function () {
                     top: position.top + 2 + name_validation.outerHeight() / 2,
                     left: position.left
                  })
-                 name_validation.animate({
-                    opacity: 1
-                }, 250)
+                 
             } else if (new_project_name.val() != "" && !sameProjName) {
                 const newProjectContainer = $(`<div class="single-project-container">${new_project_name.val()}</div>`);
                 const thisProjectContainer = newProjectContainer.appendTo("#projects-container");
@@ -393,7 +390,6 @@ $(function () {
                 nextProjNum++;
                 name_validation.css({ 
                     display: "none",
-                    opacity: 0
                  })
             }
         }
@@ -805,7 +801,7 @@ $(function () {
         let sameTaskName = false;
         for (let i in myTasks_obj) {
             for (let k in myTasks_obj[i]) {
-                if (myTasks_obj[i][k]["title"] == $("#task-title-input").val()) {
+                if ((myTasks_obj[i][k]["title"] == $("#task-title-input").val() && $(this).text() == "Create") || ($(this).text() == "OK" && myTasks_obj[i][k]["title"] == $("#task-title-input").val() && myTasks_obj[i][k]["taskID"] != taskSelected)) {
                     sameTaskName = true;
                 }
             }
@@ -922,8 +918,6 @@ $(function () {
                 allTasks.splice(i, 1);
             }
         }
-        console.log(myTasks_obj);
-        console.log(allTasks);
         $(this).parent().remove();
         
         setTimeout(() => {
@@ -1162,7 +1156,7 @@ $(function () {
         if (e.key == "Enter" && $(this).val() != "") {
             let sameSubtaskName = false;
             for (let b = 0; b < mySubTasks_obj.length; b++) {
-                if (mySubTasks_obj[b]["name"] == $(this).val()) {
+                if (mySubTasks_obj[b]["name"] == $(this).val() && mySubTasks_obj[b]["subtaskID"] != thisSubtaskID) {
                     sameSubtaskName = true;
                 }
             }
@@ -1200,9 +1194,7 @@ $(function () {
                     top: position.top + 2 + name_validation.outerHeight() / 2,
                     left: position.left
                  })
-                 name_validation.animate({
-                    opacity: 1
-                }, 250)
+                 
             }
         } else if (e.key == "Enter" && $(this).val() == "") {
             $("#name-validation-container").children("div:nth-child(1)").text("Make sure to give this subtask a name!");
@@ -1212,9 +1204,7 @@ $(function () {
                     top: position.top + 2 + name_validation.outerHeight() / 2,
                     left: position.left
                  })
-                 name_validation.animate({
-                     opacity: 1
-                 }, 250)
+                 
         }
     })
 
