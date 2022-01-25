@@ -127,23 +127,24 @@ nav > span {
 }
 
 .create-proj-desktop {
-    width: 50vw;
-    height: min-content;
-    padding: 15px 5vw 25px 5vw;
+    width: 90%;
+    height: max-content;
+    padding: 15px 5vw 15px 5vw;
     display: grid;
-    grid-template-columns: max-content auto;
+    grid-template-columns: 1fr 1fr;
     grid-auto-rows: minmax(min-content, max-content);
     position: relative;
     row-gap: 3vh;
     column-gap: 3vh;
-    background-color: darkturquoise;
+    background-color: aliceblue;
+    color: black;
+    border: 2px solid black;
     border-radius: 15px;
-    margin-top: 10vh;
-    margin-left: 20vw;  
+    margin-top: 7vh;
 }
 
 #create-proj-desktop-title {
-    font-size: 2vw;
+    font-size: 5vw;
     grid-column: 1 / -1;
     justify-self: center;
     margin-bottom: 2.5vh;
@@ -151,15 +152,16 @@ nav > span {
 
 .input_create, .input_2_create {
     display: grid;
-    grid-template-columns: 3fr 7fr;
+    grid-template-columns: 1fr 1fr;
     column-gap: 5px;
     row-gap: 15px;
-    grid-column: span 1;
+    grid-column: 1 / -1;
     grid-auto-rows: max-content;
+    /* height:  */
 }
 
 .input_2_create div {
-    grid-column: span 2 / -1;
+    grid-column: span 2;
 }
 
 .input_2_create {
@@ -169,34 +171,35 @@ nav > span {
 textarea {
     resize: none;
     border: none;
+    grid-column: span 2;
+    height: 15vh;
 }
 
 #create-project-menu .create-proj-desktop label {
-    font-size: 1.3vw;
+    font-size: 4vw;
+    grid-column: 1 / -1;
 }
 
 .create-proj-desktop input, .create-proj-desktop select {
-    height: 1.2vw;
-    font-size: 1.3vw;
+    height: 5vw;
+    font-size: 4vw;
+    grid-column: 1 / -1;
     
 }
 
 #btn-add-project, #btn-close-create-proj {
-    width: 10vw;
-    font-size: 1.25vw;
+    width: 25vw;
+    font-size: 4vw;
     color: white;
     padding: 5px;
     border: none;
     border-radius: 10px;
     background-color: rgb(137, 197, 250);
     font-family: inherit;
-
 }
 
 #btn-add-project:hover, #btn-close-create-proj:hover {
-    
     background-color: rgb(101, 183, 255);
-
 }
 
 #btn-add-project {
@@ -230,7 +233,7 @@ textarea {
     grid-column: span 1;
     background-color: rgba(0, 0, 0, 0.2);
     padding: 0.8vh;
-    font-size: 1vw;
+    font-size: 4vw;
 }
 
 #new-project-lang-predict-tab {
@@ -243,7 +246,7 @@ textarea {
 
 #new-project-lang-predict-tab div {
     padding: 5px;
-    font-size: 1.1vw;
+    font-size: 4vw;
 }
 
 #new-project-lang-predict-tab div:hover {
@@ -269,7 +272,7 @@ textarea {
     justify-self: center;
     grid-template-columns: 1fr 1fr;
     margin-top: -5%;
-    margin-bottom: 10%;
+    margin-bottom: 5%;
 }
 
 #project-buttons div {
@@ -359,6 +362,71 @@ textarea {
 .single-project-container:nth-child(2n):hover {
     background: cornflowerblue;
     transition: background-color 0.5s;
+}
+
+#delete-confirm {
+    background-color: rgba(0, 0, 0, 0.35);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+#delete-confirm-container {
+    background-color: aliceblue;
+    border: 2px solid black;
+    border-radius: 15px;
+    width: 90%;
+    height: max-content;
+    padding: 2vw 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 5vw;
+}
+
+#delete-confirm-container div:nth-child(1) {
+    grid-column: span 2;
+    justify-self: center;
+    font-size: 5vw;
+    margin-top: 5vw;
+}
+
+#delete-confirm-container div:nth-child(2) {
+    grid-column: span 2;
+    font-size: 3.8vw;
+    justify-self: center;
+}
+
+#delete-confirm-container div:not(:nth-child(1):nth-child(2)) button {
+    font-size: 4vw;
+    padding: 5px 25px;
+    background-color: rgb(137, 197, 250);
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
+    color: white;
+}
+
+#delete-confirm-container div:nth-child(3) {
+    margin-right: 1vw;
+    margin-bottom: 5vw;
+}
+
+#delete-confirm-container div:nth-child(4) {
+    margin-left: 1vw;
+}
+
+#delete-confirm-container div:nth-child(3) {
+    justify-self: end;
+}
+
+#delete-confirm-container div:not(:nth-child(1)) button:hover {
+    background-color: rgb(101, 183, 255);
 }
 
 
@@ -576,6 +644,59 @@ textarea {
         margin-left: 20vw;  
     }
 
+    #create-proj-desktop-title {
+        font-size: 2vw;
+        grid-column: 1 / -1;
+        justify-self: center;
+        margin-bottom: 2.5vh;
+    }
+    
+    .input_create, .input_2_create {
+        display: grid;
+        grid-template-columns: 3fr 7fr;
+        column-gap: 5px;
+        row-gap: 15px;
+        grid-column: span 1;
+        grid-auto-rows: max-content;
+    }
+    
+    .input_2_create div {
+        grid-column: span 2;
+    }
+    
+    .input_2_create {
+        row-gap: 3px;
+    }
+    
+    textarea {
+        resize: none;
+        border: none;
+        grid-column: span 1;
+    }
+    
+    #create-project-menu .create-proj-desktop label {
+        font-size: 1.3vw;
+        grid-column: span 1;
+    }
+    
+    .create-proj-desktop input, .create-proj-desktop select {
+        height: 1.2vw;
+        font-size: 1.3vw;
+        grid-column: span 1;
+    }
+    
+    #btn-add-project, #btn-close-create-proj {
+        width: 10vw;
+        font-size: 1.25vw;
+        color: white;
+        padding: 5px;
+        border: none;
+        border-radius: 10px;
+        background-color: rgb(137, 197, 250);
+        font-family: inherit;
+    
+    }
+
     #delete-confirm {
         background-color: rgba(0, 0, 0, 0.35);
         width: 100%;
@@ -605,6 +726,7 @@ textarea {
         grid-column: span 2;
         justify-self: center;
         font-size: 1.5vw;
+        margin-top: 0;
     }
 
     #delete-confirm-container div:nth-child(2) {
@@ -625,6 +747,7 @@ textarea {
 
     #delete-confirm-container div:nth-child(3) {
         margin-right: 1vw;
+        margin-bottom: 0;
     }
 
     #delete-confirm-container div:nth-child(4) {
@@ -637,6 +760,52 @@ textarea {
 
     #delete-confirm-container div:not(:nth-child(1)) button:hover {
         background-color: rgb(101, 183, 255);
+    }
+
+    #new-project-lang {
+        grid-column: span 2 / -1;
+        position: relative;
+        width: 100%;
+    }
+    
+    .new-project-lang-container {
+        width: 100%;
+        height: max-content;
+        grid-column: span 2;
+        margin-top: 2vh;
+        color: rgba(0, 0, 0, 0.35);
+        display: grid;
+        gap: 3px;
+        grid-template-columns: repeat(3, minmax(min-content, max-content));
+    }
+    
+    .new-project-lang-container div {
+        color: white;
+        grid-column: span 1;
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 0.8vh;
+        font-size: 1vw;
+    }
+    
+    #new-project-lang-predict-tab {
+        position: absolute;
+        width: 40%;
+        background-color: white;
+        color: black;
+        visibility: visible;
+    }
+    
+    #new-project-lang-predict-tab div {
+        padding: 5px;
+        font-size: 1.1vw;
+    }
+    
+    #new-project-lang-predict-tab div:hover {
+        background-color: rgb(214, 214, 214);
+    }
+    
+    #new-project-lang-predict-tab div.predict-tab-hover {
+        background-color: rgb(214, 214, 214);
     }
 
     #current-project-window {
