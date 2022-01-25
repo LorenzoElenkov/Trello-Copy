@@ -250,6 +250,49 @@ textarea {
     display: none;
 }
 
+#create-task-menu {
+    display: none;
+}
+
+#project-buttons {
+    display: grid;
+    width: 96%;
+    position: relative;
+    justify-self: center;
+    grid-template-columns: 1fr 1fr;
+}
+
+#project-buttons div:last-child button {
+    float: right;
+}
+
+#project-buttons div button {
+    font-family: inherit;
+    font-size: 1.8vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+    border-radius: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
+#project-buttons div:nth-child(2) button {
+    opacity: 0.2;
+}
+
+#project-buttons div:nth-child(2) button:nth-child(2) {
+    margin-right: 10%;
+}
+
+#project-buttons img {
+    width: 7vmin;
+}
+
+
 @media only screen and (min-width: 600px) {
     #menu-button {
         display: none;
@@ -367,6 +410,7 @@ textarea {
 
     #project-buttons div button span {
         padding-left: 5px;
+        display: block;
     }
 
     #project-buttons div button:disabled {

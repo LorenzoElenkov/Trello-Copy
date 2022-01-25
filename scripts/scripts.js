@@ -1350,4 +1350,13 @@ $(function () {
         }
     })
 
+    $("#dropdown-menu div:nth-child(5) button").on("click", function () {
+        if (!projects_open) {
+            projects_open_fn();
+        } else {
+            projects_close_fn();
+        }
+        
+    })
+
 });
