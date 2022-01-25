@@ -127,7 +127,7 @@ nav > span {
 }
 
 .create-proj-desktop {
-    width: 90%;
+    width: 89%;
     height: max-content;
     padding: 15px 5vw 15px 5vw;
     display: grid;
@@ -172,7 +172,7 @@ textarea {
     resize: none;
     border: none;
     grid-column: span 2;
-    height: 15vh;
+    height: 12vh;
 }
 
 #create-project-menu .create-proj-desktop label {
@@ -214,7 +214,7 @@ textarea {
 #new-project-lang {
     grid-column: span 2 / -1;
     position: relative;
-    width: 100%;
+    width: 97%;
 }
 
 .new-project-lang-container {
