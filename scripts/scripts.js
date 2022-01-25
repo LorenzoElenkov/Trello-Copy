@@ -282,11 +282,14 @@ $(function () {
         $(thisLangCont).remove();
     })
 
-    $(document).on("keyup", function(e) {
-        if (e.key == "Escape") {
+    $(document).on("mouseup", function(e) {
+        if (!$(e.target).closest($("#name-validation-container")).length && name_validation.css("display") == "block") {
             name_validation.css({ display: "none" })
         }
+        
     })
+
+    let oldProjName;
 
     $("#btn-add-project").on("click", function () {
         let sameProjName = false;
@@ -303,7 +306,7 @@ $(function () {
                 let position = new_project_name.offset();
                 name_validation.css({ 
                     display: "block",
-                    top: position.top + 2 + name_validation.outerHeight() / 2,
+                    top: position.top + name_validation.outerHeight(),
                     left: position.left
                  })
                  
@@ -312,7 +315,7 @@ $(function () {
                 let position = new_project_name.offset();
                 name_validation.css({ 
                     display: "block",
-                    top: position.top + 2 + name_validation.outerHeight() / 2,
+                    top: position.top + name_validation.outerHeight(),
                     left: position.left
                  })
                  
@@ -429,6 +432,10 @@ $(function () {
         if (window.innerWidth > 600) {
             new_project_name.focus();
         }
+        new_project_name.removeAttr("disabled");
+        new_project_name.css({
+            "background-color": "white"
+        })
     });
 
     create_project_close_desktop.on("click", function () {
@@ -555,10 +562,17 @@ $(function () {
             )
             $("#create-proj-desktop-title").text("Edit Project");
             new_project_name.val(projectSelected.text());
+            new_project_name.attr("disabled","disabled");
+            new_project_name.css({
+                "background-color": "aliceblue"
+            })
+
+            
             $("#btn-add-project").text("OK");
             for (let key in myProjects_obj) {
                 if (myProjects_obj[key]["title"] == projectSelected.text()) {
                     const thisKey = myProjects_obj[key];
+                    oldProjName = thisKey;
                     new_project_description.val(thisKey["description"]);
                     new_project_startdate.val(thisKey["startDate"]);
                     const oldLanguages = thisKey["languages"].split(",");
@@ -850,7 +864,7 @@ $(function () {
                 let position = $("#task-title-input").offset();
                 name_validation.css({ 
                     display: "block",
-                    top: position.top + 2 + name_validation.outerHeight() / 2,
+                    top: position.top + name_validation.outerHeight(),
                     left: position.left
                  })
             } else if ($("#task-title-input").val() == "") {
@@ -858,7 +872,7 @@ $(function () {
                 let position = $("#task-title-input").offset();
                 name_validation.css({ 
                     display: "block",
-                    top: position.top + 2 + name_validation.outerHeight() / 2,
+                    top: position.top + name_validation.outerHeight(),
                     left: position.left
                  })
                  
@@ -894,7 +908,7 @@ $(function () {
                 let position = $("#task-title-input").offset();
                 name_validation.css({ 
                     display: "block",
-                    top: position.top + 2 + name_validation.outerHeight() / 2,
+                    top: position.top + name_validation.outerHeight(),
                     left: position.left
                  })
             }
@@ -1191,7 +1205,7 @@ $(function () {
                 let position = $(this).offset();
                 name_validation.css({ 
                     display: "block",
-                    top: position.top + 2 + name_validation.outerHeight() / 2,
+                    top: position.top + name_validation.outerHeight(),
                     left: position.left
                  })
                  
@@ -1201,7 +1215,7 @@ $(function () {
                 let position = $(this).offset();
                 name_validation.css({ 
                     display: "block",
-                    top: position.top + 2 + name_validation.outerHeight() / 2,
+                    top: position.top + name_validation.outerHeight(),
                     left: position.left
                  })
                  
