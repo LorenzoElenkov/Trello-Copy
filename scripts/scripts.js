@@ -245,7 +245,7 @@ $(function () {
     addTabContainer.css(
         {
             "top": tabTitle.outerHeight() + firstTabContent.outerHeight() - 2,
-            "width": tabTitle.width()
+            "width": tabTitle.outerWidth()
         }
     )
 
@@ -891,7 +891,7 @@ $(function () {
                 addTabContainer.css(
                     {
                         "top": tabTitle.outerHeight() + firstTabContent.outerHeight() - 2,
-                        "width": tabTitle.width()
+                        "width": tabTitle.outerWidth()
                     }
                 )
                 $("#task-title-input").val("");
@@ -931,7 +931,7 @@ $(function () {
                         addTabContainer.css(
                             {
                                 "top": tabTitle.outerHeight() + firstTabContent.outerHeight() - 2,
-                                "width": tabTitle.width()
+                                "width": tabTitle.outerWidth()
                             }
                         )
                         var numSubtaskCompleted = 0;
@@ -979,7 +979,7 @@ $(function () {
             addTabContainer.css(
                 {
                     "top": tabTitle.outerHeight() + firstTabContent.outerHeight() - 2,
-                    "width": tabTitle.width()
+                    "width": tabTitle.outerWidth()
                 }
             )
         }, 10);
@@ -1093,7 +1093,7 @@ $(function () {
             addTabContainer.css(
                 {
                     "top": tabTitle.outerHeight() + firstTabContent.outerHeight() - 2,
-                    "width": tabTitle.width()
+                    "width": tabTitle.outerWidth()
                 }
             )
         }, 10);
