@@ -1,12 +1,14 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: Quicksand, sans-serif;
   background-color: aliceblue;
 }
 
-* {
-    box-sizing: border-box;
-}
+
 
 nav {
   display: grid;
@@ -520,8 +522,6 @@ textarea {
     border-top: none;
     display: grid;
     overflow-y: scroll;
-    
-
 }
 
 #to-do {
@@ -579,6 +579,7 @@ textarea {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: absolute;
     
 }
 
@@ -1127,6 +1128,7 @@ textarea {
         display: flex;
         justify-content: center;
         align-items: center;
+        position: absolute;
     }
 
     #to-do-add button img {

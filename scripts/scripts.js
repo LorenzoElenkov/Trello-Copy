@@ -213,32 +213,32 @@ $(function () {
     
     
     let scrolling = false;
-    current_project_window.on("mouseover touchstart", function (e) {
-        if (e.buttons == "1") {
 
-            if (e.clientX >= $(this).innerWidth() - 40) {
-                console.log(current_project_window[0].scrollWidth - current_project_window.scrollLeft());
-                console.log(window.innerWidth)
+    current_project_window.on("touchstart", function (e) {
+        $("nav span").css({
+            color: "red"
+        })
+            if (e.touches[0].clientX >= $(this).innerWidth() - 50 && !scrolling) {
                 let time = (current_project_window[0].scrollWidth - current_project_window.scrollLeft()) / window.innerWidth;
-                console.log(Math.floor(time));
                 current_project_window.stop();
                 current_project_window.animate({
                     "scrollLeft": current_project_window[0].scrollWidth - current_project_window.scrollLeft()
                 }, time * 1000)
+                scrolling = true;
                 
                 
-                
-            } else if (e.clientX <= 40) {
+            } else if (e.touches[0].clientX <= 50 && !scrolling) {
                 let time = current_project_window.scrollLeft() / window.innerWidth;
-                console.log(Math.floor(time));
                 current_project_window.stop();
                 current_project_window.animate({
                     "scrollLeft": 0
                 }, time * 1000)
-            } else {
+                scrolling = true;
+
+            } else  if (scrolling) {
                 current_project_window.stop();
+                scrolling = false;
             }
-        }
     })
 
 
@@ -702,7 +702,7 @@ $(function () {
                     addTabContainer.hide();
                     $(ui.item).css({ "transform": "rotate(" + 3 + "deg)"})
                     $(".ui-state-highlight").css({
-                        "height": $(ui.item).height()
+                        "height": $(ui.item).outerHeight()
                     })
                     movingID = $(ui.item).attr("data-task-id");
                     for (let i = 0; i < $(ui.item).parent().children().length; i++) {
@@ -711,6 +711,9 @@ $(function () {
                         }
                     }
                     startingCat = $(ui.item).parent().attr("id");
+
+                    console.log("start");
+
                 },
                 stop: function (e, ui) {
                     addTabContainer.show();
@@ -735,6 +738,7 @@ $(function () {
                         myProjects_obj[projectSelectedID]["tasks"] = myTasks_obj;
                         window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
                     }
+                    console.log("stop");
 
                 },
                 update: function (e, ui) {
@@ -779,7 +783,7 @@ $(function () {
                             "overflow-y": "",
                         })
                     }
-
+                    console.log("udapte");
                     endingCat = $(ui.item).parent().attr("id");
                 },
                 over: function (e, ui) {
@@ -788,6 +792,7 @@ $(function () {
                     placeholder.css({
                         "background-color": bgColor
                     })
+                    console.log("over");
                 },
                 receive: function (e, ui) {
                     for (let i = 0; i < allTasks.length; i++) {
@@ -818,7 +823,7 @@ $(function () {
                     window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
                 }
             }
-        ).disableSelection();
+        );
     });
 
     
