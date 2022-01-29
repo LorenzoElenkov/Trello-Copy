@@ -195,11 +195,51 @@ $(function () {
         }
     );
 
-    project_title.css(
-        {
-            "top": -(project_title.height() * 2),
+    if (window.innerWidth > 600) {
+        project_title.css(
+            {
+                "top": -(project_title.height() * 2),
+            }
+        )
+    } else {
+        project_title.css(
+            {
+                "top": "10%"
+            }
+        )
+    }
+    const current_project_window = $("#current-project-window");
+
+    
+    
+    let scrolling = false;
+    current_project_window.on("mouseover", function (e) {
+        if (e.buttons == "1") {
+
+            if (e.clientX >= $(this).innerWidth() - 40) {
+                console.log(current_project_window[0].scrollWidth - current_project_window.scrollLeft());
+                console.log(window.innerWidth)
+                let time = (current_project_window[0].scrollWidth - current_project_window.scrollLeft()) / window.innerWidth;
+                console.log(Math.floor(time));
+                current_project_window.stop();
+                current_project_window.animate({
+                    "scrollLeft": current_project_window[0].scrollWidth - current_project_window.scrollLeft()
+                }, time * 1000)
+                
+                
+                
+            } else if (e.clientX <= 40) {
+                let time = current_project_window.scrollLeft() / window.innerWidth;
+                console.log(Math.floor(time));
+                current_project_window.stop();
+                current_project_window.animate({
+                    "scrollLeft": 0
+                }, time * 1000)
+            } else {
+                current_project_window.stop();
+            }
         }
-    )
+    })
 
 
     addTabContainer.css(
