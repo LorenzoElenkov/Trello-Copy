@@ -213,7 +213,7 @@ $(function () {
     
     
     let scrolling = false;
-    current_project_window.on("mouseover", function (e) {
+    current_project_window.on("mouseover touchstart", function (e) {
         if (e.buttons == "1") {
 
             if (e.clientX >= $(this).innerWidth() - 40) {
