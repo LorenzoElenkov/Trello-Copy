@@ -1083,7 +1083,6 @@ $(function () {
                 allTasks.push(myProjects_obj[projectSelectedID]["tasks"]["completed"][key])
                 }
             }
-            // dobavi FOR za drugite 3 durveta 
 
 
             nextTaskNum = myProjects_obj[projectSelectedID]["nextTaskNum"]; 
