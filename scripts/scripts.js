@@ -823,7 +823,32 @@ $(function () {
                     window.localStorage.setItem("Projects", JSON.stringify(myProjects_obj));
                 }
             }
-        );
+        ).on("touchmove", function (e) {
+            $("nav span").css({
+                color: "green"
+            })
+                if (e.touches[0].clientX >= $(this).innerWidth() - 100 && !scrolling) {
+                    let time = (current_project_window[0].scrollWidth - current_project_window.scrollLeft()) / window.innerWidth;
+                    current_project_window.stop();
+                    current_project_window.animate({
+                        "scrollLeft": current_project_window[0].scrollWidth - current_project_window.scrollLeft()
+                    }, time * 1000)
+                    scrolling = true;
+                    
+                    
+                } else if (e.touches[0].clientX <= 100 && !scrolling) {
+                    let time = current_project_window.scrollLeft() / window.innerWidth;
+                    current_project_window.stop();
+                    current_project_window.animate({
+                        "scrollLeft": 0
+                    }, time * 1000)
+                    scrolling = true;
+    
+                } else  if (scrolling) {
+                    current_project_window.stop();
+                    scrolling = false;
+                }
+        });
     });
 
     
