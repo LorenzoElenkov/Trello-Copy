@@ -218,7 +218,7 @@ $(function () {
         $("nav span").css({
             color: "red"
         })
-            if (e.touches[0].clientX >= $(this).innerWidth() - 50 && !scrolling) {
+            if (e.touches[0].clientX >= $(this).innerWidth() - 100 && !scrolling) {
                 let time = (current_project_window[0].scrollWidth - current_project_window.scrollLeft()) / window.innerWidth;
                 current_project_window.stop();
                 current_project_window.animate({
@@ -227,7 +227,7 @@ $(function () {
                 scrolling = true;
                 
                 
-            } else if (e.touches[0].clientX <= 50 && !scrolling) {
+            } else if (e.touches[0].clientX <= 100 && !scrolling) {
                 let time = current_project_window.scrollLeft() / window.innerWidth;
                 current_project_window.stop();
                 current_project_window.animate({
