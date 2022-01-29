@@ -214,7 +214,7 @@ $(function () {
     
     let scrolling = false;
 
-    current_project_window.on("touchstart", function (e) {
+    current_project_window.on("touchmove", function (e) {
         $("nav span").css({
             color: "red"
         })
