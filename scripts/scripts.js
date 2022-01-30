@@ -825,7 +825,7 @@ $(function () {
             }
         ).on("touchmove", function (e) {
             $("nav span").css({
-                color: "yellow"
+                color: "blue"
             })
                 if (e.touches[0].clientX >= $(window).innerWidth() - 100 && !scrolling) {
                     // let time = (current_project_window[0].scrollWidth - current_project_window.scrollLeft()) / window.innerWidth;
@@ -837,6 +837,7 @@ $(function () {
                         "scrollLeft": "+=50"
                     }, 200, function () {
                         scrolling = false;
+                        $("#to-do, #in-progress, #to-review, #completed").sortable("refresh");
                     })
                 } else if (e.touches[0].clientX <= 100 && !scrolling) {
                     // let time = current_project_window.scrollLeft() / window.innerWidth;
@@ -845,6 +846,7 @@ $(function () {
                         "scrollLeft": "-=50"
                     }, 200, function () {
                         scrolling = false;
+                        $("#to-do, #in-progress, #to-review, #completed").sortable("refresh");
                     })
                     
     
