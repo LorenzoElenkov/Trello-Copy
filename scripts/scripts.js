@@ -692,7 +692,7 @@ $(function () {
     function scrollR() {
         if (scrolling) {
             current_project_window.animate({
-                "scrollLeft": "+=3"
+                "scrollLeft": "+=5"
             }, 5, scrollR)
         }
     }
@@ -700,7 +700,7 @@ $(function () {
     function scrollL() {
         if (scrolling) {
             current_project_window.animate({
-                "scrollLeft": "-=3"
+                "scrollLeft": "-=5"
             }, 5, scrollL)
         }
     }
@@ -841,16 +841,13 @@ $(function () {
                 }
             }
         ).on("touchmove", function (e) {
-            $("nav span").css({
-                color: "aliceblue"
-            })
-                if (e.touches[0].clientX >= $(window).innerWidth() - 100 && !scrolling) {
+                if (e.touches[0].clientX >= $(window).innerWidth() - 75 && !scrolling) {
                     scrolling = true;
                     scrollR();
-                } else if (e.touches[0].clientX <= 100 && !scrolling) {
+                } else if (e.touches[0].clientX <= 75 && !scrolling) {
                     scrolling = true;
                     scrollL();
-                } else if (scrolling && e.touches[0].clientX > 100 && e.touches[0].clientX < $(window).innerWidth() - 100) {
+                } else if (scrolling && e.touches[0].clientX > 75 && e.touches[0].clientX < $(window).innerWidth() - 75) {
                     current_project_window.stop();
                     $("#to-do, #in-progress, #to-review, #completed").sortable("refresh");
                     scrolling = false;

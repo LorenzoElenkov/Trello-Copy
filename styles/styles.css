@@ -286,7 +286,7 @@ textarea {
 
 #project-buttons div button {
     font-family: inherit;
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -339,7 +339,7 @@ textarea {
     display: flex;
     justify-content: start;
     align-items: start;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
 }
 
 .single-project-container:hover {
@@ -578,11 +578,11 @@ textarea {
     justify-content: center;
     align-items: center;
     position: absolute;
-    
+    height: 6.5%;
 }
 
 #to-do-add button img {
-    width: 6vw;
+    width: 1rem;
     filter: invert(100%);
     opacity: 1;
 }
