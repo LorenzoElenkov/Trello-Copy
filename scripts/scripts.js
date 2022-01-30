@@ -688,6 +688,23 @@ $(function () {
     let isSameCat = false;
     let thisID;
 
+
+    function scrollR() {
+        if (scrolling) {
+            current_project_window.animate({
+                "scrollLeft": "+=50"
+            }, 200, scrollR)
+        }
+    }
+
+    function scrollL() {
+        if (scrolling) {
+            current_project_window.animate({
+                "scrollLeft": "-=50"
+            }, 200, scrollL)
+        }
+    }
+
     $(function () {
 
         adjustTaskTabs();
@@ -825,7 +842,7 @@ $(function () {
             }
         ).on("touchmove", function (e) {
             $("nav span").css({
-                color: "blue"
+                color: "red"
             })
                 if (e.touches[0].clientX >= $(window).innerWidth() - 100 && !scrolling) {
                     // let time = (current_project_window[0].scrollWidth - current_project_window.scrollLeft()) / window.innerWidth;
@@ -833,30 +850,20 @@ $(function () {
                     //     "scrollLeft": current_project_window[0].scrollWidth - current_project_window.scrollLeft()
                     // }, time * 1000)
                     scrolling = true;
-                    current_project_window.animate({
-                        "scrollLeft": "+=50"
-                    }, 200, function () {
-                        scrolling = false;
-                        $("#to-do, #in-progress, #to-review, #completed").sortable("refresh");
-                    })
+                    scrollR();
                 } else if (e.touches[0].clientX <= 100 && !scrolling) {
                     // let time = current_project_window.scrollLeft() / window.innerWidth;
                     scrolling = true;
-                    current_project_window.animate({
-                        "scrollLeft": "-=50"
-                    }, 200, function () {
-                        scrolling = false;
-                        $("#to-do, #in-progress, #to-review, #completed").sortable("refresh");
-                    })
-                    
-    
+                    scrollL();
                 } else if (scrolling && e.touches[0].clientX > 100 && e.touches[0].clientX < $(window).innerWidth() - 100) {
                     current_project_window.stop();
+                    $("#to-do, #in-progress, #to-review, #completed").sortable("refresh");
                     scrolling = false;
                 }
         });
     });
 
+    
     
 
     const add_task_btn = $("#to-do-add");
