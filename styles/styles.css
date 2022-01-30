@@ -131,7 +131,7 @@ nav > span {
 }
 
 .create-proj-desktop {
-    width: 89%;
+    width: 98%;
     height: max-content;
     padding: 15px 5vw 15px 5vw;
     display: grid;
@@ -145,10 +145,11 @@ nav > span {
     border: 2px solid black;
     border-radius: 15px;
     margin-top: 7vh;
+    margin-left: 1%;
 }
 
 #create-proj-desktop-title {
-    font-size: 5vw;
+    font-size: 1.2rem;
     grid-column: 1 / -1;
     justify-self: center;
     margin-bottom: 2.5vh;
@@ -158,7 +159,7 @@ nav > span {
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 5px;
-    row-gap: 15px;
+    row-gap: 5px;
     grid-column: 1 / -1;
     grid-auto-rows: max-content;
 }
@@ -176,23 +177,24 @@ textarea {
     border: none;
     grid-column: span 2;
     height: 12vh;
+    margin-bottom: 10px;
 }
 
 #create-project-menu .create-proj-desktop label {
-    font-size: 4vw;
+    font-size: 0.9rem;
     grid-column: 1 / -1;
 }
 
 .create-proj-desktop input, .create-proj-desktop select {
-    height: 5vw;
-    font-size: 4vw;
+    height: 1rem;
+    font-size: 0.75rem;
     grid-column: 1 / -1;
-    
+    margin-bottom: 10px;
 }
 
 #btn-add-project, #btn-close-create-proj {
     width: 25vw;
-    font-size: 4vw;
+    font-size: 0.8rem;
     color: white;
     padding: 5px;
     border: none;
@@ -236,7 +238,7 @@ textarea {
     grid-column: span 1;
     background-color: rgba(0, 0, 0, 0.2);
     padding: 0.8vh;
-    font-size: 4vw;
+    font-size: 0.8rem;
 }
 
 #new-project-lang-predict-tab {
@@ -249,7 +251,7 @@ textarea {
 
 #new-project-lang-predict-tab div {
     padding: 5px;
-    font-size: 4vw;
+    font-size: 0.8rem;
 }
 
 #new-project-lang-predict-tab div:hover {
@@ -278,16 +280,13 @@ textarea {
     margin-bottom: 5%;
 }
 
-#project-buttons div {
-}
-
 #project-buttons div:last-child button {
     float: right;
 }
 
 #project-buttons div button {
     font-family: inherit;
-    font-size: 1.8vh;
+    font-size: 0.65rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -340,7 +339,7 @@ textarea {
     display: flex;
     justify-content: start;
     align-items: start;
-    font-size: 3vmax;
+    font-size: 1.1rem;
 }
 
 .single-project-container:hover {
@@ -395,18 +394,18 @@ textarea {
 #delete-confirm-container div:nth-child(1) {
     grid-column: span 2;
     justify-self: center;
-    font-size: 5vw;
+    font-size: 1.2rem;
     margin-top: 5vw;
 }
 
 #delete-confirm-container div:nth-child(2) {
     grid-column: span 2;
-    font-size: 3.8vw;
+    font-size: 0.75rem;
     text-align: center;
 }
 
 #delete-confirm-container div:not(:nth-child(1):nth-child(2)) button {
-    font-size: 4vw;
+    font-size: 0.8rem;
     padding: 5px 25px;
     background-color: rgb(137, 197, 250);
     border: none;
@@ -444,7 +443,7 @@ textarea {
     border: 1px solid rgba(0, 0, 0, 0.3);
     padding: 5px 7px;
     border-radius: 10px;
-    font-size: 4vw;
+    font-size: 0.8rem;
     color: red;
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
 }
@@ -475,7 +474,6 @@ textarea {
 
 #current-project-title {
     position: fixed;
-    font-size: 3vw;
     display: grid;
     grid-template-columns: 1fr;
     width: 98%;
@@ -483,14 +481,14 @@ textarea {
 
 #current-project-title div {
     justify-self: center;
-    font-size: 4vw;
+    font-size: 0.8rem;
     border: 2px solid black;
     border-radius: 15px;
     padding: 5px 15px;
 }
 
 .tab-title {
-    font-size: 4.5vw;
+    font-size: 0.9rem;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -555,7 +553,7 @@ textarea {
     width: 80%;
     margin-top: 1vh;
     margin-bottom: 1vh;
-    font-size: 4vw;
+    font-size: 0.9rem;
     padding: 5px;
     background-color: aliceblue;
     text-align: center;
@@ -626,6 +624,187 @@ textarea {
     font-size: 1.3vw;
     padding: 5px;
     background-color: gold;
+}
+
+#create-task-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.35);
+    display: none;
+    justify-content: center;
+}
+
+.create-task-window {
+    margin-top: 10vh;
+    width: 98%;
+    height: max-content;
+    background-color: aliceblue;
+    border: 2px solid black;
+    border-radius: 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 20px;
+    justify-content: center;
+    padding: 15px;
+}
+
+#create-task-title {
+    text-align: center;
+    padding: 1vh 0;
+    font-size: 1.2rem;
+    grid-column: span 3;
+}
+
+#task-title {
+    grid-column: span 3;
+    justify-self: center;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    column-gap: 1vw;
+    row-gap: 1vh;
+    font-size: 0.9rem;
+    width: 100%;
+}
+
+#task-title label:nth-child(1) {
+    justify-self: end;
+    align-self: center;
+}
+
+#task-title-input {
+    width: 70%;
+    font-size: 0.9rem;
+}
+
+.btn-create-task {
+    font-size: 0.8rem;
+    padding: 5px 25px;
+    background-color: rgb(137, 197, 250);
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
+    color: white;
+    width: max-content;
+    justify-self: end;
+}
+
+.btn-cancel-task {
+    font-size: 0.8rem;
+    padding: 5px 25px;
+    background-color: rgb(137, 197, 250);
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
+    color: white;
+    width: max-content;
+    justify-self: start;
+}
+
+#want-subtasks-question {
+    justify-self: center;
+    grid-column: span 2;
+    margin-bottom: 3vh;
+    font-size: 0.8rem;
+}
+
+.btn-add-subtask {
+    font-size: 0.8rem;
+    background-color: rgb(137, 197, 250);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 5px 10px;
+}
+
+.btn-add-subtask:hover, .btn-cancel-task:hover, .btn-create-task:hover {
+    background-color: rgb(101, 183, 255);
+}
+
+#subtask-title {
+    justify-self: center;
+    grid-column: span 2;
+}
+
+#subtask-panel {
+    height: 200px;
+    border: 1px dashed black;
+    border-radius: 15px;
+    width: 100%;
+    grid-column: span 2;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 1vh;
+    scrollbar-width: none;
+}
+
+#subtask-panel::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+.subtask-container {
+    width: 90%;
+    height: max-content;
+    background-color: crimson;
+    border: 1px solid black;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    justify-self: center;
+    padding: 5px;
+    color: aliceblue;
+}
+
+.subtask-container:last-child {
+    margin-bottom: 1vh;
+}
+
+.subtask-container:nth-child(1) {
+    margin-top: 1vh;
+}
+
+.subtask-container div:nth-child(2) {
+    display: none;
+    grid-template-columns: 1fr 1fr 0.3fr;
+    position: relative;
+}
+
+.subtask-container div:nth-child(2) button {
+    height: 100%;
+    font-size: 0.8rem;
+    background-color: aliceblue;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+.subtask-container div:nth-child(2) button:nth-child(2) {
+    height: 100%;
+    font-size: 0.8rem;
+}
+
+
+.subtask-container div:nth-child(1) {
+    display: flex;
+    justify-content: start;
+}
+
+#single-subtask-title-input {
+    grid-column: span 1 / -1;
+    width: 100%;
+    font-size: 0.8rem;
+    font-family: inherit;
+}
+
+.subtask-pending {
+    background-color: crimson;
+    color: white;
+}
+.subtask-complete {
+    background-color: chartreuse;
+    color: black;
 }
 
 @media only screen and (min-width: 600px) {

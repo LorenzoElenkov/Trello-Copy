@@ -1344,9 +1344,10 @@ $(function () {
                 "overflow-y": "",
             })
         };
-        if (subtask_panel_init_height <= 0) {
+        if (subtask_panel.children().length == 0) {
             subtask_panel.css({ display: "none" })
         }
+        console.log(subtask_panel.children().length);
     };
 
     isSubtaskPanelScroll();
