@@ -692,16 +692,16 @@ $(function () {
     function scrollR() {
         if (scrolling) {
             current_project_window.animate({
-                "scrollLeft": "+=50"
-            }, 200, scrollR)
+                "scrollLeft": "+=25"
+            }, 25, scrollR)
         }
     }
 
     function scrollL() {
         if (scrolling) {
             current_project_window.animate({
-                "scrollLeft": "-=50"
-            }, 200, scrollL)
+                "scrollLeft": "-=25"
+            }, 25, scrollL)
         }
     }
 
@@ -842,17 +842,12 @@ $(function () {
             }
         ).on("touchmove", function (e) {
             $("nav span").css({
-                color: "red"
+                color: "blue"
             })
                 if (e.touches[0].clientX >= $(window).innerWidth() - 100 && !scrolling) {
-                    // let time = (current_project_window[0].scrollWidth - current_project_window.scrollLeft()) / window.innerWidth;
-                    // current_project_window.animate({
-                    //     "scrollLeft": current_project_window[0].scrollWidth - current_project_window.scrollLeft()
-                    // }, time * 1000)
                     scrolling = true;
                     scrollR();
                 } else if (e.touches[0].clientX <= 100 && !scrolling) {
-                    // let time = current_project_window.scrollLeft() / window.innerWidth;
                     scrolling = true;
                     scrollL();
                 } else if (scrolling && e.touches[0].clientX > 100 && e.touches[0].clientX < $(window).innerWidth() - 100) {
