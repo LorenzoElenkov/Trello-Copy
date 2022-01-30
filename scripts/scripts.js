@@ -73,15 +73,6 @@ $(function () {
         myProjects_obj = fetchProjects;
     })();
 
-    // only for testing purposes of localStorage. MUST BE DELETED AFTER THAT
-    $(window).on("keyup", function (e) {
-        if (e.key == "+") {
-            console.log("Cleared");
-            window.localStorage.clear();
-        }
-    })
-    // end
-
     function projects_open_fn () {
         projects_open = true;
         projects_tab.animate(
@@ -107,6 +98,7 @@ $(function () {
         )
         projectSelected = undefined;
         firstContainer = undefined;
+        dashboard_close_fn();
     }
 
     function projects_close_fn () {
@@ -692,7 +684,7 @@ $(function () {
     function scrollR() {
         if (scrolling) {
             current_project_window.animate({
-                "scrollLeft": "+=5"
+                "scrollLeft": "+=7.5"
             }, 5, scrollR)
         }
     }
@@ -700,7 +692,7 @@ $(function () {
     function scrollL() {
         if (scrolling) {
             current_project_window.animate({
-                "scrollLeft": "-=5"
+                "scrollLeft": "-=7.5"
             }, 5, scrollL)
         }
     }
@@ -1435,6 +1427,48 @@ $(function () {
             projects_close_fn();
         }
         
+    })
+
+    const dashboard_button_dropdown = $("#dropdown-menu div:nth-child(2) button");
+    const dashboard_button_desktop = $("#dashboard-desktop");
+    const dashboard_window = $("#dashboard-window");
+    let dashboardIsOpen = false;
+
+    function dashboard_open_fn() {
+        dashboard_window.css({
+            display: "flex"
+        })
+        dashboard_window.animate({
+            opacity: 1
+        }, 350)
+        projects_close_fn();
+        dashboardIsOpen = true;
+    }
+
+    function dashboard_close_fn() {
+        dashboard_window.css({
+            display: "none"
+        })
+        dashboard_window.animate({
+            opacity: 0
+        }, 250)
+        dashboardIsOpen = false;
+    }
+
+    $(dashboard_button_desktop).on("click", function () {
+        if (!dashboardIsOpen) {
+            dashboard_open_fn();
+        } else {
+            dashboard_close_fnI();
+        }
+    })
+
+    $(dashboard_button_dropdown).on("click", function () {
+        if (!dashboardIsOpen) {
+            dashboard_open_fn();
+        } else {
+            dashboard_close_fn();
+        }
     })
 
 });
