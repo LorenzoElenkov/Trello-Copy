@@ -848,7 +848,7 @@ $(function () {
                     })
                     
     
-                } else if (scrolling) {
+                } else if (scrolling && e.touches[0].clientX > 100 && e.touches[0].clientX < $(window).innerWidth() - 100) {
                     current_project_window.stop();
                     scrolling = false;
                 }
