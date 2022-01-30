@@ -692,16 +692,16 @@ $(function () {
     function scrollR() {
         if (scrolling) {
             current_project_window.animate({
-                "scrollLeft": "+=25"
-            }, 25, scrollR)
+                "scrollLeft": "+=3"
+            }, 5, scrollR)
         }
     }
 
     function scrollL() {
         if (scrolling) {
             current_project_window.animate({
-                "scrollLeft": "-=25"
-            }, 25, scrollL)
+                "scrollLeft": "-=3"
+            }, 5, scrollL)
         }
     }
 
@@ -842,7 +842,7 @@ $(function () {
             }
         ).on("touchmove", function (e) {
             $("nav span").css({
-                color: "blue"
+                color: "aliceblue"
             })
                 if (e.touches[0].clientX >= $(window).innerWidth() - 100 && !scrolling) {
                     scrolling = true;
@@ -857,6 +857,9 @@ $(function () {
                 }
         });
     });
+
+
+    
 
     
     
