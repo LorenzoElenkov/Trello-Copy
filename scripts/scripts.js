@@ -1443,6 +1443,12 @@ $(function () {
         }, 350)
         projects_close_fn();
         dashboardIsOpen = true;
+        $("#current-project-window, #delete-confirm, #create-task-menu").css(
+            {
+                "display": "none",
+                "opacity": 0
+            }
+        )
     }
 
     function dashboard_close_fn() {
@@ -1459,7 +1465,7 @@ $(function () {
         if (!dashboardIsOpen) {
             dashboard_open_fn();
         } else {
-            dashboard_close_fnI();
+            dashboard_close_fn();
         }
     })
 

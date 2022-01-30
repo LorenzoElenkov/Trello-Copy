@@ -2,10 +2,17 @@
     box-sizing: border-box;
 }
 
+:root {
+    --primary-color-desktop: aliceblue;
+    --secondary-color-desktop: black;
+    --primary-color-mobile: aliceblue;
+    --secondary-color-mobile: black;
+}
+
 body {
   margin: 0;
   font-family: Quicksand, sans-serif;
-  background-color: aliceblue;
+  background-color: var(--primary-color-mobile);
 }
 
 
@@ -13,12 +20,13 @@ body {
 nav {
   display: grid;
   grid-template-columns: 1fr 8fr 1fr;
-  border: 2px solid black;
+  border: 2px solid var(--secondary-color-mobile);
   border-top: none;
-  background-color: aliceblue;
+  background-color: var(--primary-color-mobile);
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }
+
 #menu-button {
   background-color: transparent;
   align-self: center;
@@ -48,7 +56,7 @@ nav button:nth-child(1) img {
 nav > span {
   justify-self: center;
   align-self: center;
-  color: black;
+  color: var(--secondary-color-mobile);
   font-size: 5vw;
   font-weight: 800;
 }
@@ -75,7 +83,7 @@ nav > span {
   background-color: inherit;
   position: absolute;
   top: 0;
-  border: 3px solid black;
+  border: 3px solid var(--secondary-color-mobile);
   border-top: none;
   border-left: none;
 }
@@ -83,7 +91,7 @@ nav > span {
 #dropdown-menu div button {
   background: transparent;
   border: none;
-  color: black;
+  color: var(--secondary-color-mobile);
   font-size: 2.5vh;
   font-family: Quicksand;
   cursor: pointer;
@@ -91,7 +99,7 @@ nav > span {
 
 #dropdown-menu div:nth-child(3), #dropdown-menu div:nth-child(8) {
     height: 1px;
-    background-color: black;
+    background-color: var(--secondary-color-mobile);
     grid-column: span 2;
     margin: 1vh 0;
 }
@@ -127,7 +135,7 @@ nav > span {
     left: 0;
     background-color: rgba(0, 0, 0, 0.35);
     display: none;
-    color: white;
+    color: var(--primary-color-mobile);
 }
 
 .create-proj-desktop {
@@ -140,9 +148,9 @@ nav > span {
     position: relative;
     row-gap: 3vh;
     column-gap: 3vh;
-    background-color: aliceblue;
+    background-color: var(--primary-color-mobile);
     color: black;
-    border: 2px solid black;
+    border: 2px solid var(--secondary-color-mobile);
     border-radius: 15px;
     margin-top: 7vh;
     margin-left: 1%;
@@ -195,7 +203,7 @@ textarea {
 #btn-add-project, #btn-close-create-proj {
     width: 25vw;
     font-size: 0.8rem;
-    color: white;
+    color: var(--primary-color-mobile);
     padding: 5px;
     border: none;
     border-radius: 10px;
@@ -275,6 +283,7 @@ textarea {
     width: 100%;
     position: relative;
     justify-self: center;
+    align-items: center;
     grid-template-columns: 1fr 1fr;
     margin-top: -5%;
     margin-bottom: 5%;
@@ -303,6 +312,10 @@ textarea {
     opacity: 0.2;
 }
 
+#project-buttons div:nth-child(2) img {
+   width: 6vmin;
+}
+
 #project-buttons div:nth-child(2) button:nth-child(2) {
     margin-right: 10%;
 }
@@ -310,6 +323,8 @@ textarea {
 #project-buttons img {
     width: 7vmin;
 }
+
+
 
 #projects-container {
     width: 100%;
@@ -960,6 +975,10 @@ textarea {
         opacity: 0.2;
     }
 
+    #project-buttons div:nth-child(2) img {
+        width: 3vmin;
+     }
+
     #project-buttons div:nth-child(2) button:nth-child(2) {
         margin-right: 10px;
     }
@@ -1027,11 +1046,11 @@ textarea {
     }
 
     .create-proj-desktop {
-        width: 50%;
+        width: 60%;
         height: min-content;
         padding: 15px 5vw 25px 5vw;
         display: grid;
-        grid-template-columns: max-content auto;
+        grid-template-columns: 1fr 1fr;
         grid-auto-rows: minmax(min-content, max-content);
         position: relative;
         row-gap: 3vh;
@@ -1045,7 +1064,7 @@ textarea {
     }
 
     #create-proj-desktop-title {
-        font-size: 2vw;
+        font-size: 1.8rem;
         grid-column: 1 / -1;
         justify-self: center;
         margin-bottom: 2.5vh;
@@ -1075,13 +1094,13 @@ textarea {
     }
     
     #create-project-menu .create-proj-desktop label {
-        font-size: 1.3vw;
+        font-size: 1.1rem;
         grid-column: span 1;
     }
     
     .create-proj-desktop input, .create-proj-desktop select {
-        height: 1.2vw;
-        font-size: 1.3vw;
+        height: 1.5rem;
+        font-size: 1.1rem;
         grid-column: span 1;
     }
     
