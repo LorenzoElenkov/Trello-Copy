@@ -3,16 +3,19 @@
 }
 
 :root {
-    --primary-color-desktop: aliceblue;
-    --secondary-color-desktop: black;
-    --primary-color-mobile: aliceblue;
-    --secondary-color-mobile: black;
+    
+    --primary-color: aliceblue;
+    --secondary-color: black;
+    --icon-color: invert(100%);
+    --icon-color-secondary: none;
+    --column-color: rgba(230, 230, 230);
+    --task-container-color: aliceblue;
 }
 
 body {
   margin: 0;
   font-family: Quicksand, sans-serif;
-  background-color: var(--primary-color-mobile);
+  background-color: var(--primary-color);
 }
 
 
@@ -20,9 +23,9 @@ body {
 nav {
   display: grid;
   grid-template-columns: 1fr 8fr 1fr;
-  border: 2px solid var(--secondary-color-mobile);
+  border: 2px solid var(--secondary-color);
   border-top: none;
-  background-color: var(--primary-color-mobile);
+  background-color: var(--primary-color);
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }
@@ -31,7 +34,7 @@ nav {
   background-color: transparent;
   align-self: center;
   cursor: pointer;
-  border: 1px solid white;
+  border: 1px solid var(--primary-color);
   border: none;
   justify-self: start;
   grid-column: span 2/2;
@@ -40,6 +43,7 @@ nav {
 
 
 nav button:nth-child(1) img {
+  filter: var(--icon-color-secondary);
   width: 9vw;
 }
 
@@ -56,7 +60,7 @@ nav button:nth-child(1) img {
 nav > span {
   justify-self: center;
   align-self: center;
-  color: var(--secondary-color-mobile);
+  color: var(--secondary-color);
   font-size: 5vw;
   font-weight: 800;
 }
@@ -83,7 +87,7 @@ nav > span {
   background-color: inherit;
   position: absolute;
   top: 0;
-  border: 3px solid var(--secondary-color-mobile);
+  border: 3px solid var(--secondary-color);
   border-top: none;
   border-left: none;
 }
@@ -91,7 +95,7 @@ nav > span {
 #dropdown-menu div button {
   background: transparent;
   border: none;
-  color: var(--secondary-color-mobile);
+  color: var(--secondary-color);
   font-size: 2.5vh;
   font-family: Quicksand;
   cursor: pointer;
@@ -99,7 +103,7 @@ nav > span {
 
 #dropdown-menu div:nth-child(3), #dropdown-menu div:nth-child(8) {
     height: 1px;
-    background-color: var(--secondary-color-mobile);
+    background-color: var(--secondary-color);
     grid-column: span 2;
     margin: 1vh 0;
 }
@@ -107,6 +111,7 @@ nav > span {
 
 
 #dropdown-menu div img {
+    filter: var(--icon-color-secondary);
     height: 3vh;
     padding: 0 0 0 5px;
     float: right;
@@ -135,7 +140,7 @@ nav > span {
     left: 0;
     background-color: rgba(0, 0, 0, 0.35);
     display: none;
-    color: var(--primary-color-mobile);
+    color: var(--primary-color);
 }
 
 .create-proj-desktop {
@@ -148,9 +153,9 @@ nav > span {
     position: relative;
     row-gap: 3vh;
     column-gap: 3vh;
-    background-color: var(--primary-color-mobile);
-    color: black;
-    border: 2px solid var(--secondary-color-mobile);
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: 2px solid var(--secondary-color);
     border-radius: 15px;
     margin-top: 7vh;
     margin-left: 1%;
@@ -194,8 +199,7 @@ textarea {
 }
 
 .create-proj-desktop input, .create-proj-desktop select {
-    height: 1rem;
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     grid-column: 1 / -1;
     margin-bottom: 10px;
 }
@@ -203,7 +207,7 @@ textarea {
 #btn-add-project, #btn-close-create-proj {
     width: 25vw;
     font-size: 0.8rem;
-    color: var(--primary-color-mobile);
+    color: var(--primary-color);
     padding: 5px;
     border: none;
     border-radius: 10px;
@@ -242,7 +246,7 @@ textarea {
 }
 
 .new-project-lang-container div {
-    color: white;
+    color: var(--secondary-color);
     grid-column: span 1;
     background-color: rgba(0, 0, 0, 0.2);
     padding: 0.8vh;
@@ -252,8 +256,8 @@ textarea {
 #new-project-lang-predict-tab {
     position: absolute;
     width: 40%;
-    background-color: white;
-    color: black;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
     visibility: visible;
 }
 
@@ -272,10 +276,12 @@ textarea {
 
 #delete-confirm {
     display: none;
+    color: var(--secondary-color);
 }
 
 #create-task-menu {
     display: none;
+    color: var(--secondary-color);
 }
 
 #project-buttons {
@@ -304,6 +310,8 @@ textarea {
     border-radius: 10px;
     padding-left: 5px;
     padding-right: 5px;
+    color: var(--secondary-color);
+    
 }
 
 
@@ -321,6 +329,7 @@ textarea {
 }
 
 #project-buttons img {
+   filter: var(--icon-color-secondary);
     width: 7vmin;
 }
 
@@ -339,7 +348,7 @@ textarea {
     gap: 5%;
     padding: 1% 0 2% 1%;
     scroll-snap-type: y mandatory;
-    border-top: 2px solid black;
+    border-top: 2px solid var(--secondary-color);
     
 }
 
@@ -355,6 +364,7 @@ textarea {
     justify-content: start;
     align-items: start;
     font-size: 1.3rem;
+    color: var(--secondary-color);
 }
 
 .single-project-container:hover {
@@ -395,8 +405,8 @@ textarea {
 }
 
 #delete-confirm-container {
-    background-color: aliceblue;
-    border: 2px solid black;
+    background-color: var(--primary-color);
+    border: 2px solid var(--secondary-color);
     border-radius: 15px;
     width: 90%;
     height: max-content;
@@ -426,7 +436,7 @@ textarea {
     border: none;
     border-radius: 10px;
     font-family: inherit;
-    color: white;
+    color: var(--primary-color);
 }
 
 #delete-confirm-container div:nth-child(3) {
@@ -497,9 +507,10 @@ textarea {
 #current-project-title div {
     justify-self: center;
     font-size: 0.8rem;
-    border: 2px solid black;
+    border: 2px solid var(--secondary-color);
     border-radius: 15px;
     padding: 5px 15px;
+    color: var(--secondary-color);
 }
 
 .tab-title {
@@ -531,34 +542,35 @@ textarea {
 .tab-content {
     width: 100%;
     height: max-content;
-    border: 2px solid black;
+    border: 2px solid var(--secondary-color);
     border-top: none;
     display: grid;
     overflow-y: scroll;
+    color: var(--secondary-color);
 }
 
 #to-do {
     border: 2px solid crimson;
-    background-color: rgb(230, 230, 230);
+    background-color: var(--column-color);
 }
 
 #in-progress {
     border: 2px solid coral;
-    background-color: rgb(230, 230, 230);
+    background-color: var(--column-color);
 }
 
 #to-review {
     border: 2px solid gold;
-    background-color: rgb(230, 230, 230);
+    background-color: var(--column-color);
 }
 
 #completed {
     border: 2px solid chartreuse;
-    background-color: rgb(230, 230, 230);
+    background-color: var(--column-color);
 }
 
 .tab-content div:not(#to-do-add):not(.ui-state-highlight):not(.subtask-helper) {
-    border: 1px solid black;
+    border: 1px solid var(--secondary-color);
     border-radius: 8px;
     justify-self: center;
     display: grid;
@@ -570,7 +582,7 @@ textarea {
     margin-bottom: 1vh;
     font-size: 0.9rem;
     padding: 5px;
-    background-color: aliceblue;
+    background-color: var(--task-container-color);
     text-align: center;
 }
 
@@ -584,6 +596,7 @@ textarea {
     width: 75%;
     opacity: 0.3;
     justify-self: end;
+    filter: var(--icon-color-secondary);
 }
 
 #to-do-add {
@@ -598,7 +611,7 @@ textarea {
 
 #to-do-add button img {
     width: 1rem;
-    filter: invert(100%);
+    filter: var(--icon-color);
     opacity: 1;
 }
 
@@ -611,7 +624,7 @@ textarea {
     border: none;
     width: 100%;
     height: 100%;
-    color: white;
+    color: var(--primary-color);
 }
 
 #to-do-add button:hover{
@@ -619,15 +632,16 @@ textarea {
 }   
 
 #to-do-add button:active img {
-    filter: invert(100%);
+    filter: var(--icon-color-secondary);
 }
 
 #to-do-add button:active {
     background-color: rgba(0, 0, 0, 1);
+    color: var(--secondary-color);
 }
 
 .ui-state-highlight {
-    border: 1px dashed black;
+    border: 1px dashed var(--secondary-color);
     border-radius: 8px;
     justify-self: center;
     display: flex;
@@ -656,8 +670,8 @@ textarea {
     margin-top: 10vh;
     width: 98%;
     height: max-content;
-    background-color: aliceblue;
-    border: 2px solid black;
+    background-color: var(--primary-color);
+    border: 2px solid var(--secondary-color);
     border-radius: 15px;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -701,7 +715,7 @@ textarea {
     border: none;
     border-radius: 10px;
     font-family: inherit;
-    color: white;
+    color: var(--primary-color);
     width: max-content;
     justify-self: end;
 }
@@ -713,7 +727,7 @@ textarea {
     border: none;
     border-radius: 10px;
     font-family: inherit;
-    color: white;
+    color: var(--primary-color);
     width: max-content;
     justify-self: start;
 }
@@ -730,7 +744,7 @@ textarea {
     background-color: rgb(137, 197, 250);
     border: none;
     border-radius: 10px;
-    color: white;
+    color: var(--primary-color);
     padding: 5px 10px;
 }
 
@@ -745,7 +759,7 @@ textarea {
 
 #subtask-panel {
     height: 200px;
-    border: 1px dashed black;
+    border: 1px dashed var(--secondary-color);
     border-radius: 15px;
     width: 100%;
     grid-column: span 2;
@@ -766,12 +780,12 @@ textarea {
     width: 90%;
     height: max-content;
     background-color: crimson;
-    border: 1px solid black;
+    border: 1px solid var(--secondary-color);
     border-radius: 10px;
     font-size: 0.9rem;
     justify-self: center;
     padding: 5px;
-    color: aliceblue;
+    color: var(--primary-color);
 }
 
 .subtask-container:last-child {
@@ -791,9 +805,10 @@ textarea {
 .subtask-container div:nth-child(2) button {
     height: 100%;
     font-size: 0.8rem;
-    background-color: aliceblue;
-    border: 1px solid black;
+    background-color: var(--primary-color);
+    border: 1px solid var(--secondary-color);
     border-radius: 10px;
+    color: var(--secondary-color);
 }
 .subtask-container div:nth-child(2) button:nth-child(2) {
     height: 100%;
@@ -815,7 +830,7 @@ textarea {
 
 .subtask-pending {
     background-color: crimson;
-    color: white;
+    color: var(--primary-color);
 }
 .subtask-complete {
     background-color: chartreuse;
@@ -833,15 +848,136 @@ textarea {
     align-items: center;
     font-size: 1.5rem;
     font-weight: 900;
-    color: black;
+    color: var(--secondary-color);
     opacity: 0;
 }
 
 #dashboard-window div {
-    border: 2px solid black;
+    border: 2px solid var(--secondary-color);
     padding: 10px;
     border-radius: 15px;
     box-shadow: 0 5px 10px 1px rgba(0, 0, 0, 0.35);
+}
+
+#settings-window {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+#settings-container {
+    width: max-content;
+    height: max-content;
+    background-color: var(--primary-color);
+    border: 1px solid var(--secondary-color);
+    padding: 30px 45px;
+    border-radius: 15px;
+    color: var(--secondary-color);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 10px;
+    font-size: 1rem;
+}
+
+#settings-container span {
+    grid-column: 1 / -1;
+    color: var(--secondary-color);
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+#settings-container div:not(:nth-child(4)) {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+    justify-content: center;
+    align-items: center;
+}
+
+#settings-container div:not(:nth-child(4)) button {
+    padding: 5px 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(137, 197, 250);
+    background-color: rgb(137, 197, 250);
+    color: var(--primary-color);
+    font-size: 0.8rem;
+}
+
+#settings-container div:nth-child(4) {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-top: 30px;
+}
+
+#settings-container div:nth-child(4) button {
+    padding: 5px 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(137, 197, 250);
+    background-color: rgb(137, 197, 250);
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    width: 100px;
+    justify-self: center;
+}
+
+#clear-cache-confirm {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.35);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#clear-cache-confirm-container {
+    width: max-content;
+    height: max-content;
+    background-color: var(--primary-color);
+    border: 1px solid var(--secondary-color);
+    padding: 30px 45px;
+    border-radius: 15px;
+    color: var(--secondary-color);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 30px;
+    font-size: 1rem;
+}
+
+#clear-cache-confirm-container span {
+    grid-column: 1 / -1;
+    text-align: center;
+}
+
+#clear-cache-confirm-container span:nth-child(1) {
+    font-size: 1.5rem;
+}
+
+#clear-cache-confirm-container span:nth-child(3) {
+    font-size: 1.2rem;
+    display: none;
+}
+
+#clear-cache-confirm-container button {
+    padding: 5px 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(137, 197, 250);
+    background-color: rgb(137, 197, 250);
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    width: 100px;
+    justify-self: center;
 }
 
 @media only screen and (min-width: 600px) {
@@ -849,7 +985,7 @@ textarea {
         display: none;
     }
     nav {
-        border-color: rgb (0, 0, 0);
+        border-color: var(--secondary-color);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -857,7 +993,7 @@ textarea {
         position: relative;
     }
     nav span {
-        color: black;
+        color: var(--secondary-color);
         font-size: 3vh;
     }
 
@@ -891,7 +1027,7 @@ textarea {
         background: none;
         border: none;
         font-family: inherit;
-        border: 2px solid black;
+        border: 2px solid var(--secondary-color);
         padding-top: 4.8vh;
         border-bottom-right-radius: 15px;
         border-bottom-left-radius: 15px;
@@ -921,7 +1057,7 @@ textarea {
         height: 80%;
         width: 90%;
         background-color: inherit;
-        border: 2px solid black;
+        border: 2px solid var(--secondary-color);
         border-bottom: none;
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
@@ -955,11 +1091,12 @@ textarea {
         justify-content: center;
         align-items: center;
         background: none;
-        border: 2px solid black;
+        border: 2px solid var(--secondary-color);
         border-radius: 10px;
         padding-left: 10px;
         padding-right: 10px;
         cursor: pointer;
+        color: var(--secondary-color);
     }
 
     #project-buttons div button span {
@@ -1018,6 +1155,7 @@ textarea {
         justify-content: start;
         align-items: start;
         font-size: 1.5vmax;
+        color: var(--secondary-color);
     }
 
 
@@ -1055,9 +1193,9 @@ textarea {
         position: relative;
         row-gap: 3vh;
         column-gap: 3vh;
-        background-color: aliceblue;
-        color: black;
-        border: 2px solid black;
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        border: 2px solid var(--secondary-color);
         border-radius: 15px;
         margin-top: 10vh;
         margin-left: 20vw;  
@@ -1107,7 +1245,7 @@ textarea {
     #btn-add-project, #btn-close-create-proj {
         width: 10vw;
         font-size: 1.25vw;
-        color: white;
+        color: var(--primary-color);
         padding: 5px;
         border: none;
         border-radius: 10px;
@@ -1130,8 +1268,8 @@ textarea {
     }
 
     #delete-confirm-container {
-        background-color: aliceblue;
-        border: 2px solid black;
+        background-color: var(--primary-color);
+        border: 2px solid var(--secondary-color);
         border-radius: 15px;
         width: 30%;
         height: max-content;
@@ -1161,7 +1299,7 @@ textarea {
         border: none;
         border-radius: 10px;
         font-family: inherit;
-        color: white;
+        color: var(--primary-color);
     }
 
     #delete-confirm-container div:nth-child(3) {
@@ -1199,7 +1337,7 @@ textarea {
     }
     
     .new-project-lang-container div {
-        color: white;
+        color: var(--secondary-color);
         grid-column: span 1;
         background-color: rgba(0, 0, 0, 0.2);
         padding: 0.8vh;
@@ -1209,8 +1347,8 @@ textarea {
     #new-project-lang-predict-tab {
         position: absolute;
         width: 40%;
-        background-color: white;
-        color: black;
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
         visibility: visible;
     }
     
@@ -1253,9 +1391,10 @@ textarea {
     #current-project-title div {
         justify-self: center;
         font-size: 1.3vw;
-        border: 2px solid black;
+        border: 2px solid var(--secondary-color);
         border-radius: 15px;
         padding: 5px 15px;
+        color: var(--secondary-color);
     }
     
     .tab-title {
@@ -1287,7 +1426,7 @@ textarea {
     .tab-content {
         width: 100%;
         height: max-content;
-        border: 2px solid black;
+        border: 2px solid var(--secondary-color);
         border-top: none;
         display: grid;
         overflow-y: scroll;
@@ -1295,26 +1434,26 @@ textarea {
 
     #to-do {
         border: 2px solid crimson;
-        background-color: rgb(230, 230, 230);
+        background-color: var(--column-color);
     }
 
     #in-progress {
         border: 2px solid coral;
-        background-color: rgb(230, 230, 230);
+        background-color: var(--column-color);
     }
 
     #to-review {
         border: 2px solid gold;
-        background-color: rgb(230, 230, 230);
+        background-color: var(--column-color);
     }
 
     #completed {
         border: 2px solid chartreuse;
-        background-color: rgb(230, 230, 230);
+        background-color: var(--column-color);
     }
 
     .tab-content div:not(#to-do-add):not(.ui-state-highlight):not(.subtask-helper) {
-        border: 1px solid black;
+        border: 1px solid var(--secondary-color);
         border-radius: 8px;
         justify-self: center;
         display: grid;
@@ -1326,7 +1465,7 @@ textarea {
         margin-bottom: 1vh;
         font-size: 1.3vw;
         padding: 5px;
-        background-color: aliceblue;
+        background-color: var(--task-container-color);
         text-align: center;
     }
 
@@ -1353,7 +1492,7 @@ textarea {
 
     #to-do-add button img {
         width: 1.5vw;
-        filter: invert(100%);
+        filter: var(--icon-color);
         opacity: 1;
     }
 
@@ -1366,7 +1505,7 @@ textarea {
         border: none;
         width: 100%;
         height: 100%;
-        color: white;
+        color: var(--primary-color);
     }
 
     #to-do-add button:hover{
@@ -1374,7 +1513,7 @@ textarea {
     }   
 
     #to-do-add button:active img {
-        filter: invert(100%);
+        filter: var(--icon-color);
     }
 
     #to-do-add button:active {
@@ -1382,7 +1521,7 @@ textarea {
     }
 
     .ui-state-highlight {
-        border: 1px dashed black;
+        border: 1px dashed var(--secondary-color);
         border-radius: 8px;
         justify-self: center;
         display: flex;
@@ -1411,8 +1550,8 @@ textarea {
         margin-top: 10vh;
         width: 40vw;
         height: max-content;
-        background-color: aliceblue;
-        border: 2px solid black;
+        background-color: var(--primary-color);
+        border: 2px solid var(--secondary-color);
         border-radius: 15px;
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -1456,7 +1595,7 @@ textarea {
         border: none;
         border-radius: 10px;
         font-family: inherit;
-        color: white;
+        color: var(--primary-color);
         width: 50%;
         justify-self: end;
     }
@@ -1468,7 +1607,7 @@ textarea {
         border: none;
         border-radius: 10px;
         font-family: inherit;
-        color: white;
+        color: var(--primary-color);
         width: 50%;
 
     }
@@ -1485,7 +1624,7 @@ textarea {
         background-color: rgb(137, 197, 250);
         border: none;
         border-radius: 10px;
-        color: white;
+        color: var(--primary-color);
         padding: 5px 10px;
     }
 
@@ -1500,7 +1639,7 @@ textarea {
 
     #subtask-panel {
         height: 200px;
-        border: 1px dashed black;
+        border: 1px dashed var(--secondary-color);
         border-radius: 15px;
         width: 70%;
         grid-column: span 2;
@@ -1521,12 +1660,12 @@ textarea {
         width: 90%;
         height: max-content;
         background-color: crimson;
-        border: 1px solid black;
+        border: 1px solid var(--secondary-color);
         border-radius: 10px;
         font-size: 1.1vw;
         justify-self: center;
         padding: 5px;
-        color: aliceblue;
+        color: var(--primary-color);
     }
 
     .subtask-container:last-child {
@@ -1546,8 +1685,8 @@ textarea {
     .subtask-container div:nth-child(2) button {
         height: 100%;
         font-size: 1vw;
-        background-color: aliceblue;
-        border: 1px solid black;
+        background-color: var(--primary-color);
+        border: 1px solid var(--secondary-color);
         border-radius: 10px;
     }
     .subtask-container div:nth-child(2) button:nth-child(2) {
@@ -1570,7 +1709,7 @@ textarea {
 
     .subtask-pending {
         background-color: crimson;
-        color: white;
+        color: var(--primary-color);
     }
     .subtask-complete {
         background-color: chartreuse;
@@ -1585,7 +1724,7 @@ textarea {
     #name-validation-container {
         width: max-content;
         height: max-content;
-        background-color: aliceblue;
+        background-color: var(--primary-color);
         border: 1px solid rgba(0, 0, 0, 0.3);
         padding: 5px 7px;
         border-radius: 10px;
@@ -1613,14 +1752,135 @@ textarea {
         align-items: center;
         font-size: 1.5rem;
         font-weight: 900;
-        color: black;
+        color: var(--secondary-color);
     }
     
     #dashboard-window div {
-        border: 2px solid black;
+        border: 2px solid var(--secondary-color);
         padding: 10px;
         border-radius: 15px;
         box-shadow: 0 5px 10px 1px rgba(0, 0, 0, 0.35);
+    }
+
+    #settings-window {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.35);
+    }
+
+    #settings-container {
+        width: max-content;
+        height: max-content;
+        background-color: var(--primary-color);
+        border: 1px solid var(--secondary-color);
+        padding: 30px 45px;
+        border-radius: 15px;
+        color: var(--secondary-color);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        row-gap: 10px;
+        font-size: 1rem;
+    }
+
+    #settings-container span {
+        grid-column: 1 / -1;
+        color: var(--secondary-color);
+        font-size: 1.6rem;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    #settings-container div:not(:nth-child(4)) {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 25px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #settings-container div:not(:nth-child(4)) button {
+        padding: 5px 20px;
+        border-radius: 10px;
+        border: 1px solid rgb(137, 197, 250);
+        background-color: rgb(137, 197, 250);
+        color: var(--primary-color);
+        font-size: 0.8rem;
+    }
+
+    #settings-container div:nth-child(4) {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 1fr;
+        margin-top: 30px;
+    }
+
+    #settings-container div:nth-child(4) button {
+        padding: 5px 20px;
+        border-radius: 10px;
+        border: 1px solid rgb(137, 197, 250);
+        background-color: rgb(137, 197, 250);
+        color: var(--primary-color);
+        font-size: 0.9rem;
+        width: 100px;
+        justify-self: center;
+    }
+
+    #clear-cache-confirm {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.35);
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #clear-cache-confirm-container {
+        width: max-content;
+        height: max-content;
+        background-color: var(--primary-color);
+        border: 1px solid var(--secondary-color);
+        padding: 30px 45px;
+        border-radius: 15px;
+        color: var(--secondary-color);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        row-gap: 30px;
+        font-size: 1rem;
+    }
+
+    #clear-cache-confirm-container span {
+        grid-column: 1 / -1;
+        text-align: center;
+    }
+
+    #clear-cache-confirm-container span:nth-child(1) {
+        font-size: 1.5rem;
+    }
+
+    #clear-cache-confirm-container span:nth-child(3) {
+        font-size: 1.2rem;
+        display: none;
+    }
+
+    #clear-cache-confirm-container button {
+        padding: 5px 20px;
+        border-radius: 10px;
+        border: 1px solid rgb(137, 197, 250);
+        background-color: rgb(137, 197, 250);
+        color: var(--primary-color);
+        font-size: 0.9rem;
+        width: 100px;
+        justify-self: center;
     }
 
 }

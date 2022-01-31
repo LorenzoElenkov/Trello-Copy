@@ -575,6 +575,141 @@ $(function () {
         }
     });
 
+    let root = document.documentElement;
+    let colorStyle = "Light";
+    const settingsWindow = $("#settings-window");
+    const settingsButton = $("#settings-desktop");
+    const setttingsButtonMobile = $("#dropdown-menu div:nth-child(10) button");
+    const colorSchemeButton = $("#settings-container div:nth-child(3) button");
+    const clearCacheButton = $("#settings-container div:nth-child(2) button");
+    const clearCacheWindow = $("#clear-cache-confirm");
+    const clearCacheWindowButton = $("#clear-cache-confirm button:nth-child(4)");
+    const cancelCacheWindowButton = $("#clear-cache-confirm button:nth-child(5)");
+    const closeSettingsButton = $("#settings-container div:nth-child(4) button");
+    let isSettingsOpen = false;
+
+    function settings_open_fn () {
+        if(!isSettingsOpen) {
+            settingsWindow.css({
+                display: "flex"
+            })
+            isSettingsOpen = true;
+        } else {
+            settingsWindow.css({
+                display: "none"
+            })
+            isSettingsOpen = false;
+        }
+    }
+
+    settingsButton.on('click', settings_open_fn);
+    setttingsButtonMobile.on('click', settings_open_fn);
+
+    closeSettingsButton.on("click", function () {
+        settingsWindow.css({
+            display: "none"
+        })
+        isSettingsOpen = false;
+    })
+
+
+    clearCacheButton.on("click", function () {
+        clearCacheWindow.css({
+            display: "flex"
+        })
+        for (let i = 1; i < 3; i++) {
+            $(`#clear-cache-confirm-container span:nth-child(${i})`).css({
+                display: "block"
+            })
+        }
+    });
+
+    clearCacheWindowButton.on("click", function () {
+        window.localStorage.clear();
+        for (let i = 1; i <= $("#clear-cache-confirm-container").children().length; i++) {
+            $(`#clear-cache-confirm-container`).children(`:nth-child(${i})`).css({
+                display: "none"
+            })
+        }
+        $("#clear-cache-confirm-container span:nth-child(3)").css({
+            display: "block"
+        })
+        setTimeout(() => {
+            clearCacheWindow.css({
+                display: "none"
+            })
+            for (let i = 1; i <= $("#clear-cache-confirm-container").children().length; i++) {
+                $(`#clear-cache-confirm-container`).children(`:nth-child(${i})`).css({
+                    display: "block"
+                })
+            }
+            $("#clear-cache-confirm-container span:nth-child(3)").css({
+                display: "none"
+            })
+        }, 2500);
+        
+    });
+
+    cancelCacheWindowButton.on("click", function () {
+        clearCacheWindow.css({
+            display: "none"
+        })
+    });
+
+    (function setColorScheme() {
+        if (window.localStorage.getItem('ColorScheme') != null) {
+            colorStyle = window.localStorage.getItem('ColorScheme');
+            if (colorStyle == "Dark") {
+                root.style.setProperty('--primary-color', "rgb(25,25,25)");
+                root.style.setProperty('--secondary-color', "aliceblue");
+                root.style.setProperty('--icon-color', "none");
+                root.style.setProperty('--icon-color-secondary', "invert(100%)");
+                root.style.setProperty('--column-color', "rgb(50, 50, 50)");
+                root.style.setProperty('--task-container-color', "rgb(35, 35, 35)");
+                colorSchemeButton.text("Dark");
+            } else if (colorStyle == "Light") {
+                root.style.setProperty('--primary-color', "aliceblue");
+                root.style.setProperty('--secondary-color', "black");
+                root.style.setProperty('--icon-color', "invert(100%)");
+                root.style.setProperty('--icon-color-secondary', "none");
+                root.style.setProperty('--column-color', "rgb(230, 230, 230)");
+                root.style.setProperty('--task-container-color', "aliceblue");
+                colorSchemeButton.text("Light");
+            }
+        } else {
+            colorStyle = "Light";
+        }
+    })();
+
+
+
+    colorSchemeButton.on("click", function () {
+        
+        
+        if (colorStyle == "Dark") {
+            root.style.setProperty('--primary-color', "aliceblue");
+            root.style.setProperty('--secondary-color', "black");
+            root.style.setProperty('--icon-color', "invert(100%)");
+            root.style.setProperty('--icon-color-secondary', "none");
+            root.style.setProperty('--column-color', "rgb(230, 230, 230)");
+            root.style.setProperty('--task-container-color', "aliceblue");
+            colorStyle = "Light";
+            colorSchemeButton.text(colorStyle);
+            window.localStorage.setItem("ColorScheme", colorStyle);
+        } else if (colorStyle == "Light") {
+            root.style.setProperty('--primary-color', "rgb(25,25,25)");
+            root.style.setProperty('--secondary-color', "aliceblue");
+            root.style.setProperty('--icon-color', "none");
+            root.style.setProperty('--icon-color-secondary', "invert(100%)");
+            root.style.setProperty('--column-color', "rgb(50, 50, 50)");
+            root.style.setProperty('--task-container-color', "rgb(35, 35, 35)");
+            colorStyle = "Dark";
+            colorSchemeButton.text(colorStyle);
+            window.localStorage.setItem("ColorScheme", colorStyle);
+        }
+        
+    })
+
     
 
     editDeleteProjectButtons.on("click", function () {
@@ -1354,17 +1489,29 @@ $(function () {
             })
             prevtaskSelected = $(this);
         } else if (prevtaskSelected.attr("data-task-id") != taskSelected) {
-            prevtaskSelected.css({
-                "background-color": "aliceblue"
-            })
+            if (colorStyle == "dark") {
+                prevtaskSelected.css({
+                    "background-color": "rgb(35,35,35)"
+                })
+            } else if (colorStyle == "light") {
+                prevtaskSelected.css({
+                    "background-color": "aliceblue"
+                })
+            }
             $(this).css({
                 "background-color": colorToHighlight
             })
             prevtaskSelected = $(this);
         } else if (prevtaskSelected.attr("data-task-id") == taskSelected) {
-            $(this).css({
-                "background-color": "aliceblue"
-            })
+            if (colorStyle == "dark") {
+                $(this).css({
+                    "background-color": "rgb(35,35,35)"
+                })
+            } else if (colorStyle == "light") {
+                $(this).css({
+                    "background-color": "aliceblue"
+                })
+            }
             prevtaskSelected = null;
             create_task_menu.css({
                 display: "flex",
