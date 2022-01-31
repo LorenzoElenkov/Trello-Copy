@@ -902,6 +902,7 @@ textarea {
     align-items: center;
 }
 
+
 #settings-container div:not(:nth-child(4)) button {
     padding: 5px 20px;
     border-radius: 10px;
