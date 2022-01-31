@@ -613,6 +613,7 @@ $(function () {
     })
 
 
+
     clearCacheButton.on("click", function () {
         clearCacheWindow.css({
             display: "flex"
@@ -1489,11 +1490,11 @@ $(function () {
             })
             prevtaskSelected = $(this);
         } else if (prevtaskSelected.attr("data-task-id") != taskSelected) {
-            if (colorStyle == "dark") {
+            if (colorStyle == "Dark") {
                 prevtaskSelected.css({
                     "background-color": "rgb(35,35,35)"
                 })
-            } else if (colorStyle == "light") {
+            } else if (colorStyle == "Light") {
                 prevtaskSelected.css({
                     "background-color": "aliceblue"
                 })
@@ -1503,11 +1504,11 @@ $(function () {
             })
             prevtaskSelected = $(this);
         } else if (prevtaskSelected.attr("data-task-id") == taskSelected) {
-            if (colorStyle == "dark") {
+            if (colorStyle == "Dark") {
                 $(this).css({
                     "background-color": "rgb(35,35,35)"
                 })
-            } else if (colorStyle == "light") {
+            } else if (colorStyle == "Light") {
                 $(this).css({
                     "background-color": "aliceblue"
                 })
