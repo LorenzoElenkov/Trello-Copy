@@ -10,3 +10,5 @@ Finished:
                     > Settings button development has been started.
 
 24th of January '22 > Project/task/subtask name validation added
+
+31st of January '22 > Project finished (mobile version implemented)
