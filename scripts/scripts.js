@@ -861,6 +861,7 @@ $(function () {
 
                 },
                 stop: function (e, ui) {
+                    scrolling = false;
                     addTabContainer.show();
                     addTabContainer.css(
                         {
