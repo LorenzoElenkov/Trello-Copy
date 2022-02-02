@@ -1,6 +1,6 @@
 # Trello-Copy
 
-This is a personal kanban project (task management website). It utilizes HTML CSS jQuery and browser localStorage for data persistence.
+This is a personal kanban project (task management website). It utilizes HTML CSS JavaScript jQuery and browser localStorage for data persistence.
 
 This website gives you the options to create multiple projects, where you can create, read, update and delete tasks. You can order tasks in 4 categories (by dragging): To start/ In progress/ To review/ Completed
 
