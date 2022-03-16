@@ -4,14 +4,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <title>Squadizer - Your squad task organizer</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles/styles.css" />
-
-    <title>Squadizer - Your squad task organizer</title>
   </head>
   <body>
     <nav>
@@ -19,32 +17,54 @@
         <img src="imgs/dots-2.png" class="isNotClicked" alt="menu-button" />
       </button>
       <span>Squadizer</span>
-      <button>
-        <img src="imgs/question.png" alt="help-button" />
-      </button>
+      <section class="nav-button-wrapper">
+        <div><button id="dashboard-desktop"><img src="imgs/dashboard-desktop.png" alt=""><span>Dashboard</span></button></div>
+        <div><button id="projects-desktop"><img src="imgs/projects-desktop.png" alt=""><span>Projects</span></button></div>
+        <div><button id="settings-desktop"><img src="imgs/settings-desktop.png" alt=""><span>Settings</span></button></div>
+      </section>
     </nav>
 
-    <div id="my-projects">
-        <div id="my-projects-label"><span>My Projects</span></div>
-        <div id="project-tabs">
-            
-
-            <div id="left-indicator"><img src="imgs/arrow-right.png" alt=""></div>
-            <div id="right-indicator"><img src="imgs/arrow-right.png" alt=""></div>
+    <section id="projects-tab">
+      <section id="project-buttons">
+        <div><button id="add-project"><img src="imgs/project-add-icon.png" alt=""><span>Create project</span></button></div>
+        <div>
+          <button id="delete-project"><img src="imgs/trash.png" alt=""><span>Delete</span></button>
+          <button id="edit-project"s><img src="imgs/edit.png" alt=""><span>Edit</span></button>
         </div>
-    </div>
 
+      </section>
+      <section id="projects-container"></section>
+    </section>
+    <section id="current-project-window">
+      <div id="current-project-title">
+        <div>Project's Title</div>
+      </div>
+      <div class="tab-title">To start</div>
+      <div class="tab-title">In progress</div>
+      <div class="tab-title">To review</div>
+      <div class="tab-title">Completed</div>
+      <div class="tab-content" id="to-do">
+        <div id="to-do-add"><button><img src="imgs/project-add-icon.png" alt="">Add task</button></div>
+      </div>
+      <div class="tab-content" id="in-progress">
+
+      </div>
+      <div class="tab-content" id="to-review">
+      </div>
+      <div class="tab-content" id="completed">
+      </div>
+    </section>
 
     <div id="dropdown-menu">
-        <div><img src="imgs/dashboard-icon.png" alt=""></div>
+        <div><img src="imgs/dashboard-desktop.png" alt=""></div>
         <div><button>Dashboard</button></div>
         <div></div>
-        <div><img src="imgs/projects-icon.png" alt=""></div>
+        <div><img src="imgs/projects-desktop.png" alt=""></div>
         <div><button>My Projects</button></div>
         <div><img src="imgs/project-add-icon.png" alt=""></div>
         <div><button id="btn-create-project">Create New Project</button></div>
         <div></div>
-        <div><img src="imgs/settings-icon2.png" alt=""></div>
+        <div><img src="imgs/settings-desktop.png" alt=""></div>
         <div><button>Settings</button></div>
     </div>
 
@@ -52,7 +72,7 @@
         <div class="create-proj-desktop">
             <div id="create-proj-desktop-title">Create New Project</div>
             <div class="input_create">
-                <label for="new-project-name">Project Name: </label>
+                <label for="new-project-name">Name: </label>
                 <input type="text" name="new-project-name" id="new-project-name">
                 <label for="new-project-description">Description: </label>
                 <textarea name="new-project-description" id="new-project-description" cols="1" rows="5"></textarea>
@@ -60,8 +80,8 @@
                 <input type="date" name="new-project-startdate" id="new-project-startdate">
             </div>
             <div class="input_2_create">
-                <label for="new-project-lang">Language/Framework</label>
-                <div>                
+                <label for="new-project-lang">Language/Framework:</label>
+                <div>
                     <input type="text" name="new-project-lang" id="new-project-lang">
                     <div id="new-project-lang-predict-tab"></div>
                 </div>
@@ -76,7 +96,74 @@
         </div>
     </div>
 
+    <div id="delete-confirm">
+      <div id="delete-confirm-container">
+        <div>Are you sure?</div>
+        <div>This action is irreversible!</div>
+        <div><button id="deleteConfirm">Delete</button></div>
+        <div><button id="deleteCancel">Cancel</button></div>
+      </div>
+    </div>
+
+    <div id="create-task-menu">
+      <div class="create-task-window">
+        <div id="create-task-title">Create New Task</div>
+        <div id="task-title">
+          <label for="task-title-input">Name:</label>
+          <input type="text" name="task-title-input" id="task-title-input">
+          <label for="subtask-window-title" class="subtask-window" id="subtask-title">Subtasks</label>
+          <div class="subtask-window" id="subtask-panel">
+            <!-- <div>123</div> -->
+          </div>
+          <div id="want-subtasks-question">Want to <button class="btn-add-subtask">Add subtask</button> ?</div>
+        </div>
+        <button class="btn-create-task">Create</button>
+        <button class="btn-cancel-task">Cancel</button>
+      </div>
+    </div>
+
+    <div id="name-validation">
+      <div id="name-validation-container">
+        <div></div>
+      </div>
+    </div>
+
+    <section id="dashboard-window">
+      <div>
+        Under development...
+      </div>
+    </section>
+
+    <section id="settings-window">
+      <div id="settings-container">
+        <span>Settings</span>
+        <div>
+          Clear all data?
+          <button>Clear</button>
+        </div>
+        <div>
+          Theme color: 
+          <button>Light</button>
+        </div>
+        <div>
+          <button>OK</button>
+        </div>
+      </div>
+    </section>
+    
+
+    <section id="clear-cache-confirm">
+      <div id="clear-cache-confirm-container">
+        <span>Are you sure?</span>
+        <span>You cannot retrieve your data once it is deleted</span>
+        <span>Cache cleared successfully</span>
+        <button>Clear</button>
+        <button>Cancel</button>
+      </div>
+    </section>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <script src="scripts/jquery-ui-touch-punch-master/jquery.ui.touch-punch.min.js"></script>
     <script type="text/javascript" src="scripts/scripts.js"></script>
   </body>
 </html>
