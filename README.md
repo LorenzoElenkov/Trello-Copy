@@ -5,7 +5,7 @@ This is my first project ever. I developed this website for personal use, where 
 
 ## How does it work?
 
-**Main Page**
+# Main Page
 1. You can make as many projects as you want. Every project has its own directory. You can create a project with the following:
    - Project name
    - Project description
@@ -14,7 +14,7 @@ This is my first project ever. I developed this website for personal use, where 
 2. You can edit a project, where the project name remains uneditable.
 3. You can delete a project.
 
-**Project window**
+# Project window
 1. You can create a task, with the following:
    - Task name
    - (Optional) Subtasks:
@@ -34,10 +34,10 @@ This is my first project ever. I developed this website for personal use, where 
    - Y is the total number of subtasks within this particular task
 5. You can also delete any task by clicking the bin icon on the right-hand side of its container.
 
-**Dashboard**
+# Dashboard
 The dashboard component has been discontinued from the original project.
 
-**Settings**
+# Settings
 1. You can clear the entire data (projects created and their contents). **This action is irreversible**
 2. You can toggle between a light and dark theme of the website.
 
